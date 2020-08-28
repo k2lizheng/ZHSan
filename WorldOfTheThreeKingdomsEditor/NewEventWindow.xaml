@@ -1,0 +1,213 @@
+﻿<Window x:Class="WorldOfTheThreeKingdomsEditor.NewEventWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldOfTheThreeKingdomsEditor"
+        mc:Ignorable="d"
+        Title="编辑事件" Height="700" Width="1200">
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="ItemsPanelTemplate1">
+            <UniformGrid Columns="8" />
+        </ItemsPanelTemplate>
+    </Window.Resources>
+    <Grid Margin="0,-3,0,3">
+        <TextBox HorizontalAlignment="Left" x:Name="txname" Height="23" Margin="44,16,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Label Content="名稱" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Button Name="btSave" Content = "保存退出" Canvas.Left="396" Canvas.Top="302" Height="35" Width="86" Click="BtSave_Click" Margin="1005,624,101,10" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.216"/>
+                    <GradientStop Color="#FF7BD17B" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Name="btExit" Content = "直接退出" Canvas.Left="535" Canvas.Top="302" Height="35" Width="86" Click="BtExit_Click" Margin="1096,624,10,10" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                    <GradientStop Color="#FFEBEBEB" Offset="0.216"/>
+                    <GradientStop Color="#FFD17B7B" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <CheckBox Content="已发生过" x:Name="cbHappened" HorizontalAlignment="Left" Margin="169,16,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="可以重复" x:Name="cbRepeatable" HorizontalAlignment="Left" Margin="242,16,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="不重要" x:Name="cbMinor" HorizontalAlignment="Left" Margin="315,16,0,0" VerticalAlignment="Top">
+            <CheckBox.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock>不重要的事件不会出现对话，除非涉及君主</TextBlock>
+                    </StackPanel>
+                </ToolTip>
+            </CheckBox.ToolTip>
+        </CheckBox>
+        <CheckBox Content="全势力可见" x:Name="cbGloballyDisplayed" HorizontalAlignment="Left" Margin="376,16,0,0" VerticalAlignment="Top"/>
+        <Label Content="发动几率：每個建築平均每" HorizontalAlignment="Left" Margin="461,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" x:Name="tbHappenChance" Height="23" Margin="615,14,0,0" TextWrapping="Wrap" Text="20" VerticalAlignment="Top" Width="42"/>
+        <Label Content="天发动一次" HorizontalAlignment="Left" Margin="657,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="事件發生後方可發生" HorizontalAlignment="Left" Margin="847,10,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" x:Name="cbAfterEventHappened" VerticalAlignment="Top" Width="120" Margin="727,14,0,0"/>
+        <Label Content="發動時間" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" x:Name="tbStartYear" Height="23" Margin="68,48,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50"/>
+        <Label Content="年" HorizontalAlignment="Left" Margin="118,44,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" x:Name="tbStartMonth" Height="23" Margin="140,48,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="33" RenderTransformOrigin="2.758,0.565"/>
+        <Label Content="月 至" HorizontalAlignment="Left" Margin="173,44,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" x:Name="tbEndYear" Height="23" Margin="213,48,0,0" TextWrapping="Wrap" Text="999" VerticalAlignment="Top" Width="50"/>
+        <Label Content="年" HorizontalAlignment="Left" Margin="260,44,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" x:Name="tbEndMonth" Height="23" Margin="282,48,0,0" TextWrapping="Wrap" Text="12" VerticalAlignment="Top" Width="33" RenderTransformOrigin="2.758,0.565"/>
+        <Label Content="月" HorizontalAlignment="Left" Margin="315,44,0,0" VerticalAlignment="Top"/>
+        <Button Content="設置對話" x:Name="btnDialog" Click="BtnDialog_Click" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="設置選「是」對話" x:Name="btnYesDialog" Click="BtnYesDialog_Click" HorizontalAlignment="Left" Margin="90,76,0,0" VerticalAlignment="Top" Width="109"/>
+        <Button Content="設置選「否」對話" x:Name="btnNoDialog" Click="BtnNoDialog_Click" HorizontalAlignment="Left" Margin="204,76,0,0" VerticalAlignment="Top" Width="109"/>
+        <GroupBox Header="0" HorizontalAlignment="Left" x:Name="gbPerson0" Height="169" Margin="10,105,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson0" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson0" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond0" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond0" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect0" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect0" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography0" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography0" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect0" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect0" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect0" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect0" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete0" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+        <Button Content="選擇圖片" x:Name="btnImage" Click="BtnImage_Click" HorizontalAlignment="Left" Margin="829,45,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="tbImage" Height="23" Margin="909,45,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Button Content="選擇音效" x:Name="btnSound" Click="BtnSound_Click" HorizontalAlignment="Left" Margin="829,74,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="tbSound" Height="23" Margin="909,74,10,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+        <Button Content="選擇建築" x:Name="btnArchitecture" Click="BtnArchitecture_Click" HorizontalAlignment="Left" Margin="829,113,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblArchitcture" Margin="904,110,10,0" VerticalAlignment="Top"/>
+        <Button Content="建築條件" x:Name="btnArchitectureCond" Click="BtnArchitectureCond_Click" HorizontalAlignment="Left" Margin="829,138,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblArchitctureCond" Margin="904,135,10,0" VerticalAlignment="Top"/>
+        <Button Content="建築效果" x:Name="btnArchitectureEffect" Click="BtnArchitectureEffect_Click" HorizontalAlignment="Left" Margin="829,163,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblArchitctureEffect" Margin="904,160,10,0" VerticalAlignment="Top"/>
+        <Button Content="選「是」效果" x:Name="btnArchitectureYesEffect" Click="BtnArchitectureYesEffect_Click" HorizontalAlignment="Left" Margin="829,188,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblArchitctureYesEffect" Margin="904,185,10,0" VerticalAlignment="Top"/>
+        <Button Content="選「否」效果" x:Name="btnArchitectureNoEffect" Click="BtnArchitectureNoEffect_Click" HorizontalAlignment="Left" Margin="829,213,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblArchitctureNoEffect" Margin="904,210,10,0" VerticalAlignment="Top"/>
+        <Button Content="選擇勢力" x:Name="btnFaction" Click="BtnFaction_Click" HorizontalAlignment="Left" Margin="829,255,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblFaction" Margin="904,252,10,0" VerticalAlignment="Top"/>
+        <Button Content="勢力條件" x:Name="btnFactionCond" Click="BtnFactionCond_Click" HorizontalAlignment="Left" Margin="829,280,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblFactionCond" Margin="904,277,10,0" VerticalAlignment="Top"/>
+        <Button Content="勢力效果" x:Name="btnFactionEffect" Click="BtnFactionEffect_Click" HorizontalAlignment="Left" Margin="829,305,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="" x:Name="lblFactionEffect" Margin="904,302,10,0" VerticalAlignment="Top"/>
+        <GroupBox Header="1" HorizontalAlignment="Left" x:Name="gbPerson1" Height="169" Margin="409,105,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson1" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson1" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond1" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond1" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect1" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect1" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography1" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography1" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect1" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect1" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect1" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect1" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete1" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="2" HorizontalAlignment="Left" x:Name="gbPerson2" Height="169" Margin="10,274,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson2" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson2" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond2" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond2" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect2" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect2" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography2" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography2" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect2" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect2" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect2" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect2" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete2" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="3" HorizontalAlignment="Left" x:Name="gbPerson3" Height="169" Margin="409,274,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson3" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson3" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond3" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond3" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect3" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect3" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography3" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography3" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect3" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect3" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect3" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect3" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete3" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="4" HorizontalAlignment="Left" x:Name="gbPerson4" Height="169" Margin="10,448,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson4" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson4" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond4" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond4" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect4" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect4" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography4" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography4" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect4" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect4" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect4" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect4" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete4" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="5" HorizontalAlignment="Left" x:Name="gbPerson5" Height="169" Margin="409,448,0,0" VerticalAlignment="Top" Width="399">
+            <Grid Margin="0,0,-2,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="512*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="選擇武將" x:Name="btnPerson5" Click="Btn_PersonClick" HorizontalAlignment="Left" Margin="4,5,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPerson5" Margin="66,2,45,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="武將條件" x:Name="btnPersonCond5" Click="Btn_PersonCondClick" HorizontalAlignment="Left" Margin="4,29,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblPersonCond5" Margin="66,25,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="事件效果" x:Name="btnEffect5" Click="Btn_EffectClick" HorizontalAlignment="Left" Margin="4,53,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblEffect5" Margin="66,50,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="列傳" x:Name="btnBiography5" Click="Btn_BiographyClick" HorizontalAlignment="Left" Margin="4,77,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblBiography5" Margin="66,74,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「是」效果" x:Name="btnYesEffect5" Click="Btn_YesEffectClick" HorizontalAlignment="Left" Margin="4,100,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblYesEffect5" Margin="66,97,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="選「否」效果" x:Name="btnNoEffect5" Click="Btn_NoEffectClick" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2"/>
+                <Label Content="" x:Name="lblNoEffect5" Margin="66,121,15,0" VerticalAlignment="Top" RenderTransformOrigin="0.475,0.32" Grid.Column="1"/>
+                <Button Content="X" x:Name="btnDelete5" Click="BtnDelete_Click" HorizontalAlignment="Left" Height="19" Margin="344,5,0,0" VerticalAlignment="Top" Width="25" Grid.Column="1" RenderTransformOrigin="-6.96,0.526"/>
+            </Grid>
+        </GroupBox>
+
+
+    </Grid>
+</Window>
