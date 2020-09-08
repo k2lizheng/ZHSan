@@ -105,6 +105,7 @@ namespace GameGlobal
         SelectLandLink,
         SelectWaterLink,
         SelectMarryablePerson,
+        SelectMarryablePerson2,//妾
         SelectMarryTo,
         SelectTrainableChildren,
         SelectTrainPolicy,

@@ -2401,6 +2401,23 @@ namespace GameObjects
             return result;
         }
 
+        public PersonList MakeMarryable2()//找妾
+        {
+            PersonList result = new PersonList();
+
+            if (this.LocationArchitecture == null) return result;
+          
+            foreach (Person p in this.LocationArchitecture.Persons)
+            {               
+                if (p.Sex && p.Spouse == null && Person.GetIdealOffset(p, this) <= Session.Parameters.MakeMarrigeIdealLimit)
+                {
+                    result.Add(p);
+                }
+            }
+
+            return result;
+        }
+
         public String MakeMarryableList
         {
             get
@@ -2465,8 +2482,10 @@ namespace GameObjects
 
                 makeHateCausedByAffair(this, p, maker);
             }
-
-            this.Spouse = p;
+            if (this.Spouse == null)
+            {
+                this.Spouse = p;
+            }
             p.Spouse = this;
 
             this.AdjustRelation(p, 15f, -5);
