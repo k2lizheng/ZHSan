@@ -33,6 +33,8 @@ namespace GameManager
         public string Difficulty { get; set; }
         [DataMember]
         public string BattleSpeed { get; set; }
+        [DataMember]
+        public int? SpeedUp { get; set; }
 
         [DataMember]
         public string MOD { get; set; }
@@ -142,6 +144,10 @@ namespace GameManager
                 if (Current.SoundVolume == null)
                 {
                     Current.SoundVolume = 50;
+                }
+                if (Current.SpeedUp == null)
+                {
+                    Current.SpeedUp = 1;
                 }
 
                 //if (Current.NewsBoard == null)
