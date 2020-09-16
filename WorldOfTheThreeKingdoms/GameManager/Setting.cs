@@ -35,6 +35,8 @@ namespace GameManager
         public string BattleSpeed { get; set; }
         [DataMember]
         public int? SpeedUp { get; set; }
+        [DataMember]
+        public bool Chuchangsuiji { get; set; }
 
         [DataMember]
         public string MOD { get; set; }
@@ -149,7 +151,11 @@ namespace GameManager
                 {
                     Current.SpeedUp = 1;
                 }
-
+                if (String.IsNullOrEmpty(Current.Chuchangsuiji.ToString()))
+                {
+                    Current.Chuchangsuiji = false;
+                }
+    
                 //if (Current.NewsBoard == null)
                 //{
                 //    Current.NewsBoard = new NewsBoard() { Detail = "游戏公告加载中，请稍候……" };
