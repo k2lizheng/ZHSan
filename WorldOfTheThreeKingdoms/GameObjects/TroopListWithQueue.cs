@@ -215,6 +215,7 @@ namespace GameObjects
         {
             if (troop.mingling == "Attack" || troop.mingling == "Stratagem")
             {
+                if(troop.CurrentStratagem != null) { troop.mingling = "Stratagem"; }
                 if (troop.TargetTroop != null)
                 {
                     if (troop.BaseAttackEveryAround||troop.AttackEveryAround) {//修复雷霆战法攻击方式
