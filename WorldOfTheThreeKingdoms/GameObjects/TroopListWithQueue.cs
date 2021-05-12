@@ -236,14 +236,14 @@ namespace GameObjects
                         troop.RealDestination = troop.Position;
                     }
                 }
-                else if (troop.TargetArchitecture != null && troop.mingling == "Attack" && !troop.CanAttack(troop.TargetArchitecture))
+                else if (troop.TargetArchitecture != null && troop.mingling == "Attack")//&& !troop.CanAttack(troop.TargetArchitecture)
                 {
-
+                    troop.RealDestination = troop.TargetArchitecture.Position;
                 }
                 
                 else
                 { 
-                    troop.RealDestination = troop.Position;
+                    //troop.RealDestination = troop.Position;
                 }
             }
             else if (troop.TargetTroop != null && troop.Will.ToString() == "行军" && troop.mingling!= "Move" && 
@@ -261,6 +261,10 @@ namespace GameObjects
                     }
                 }
                 troop.RealDestination = troop.Position;
+            }
+            else if (troop.TargetArchitecture != null)
+            {
+                troop.RealDestination = troop.TargetArchitecture.Position;
             }
         }
 
