@@ -2201,7 +2201,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 MaxLength = 5,
                 Position = new Vector2(150, 120 + 60 * 2)
             };
-            tbBattleSpeed.Text = Setting.Current.GlobalVariables.FastBattleSpeed.ToString();
+            tbBattleSpeed.Text = Setting.Current.BattleSpeed;
             tbBattleSpeed.OnTextBoxSelected += (sender, e) =>
             {
                 UnCheckTextBoxs();
@@ -2723,7 +2723,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "beginner";
 
                     this.nstDianNaoShengTao.NowNumber = 0;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2773,7 +2772,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "easy";
 
                     this.nstDianNaoShengTao.NowNumber = 0;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2822,7 +2820,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "normal";
 
                     this.nstDianNaoShengTao.NowNumber = 0f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2874,7 +2871,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-                    Session.globalVariablesTemp.GameDifficulty = "hard";
 
                     this.nstDianNaoShengTao.NowNumber = 10f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2926,7 +2922,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-                    Session.globalVariablesTemp.GameDifficulty = "veryhard";
 
                     this.nstDianNaoShengTao.NowNumber = 10f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
