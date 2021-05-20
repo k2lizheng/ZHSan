@@ -1015,10 +1015,19 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                 case ContextMenuResult.TroopCombatMethod_Cancel:
                     this.CurrentTroop.CurrentCombatMethod = null;
+                    this.CurrentTroop.AutoCombatMethodID = -1;
                     break;
 
                 case ContextMenuResult.TroopCombatMethod:
                     this.SetTroopCombatMethod(this.Plugins.ContextMenuPlugin.CurrentParamID);
+                    break;
+                case ContextMenuResult.TroopAutoCombatMethod:
+                    //this.SetTroopCombatMethod(this.Plugins.ContextMenuPlugin.CurrentParamID);
+                    this.CurrentTroop.AutoCombatMethodID = this.Plugins.ContextMenuPlugin.CurrentParamID;
+                   
+                    break;
+                case ContextMenuResult.TroopConfig_TroopChallengeCommand:
+                    this.CurrentTroop.troopChallengeCommand = !this.CurrentTroop.troopChallengeCommand;
                     break;
 
                 case ContextMenuResult.TroopStunt:
@@ -1032,6 +1041,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         this.CurrentTroop.EndAmbush();
                     }
                     break;
+                //case ContextMenuResult.TroopChallengeCommand_Cancel:
+                //    this.CurrentTroop.troopChallengeCommand = false;
+                //    break;
 
                 case ContextMenuResult.TroopStratagem_0:  //攻心
                     this.SetTroopStratagem(0);
