@@ -349,6 +349,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
 
             }*/
+            if (((Session.Current.Scenario.CurrentPlayer == null) || Session.Current.Scenario.IsCurrentPlayer(person.BelongedFaction)) || Session.GlobalVariables.SkyEye)
+            {
+                this.Plugins.PersonBubblePlugin.AddPerson(person, person.Position, TextMessageKind.Rewarded, "RewardPerson");
+            }
         }
 
         public override void selfFoundPregnant(Person person)

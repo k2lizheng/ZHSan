@@ -224,13 +224,17 @@
                             int current = enumerator3.Current;
                             if (treasure.TreasureGroup == current)
                             {
-                                try
-                                {
-                                    CacheManager.Draw(treasure.Picture, this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f);
+                                if (File.Exists(treasure.Picture.Name.ToString())){
+                                    try
+                                    {
+                                        CacheManager.Draw(treasure.Picture, this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f);
+                                    }
+                                    catch
+                                    {
+                                       
+                                    }
                                 }
-                                catch
-                                {
-                                }
+                                else { CacheManager.Draw("Content/Textures/Resources/Treasure/9999.png", this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f); }
                             }
                         }
                     }

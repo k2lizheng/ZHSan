@@ -147,10 +147,10 @@ namespace GameObjects
                 {
                     try
                     {
-                        this.picture = CacheManager.GetTempTexture("Content/Textures/Resources/Treasure/" + this.Pic.ToString() + ".png");
+                        this.picture = CacheManager.GetTempTexture("Content/Textures/Resources/Treasure/" + this.Pic.ToString() + ".png");                        
                     }
                     catch
-                    {
+                    {                       
                         this.picture = null;
                     }
                 }
@@ -275,8 +275,9 @@ namespace GameObjects
                 case "君主":
                     r.TreasureGroup = 300; r.Pic = 1001; r.Name += "名马";
                     foreach (Influence s in Session.Current.Scenario.GameCommonData.AllInfluences.Influences.Values)
-                    {                      
-                        if ((s.Kind.ID >= 250 && s.Kind.ID <= 263 || s.Kind.ID == 6270 || s.Kind.ID == 6280 )&& GameObject.Chance(10))
+                    {      
+                        if(s.Kind.ID == 281) { r.Influences.AddInfluence(s);}
+                        if ((s.Kind.ID >= 250 && s.Kind.ID <= 263 || s.Kind.ID == 6270 || s.Kind.ID == 6280 ) && s.ID > 281 && GameObject.Chance(10))
                         {
                             r.Influences.AddInfluence(s);
                             if (r.Influences.Count > 0)

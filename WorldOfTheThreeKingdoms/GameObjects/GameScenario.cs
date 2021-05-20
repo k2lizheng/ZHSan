@@ -5008,6 +5008,12 @@ namespace GameObjects
                 treasure.BelongedPersonIDString = (treasure.BelongedPerson != null) ? treasure.BelongedPerson.ID : -1;
                 treasure.HidePlaceIDString = (treasure.HidePlace != null) ? treasure.HidePlace.ID : -1;
                 treasure.InfluencesString = treasure.Influences.SaveToString();
+                treasure.Available = (treasure.BelongedPerson != null) ? true : false;
+                if (treasure.Available)
+                {
+                    if (!treasure.BelongedPerson.Alive || (treasure.BelongedPerson.ID >= 7000 && treasure.BelongedPerson.ID < 8000))
+                    { treasure.Available = false; }
+                }
             }
 
             foreach (YearTableEntry yt in this.YearTable)
