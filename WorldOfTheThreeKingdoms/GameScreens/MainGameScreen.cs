@@ -276,8 +276,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             }
 
             this.tileAnimationLayer.Draw(base.viewportSize);
+
+            if (this.dantiaoLayer == null)//防止结果结算在单挑界面出现前
+            {
+                this.troopLayer.Draw(base.viewportSize, gameTime);
+            }
             
-            this.troopLayer.Draw(base.viewportSize, gameTime);
 
             this.mapVeilLayer.Draw(base.viewportSize);
 

@@ -24,7 +24,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
         public float Life { get; set; }
 
         public float Skill { get; set; }
-
+        public int WeaponA { get; set; }
+        public int ArmorA { get; set; }
         public Vector2 Position { get; set; }
 
         public Vector2 LandPosition { get; set; }
@@ -364,9 +365,16 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
         public TroopDamage damage = null;
         private DuelCommand command;
 
-        public DantiaoLayer(Person left, Person right)
+        private DuelCommand PlayerCommand;
+
+        bool LIsPlayer = true;
+
+        public DantiaoLayer(Person left, Person right, bool LeftIsPlayer)
         {
+            if(!Session.Current.Scenario.IsPlayer(left.BelongedFaction) && !Session.Current.Scenario.IsPlayer(left.BelongedFaction))
+            { LeftIsPlayer = true; }
             //scale = new Vector2(Convert.ToSingle(Session.ResolutionX) / 800f, Convert.ToSingle(Session.ResolutionY) / 480f);
+            LIsPlayer = LeftIsPlayer;
 
             basePos = new Vector2((Session.ResolutionX - 1000) / 2, (Session.ResolutionY - 620) / 2);
 
@@ -380,10 +388,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             };
 
 
-            btnQianzhi = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 495))
+            btnQianzhi = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C1", "C1", basePos + new Vector2(25, 495))
             {
                 Visible = true,
-                ViewText = " 牵制"
+                //ViewText = " 牵制"
             };
             btnQianzhi.OnButtonPress += (sender, e) =>
             {
@@ -392,9 +400,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             };
 
 
-            btnGongji = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 445))
+            btnGongji = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C2", "C2", basePos + new Vector2(25, 445))
             {
-                Visible = true,ViewText = " 攻击"
+                Visible = true,//ViewText = " 攻击"
             };
             btnGongji.OnButtonPress += (sender, e) =>
             {
@@ -402,9 +410,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             };
 
 
-            btnQuanli = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 395))
+            btnQuanli = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C3", "C3", basePos + new Vector2(25, 395))
             {
-                Visible = true, ViewText = " 全力"
+                Visible = true, //ViewText = " 全力"
             };
             btnQuanli.OnButtonPress += (sender, e) =>
             {
@@ -412,46 +420,46 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             };
 
 
-            btnQuanxiang = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 345))
+            btnQuanxiang = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C4", "C4", basePos + new Vector2(25, 345))
             {
-                Visible = false,ViewText = " 劝降"
+                Visible = true,//ViewText = " 劝降"
             };
             btnQuanxiang.OnButtonPress += (sender, e) =>
             {
-                //btnQuanxiang.Selected = !btnQuanxiang.Selected;
+                btnQuanxiang.Selected = !btnQuanxiang.Selected;
             };
 
 
-            btnTaopao = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 295))
+            btnTaopao = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C5", "C5", basePos + new Vector2(25, 295))
             {
-                Visible = false,
-                ViewText = " 逃跑"
+                Visible = true,
+                //ViewText = " 逃跑"
             };
             btnTaopao.OnButtonPress += (sender, e) =>
             {
-               // btnTaopao.Selected = !btnTaopao.Selected;
+           btnTaopao.Selected = !btnTaopao.Selected;
             };
 
 
-            btnTouxiang = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(25, 245))
+            btnTouxiang = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C6", "C6", basePos + new Vector2(25, 245))
             {
-                Visible = false,
-                ViewText = " 投降"
+                Visible = true,
+                //ViewText = " 投降"
             }; 
             btnTouxiang.OnButtonPress += (sender, e) =>
             {
-               // btnTouxiang.Selected = !btnTouxiang.Selected;
+                btnTouxiang.Selected = !btnTouxiang.Selected;
             };
 
 
-            btnAnqi = new ButtonTexture(@"Content\Textures\Resources\Dantiao\Button", "Button", basePos + new Vector2(125, 495))
+            btnAnqi = new ButtonTexture(@"Content\Textures\Resources\Dantiao\C7", "C7", basePos + new Vector2(125, 495))
             {
-                Visible = false,
-                ViewText = "暗器"
+                Visible = true,
+                //ViewText = "擒拿"
             }; 
             btnAnqi.OnButtonPress += (sender, e) =>
             {
-               // btnAnqi.Selected = !btnAnqi.Selected;
+                btnAnqi.Selected = !btnAnqi.Selected;
             };
 
 
@@ -514,7 +522,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             genLeft = new General(left)
             {
                 Force = left.ChallengeStrength,
-                Life = 100,
+                WeaponA = (int)left.TreasureWorthforGroup(1100)/10,
+                ArmorA = (int)(left.TreasureWorthforGroup(4000) / 5 + left.TreasureWorthforGroup(4100)/5),
+                Life = 100 - (left.Tiredness < 80 ? left.Tiredness : 20),
                 Skill = 100
             };
 
@@ -528,7 +538,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             genRight = new General(right)
             {
                 Force = right.ChallengeStrength,
-                Life = 100,
+                WeaponA = (int)right.TreasureWorthforGroup(1100)/10,
+                ArmorA = (int)(right.TreasureWorthforGroup(4000)/5 + right.TreasureWorthforGroup(4100) / 5),
+                Life = 100 - (right.Tiredness < 80 ? left.Tiredness : 20),
                 Skill = 100
             };
 
@@ -540,13 +552,27 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             genRight.Pause();
 
             Session.PlayMusic("Battle");
+            
+           
         }
-
+        public void Go(GameTime gameTime)
+        {
+            Update(gameTime);
+            //Draw();        
+        }
+        public void Update(GameTime gameTime)
+        {        
+            Session.MainGame.mainGameScreen.Update(gameTime);
+            Session.MainGame.mainGameScreen.Draw(gameTime);
+        }
         public void Start()
         {
             elapsedTime = 0f;
             IsVisible = true;
-           
+            while (Session.MainGame.mainGameScreen.dantiaoLayer != null)
+            {              
+                Go(new GameTime());
+            }
         }
 
         public void SetScreenPos()
@@ -594,7 +620,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                 }
                 else
                 {
-                    if (totalTime >= 120f && Stage != "Over" && Stage != "OverOut")
+                    if (totalTime >= 200f && Stage != "Over" && Stage != "OverOut")
                     {
                         Stage = "Over";
                         genLeft.SayDisappear = false;
@@ -645,8 +671,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     else if (Stage == "Gen1Speak")
                     {
                         genLeft.Pause();
-                        genLeft.SayTimeTotal = 2f;
-                        genLeft.SayTime = 2f;
+                        genLeft.SayTimeTotal = 1f;
+                        genLeft.SayTime = 1f;
                         genLeft.SayWords = $"吾乃{genLeft.Person.Name}，哪个敢来应战？";
 
                         if (genLeft.Person.Name == "曹操")
@@ -668,15 +694,16 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     }
                     else if (Stage == "Gen1Run")
                     {
-                        PerformCommand(command, genLeft);
-                        genLeft.SpeedExt = 15+30;
-                        genLeft.SpeedPlus = 10;
-                        genLeft.Direction = "Right";
-                        genLeft.Start();
-                        Stage = "Gen1Running";
-                        elapsedTime = 0f;
-                        screenPosPre = screenPos;
-                        Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
+                        //PerformCommand(command, genLeft,true);
+                       
+                        if (Stage != "Over")
+                        {
+                            
+                            Stage = "Gen1Running";
+                            elapsedTime = 0f;
+                            screenPosPre = screenPos;
+                            Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
+                        }                                             
                     }
                     else if (Stage == "Gen1Running")
                     {
@@ -704,8 +731,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     }
                     else if (Stage == "Gen2Speak")
                     {
-                        genRight.SayTimeTotal = 2f;
-                        genRight.SayTime = 2f;
+                        genRight.SayTimeTotal = 1f;
+                        genRight.SayTime = 1f;
                         genRight.SayWords = $"上将{genRight.Person.Name}在此，贼将休得猖狂！";
                         Stage = "Gen2Speaking";
                         elapsedTime = 0f;
@@ -714,51 +741,88 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     {
                         if (elapsedTime >= 2f)
                         {
-                           // Stage = "Gen2Run";
+                                   // Stage = "Gen2Run";
                             elapsedTime = 0f;
-                            Stage = "P1";
+                            //Stage = "P1";
+                            Stage = "Command";
                         }
                     }
-                    else if (Stage == "P1")
+                    else if (Stage == "Command")
                     {
                         if (btnQianzhi.Selected)
                         {
                             btnQianzhi.Selected = !btnQianzhi.Selected;
-                            Stage = "Gen1Run";
-                            elapsedTime = 0f;
-                            command = DuelCommand.Attack;
-
+                            PlayerCommand = DuelCommand.Attack;
+                           
+                            Stage = "WaitAi";
                         }
-                        if (btnGongji.Selected)
+                        else if (btnGongji.Selected)
                         {
                             btnGongji.Selected = !btnGongji.Selected;
-                            Stage = "Gen1Run";
-                            elapsedTime = 0f;
-                            command = DuelCommand.Heavy;
+                            PlayerCommand = DuelCommand.Heavy;
+                            Stage = "WaitAi";
 
                         }
-                        if (btnQuanli.Selected)
+                        else if(btnQuanli.Selected)
                         {
                             btnQuanli.Selected = !btnQuanli.Selected;
-                            Stage = "Gen1Run";
-                            elapsedTime = 0f;
-                            command = DuelCommand.Ctritical;
+                            PlayerCommand = DuelCommand.Ctritical;
+                            Stage = "WaitAi";
 
                         }
+                        else if(btnTaopao.Selected)
+                        {
+                            btnTaopao.Selected = !btnTaopao.Selected;
+                            PlayerCommand = DuelCommand.Flee;
+                            Stage = "WaitAi";
+                        }
+                        else if(btnQuanxiang.Selected)
+                        {
+                            btnQuanxiang.Selected = !btnQuanxiang.Selected;
+                            PlayerCommand = DuelCommand.Induce;
+                            Stage = "WaitAi";
 
-                    }
-                    else if (Stage == "Gen2Run")
-                    {
-                        command = Duel_Command(genLeft, genRight);
-                        PerformCommand(command, genRight);               
-                        genRight.SpeedExt = 45;
-                        genRight.SpeedPlus = 25;
-                        genRight.Direction = "Left";
-                        genRight.Start();
-                        Stage = "Gen2Running";
+                        }
+                        else if(btnTouxiang.Selected)
+                        {
+                            btnTouxiang.Selected = !btnTouxiang.Selected;
+                            PlayerCommand = DuelCommand.Surround;
+                            Stage = "WaitAi";
+                        }
+                        else if(btnAnqi.Selected)
+                        {
+                            btnAnqi.Selected = !btnAnqi.Selected;
+                            PlayerCommand = DuelCommand.Anqi;
+                            Stage = "WaitAi";
+                        }
+                        if (LIsPlayer) {
+                            PerformCommand(PlayerCommand, genLeft, genRight, true);
+                        }
+                        else {
+                            PerformCommand(PlayerCommand, genRight, genLeft, true);
+                        }
+                        
                         elapsedTime = 0f;
-                        screenPosPre = screenPos;
-                        Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
+                    }
+                    else if (Stage == "WaitAi")
+                    {
+                        if (LIsPlayer)
+                        {
+                            command = Duel_Command(genLeft, genRight);
+                            PerformCommand(command, genRight, genLeft,false);
+                        }
+                        else
+                        {
+                            command = Duel_Command(genRight, genLeft);
+                            PerformCommand(command, genLeft, genRight,false);
+                        }              
+                       if(Stage != "Over")
+                        {
+                            Stage = "FightRush";
+                        }
+                        
+                        elapsedTime = 0f;
+
                     }
                     else if (Stage == "Gen2Running")
                     {
@@ -782,13 +846,59 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     else if (Stage == "FightRush")
                     {
                         SetScreenPos();
+
+                        genLeft.SpeedExt = 15 + 30;
+                        genLeft.SpeedPlus = 25;
+                        if (genLeft.Status.Contains("Right"))
+                        {
+                            genLeft.Direction = "Right";
+                        }
+                        else {
+                            genLeft.Direction = "Left";
+                        }
+                        //genLeft.ChangeStatusDirection();
+                        genLeft.Start();
+                        genRight.SpeedExt = 45;
+                        genRight.SpeedPlus = 25;
+                        if (genRight.Status.Contains("Left"))
+                        { 
+                            genRight.Direction = "Left";
+                        }
+                        else
+                        {
+                            genRight.Direction = "Right";
+                        }
+                        //genAi.ChangeStatusDirection();
+                        genRight.Start();
+                        screenPosPre = screenPos;
+                        Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
+
+                        
                         round++;
                        // genLeft.ChangeWalkToAttack();
                        // genLeft.Start();
                        // genRight.ChangeWalkToAttack();
                        // genRight.Start();
-                        elapsedTime = 0f;
+                        
                         Stage = "FightRun";
+                        elapsedTime = 0f;
+                    }
+                    else if (Stage == "FightRun")
+                    { 
+                        var centerLeft = genLeft.LandPosition + new Vector2(64, 64);
+
+                        var centerRight = genRight.LandPosition + new Vector2(64, 64);
+
+                        var distance = Math.Sqrt((centerRight.X - centerLeft.X) * (centerRight.X - centerLeft.X) + (centerRight.Y - centerLeft.Y));
+
+                        if (distance <= 120)
+                        {
+                            genRight.ChangeWalkToAttack();
+                            genLeft.ChangeWalkToAttack();
+                            Stage = "Fighting";
+                            elapsedTime = 0f;
+                        }
+                     }
                         //if (!genLeft.IsPaused && !genRight.IsPaused && (genLeft.SpeedNow > 68 || genRight.SpeedNow > 68))
                         //{
                         //    //速度超過一定值，則對沖過去，開始減速
@@ -804,34 +914,36 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                         //    Stage = "Fighting";
                         //}
-                    }
-                    else if (Stage == "FightRun")
+                    
+                    else if (Stage == "Fighting")
                     {
                         SetScreenPos();
                         //交匯情況下的武力傷害
-                        if (genLeft.Status== "AttackRight")
+                        if (fightTime == 0f)
                         {
-                            Fight(gameTime, true,command, genLeft,genRight);
+                            Fight(gameTime, true, PlayerCommand, genLeft, genRight);
                         }
                         else
                         {
-                            Fight(gameTime, true, command, genRight,genLeft);
+                            Fight(gameTime, true, command, genRight, genLeft);
                         }
-                        if (elapsedTime > 0.4f)
+                        if (fightTime > 1 && Stage != "Over")
                         {
                             fightTime = 0f;
-                            if (genLeft.Status == "AttackRight")
-                            {
-                                genLeft.ChangeAttackToWalk();
-                            }
-                            // genLeft.SpeedPlus = -new Random().Next(3, 7);
-                            // genLeft.Start();
-                            else {
-                                genRight.ChangeAttackToWalk();
-                            }                          
+                             
+                                //if (genLeft.Status == "AttackRight")
+                                //{
+                                
+                            //}
+                            //// genLeft.SpeedPlus = -new Random().Next(3, 7);
+                            //// genLeft.Start();
+                            //else {
+                                
+                            //}                          
                            // genRight.SpeedPlus = -new Random().Next(3, 7);
                            // genRight.Start();
-                            Stage = "FightRunStop";
+                                Stage = "FightRunBack";
+                            
                         }
                     }
                     else if (Stage == "FightRunStop")
@@ -851,24 +963,26 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                         if (elapsedTime > 0.3f)
                         {
-                            if (genLeft.IsPaused) {
-                                genRight.Pause();//此处让被攻击后特效消失
-                                genLeft.ChangeStatusDirection();
+                            genLeft.ChangeAttackToWalk();
+                            genRight.ChangeAttackToWalk();
+                            //if (genLeft.IsPaused) {
+                            //genAi.Pause();//此处让被攻击后特效消失
+                            //genLeft.ChangeStatusDirection();
 
-                                genLeft.SpeedPlus = new Random().Next(8, 8);
-                        
-                                 genLeft.Start();
-                            }
-                            else
-                            {
-                                genLeft.Pause();
-                                genRight.ChangeStatusDirection();
+                            //genLeft.SpeedPlus = new Random().Next(25, 25);
 
-                                genRight.SpeedPlus = new Random().Next(8, 8);
+                            //genLeft.Start();
+                            //}
+                            //else
+                            //{
+                            //genLeft.Pause();
+                            //genAi.ChangeStatusDirection();
 
-                                genRight.Start();
+                            // genAi.SpeedPlus = new Random().Next(25, 25);
 
-                            }
+                            //genAi.Start();
+
+                            //}
                             Stage = "WaitRush";
 
                             Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
@@ -876,6 +990,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     }
                     else if (Stage == "WaitRush")
                     {
+
+
                         SetScreenPos();
 
                         var centerLeft = genLeft.LandPosition + new Vector2(64, 64);
@@ -893,19 +1009,20 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                             //        Stage = "FightRush";
                             //    }
                             //}
-                            if (distance >= 300&& elapsedTime > 0.3f)
+                            if (distance >= 500)
                             {
-                                if (genLeft.Status.Contains("Left"))
-                                {
+                                //if (genLeft.Status.Contains("Left"))
+                                //{
                                     genLeft.ChangeStatusDirection();
-                                    genLeft.Pause();Stage = "P2";
-                                }
-                                else
-                                {
+                                    genLeft.Pause();//Stage = "P2";
+                                //}
+                                //else
+                                //{
                                     genRight.ChangeStatusDirection();
                                     genRight.Pause();
-                                    Stage = "P1";
-                                }
+                                //    //Stage = "P1";
+                                //}
+                                Stage = "Command";
                                 elapsedTime = 0f;
                             }
                         }
@@ -914,128 +1031,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     {
                         Stage = "Gen2Run";
                     }
-                    //else if (Stage == "Fighting")
-                    //{
-                    //    //對打情況下的傷害
-                    //    Fight(gameTime, false);
-
-                    //    if (elapsedTime >= 5f)
-                    //    {
-                    //        General gen1, gen2;
-
-                    //        var ran = new Random().Next(0, 10);
-
-                    //        if (ran == 0 || ran == 2 || ran == 4 || ran == 6 || ran == 8)
-                    //        {
-                    //            gen1 = genLeft;
-                    //            gen2 = genRight;
-                    //        }
-                    //        else
-                    //        {
-                    //            gen1 = genRight;
-                    //            gen2 = genLeft;
-                    //        }
-
-                    //        if (0 <= ran && ran <= 2)
-                    //        {
-                    //            //保持不動
-
-                    //        }
-                    //        else if (3 <= ran && ran <= 5)
-                    //        {
-                    //            //後退、跟進
-                    //            if (gen1.LandPosition.X <= gen2.LandPosition.X)
-                    //            {
-                    //                if (gen1.LandPosition.X - basePos.X > 60)
-                    //                {
-                    //                    gen1.Direction = "Left";
-                    //                    gen1.ChangeStatus(gen1.Style, "WalkRight");
-                    //                    gen1.Duration = 2f;
-
-                    //                    gen2.Direction = "Left";
-                    //                    gen2.ChangeStatus(gen2.Style, "WalkLeft");
-                    //                    gen2.Delay = 1f;
-
-                    //                    gen1.Start();
-
-                    //                    gen2.Start();
-
-                    //                    Stage = "WaitRush";
-                    //                }
-                    //            }
-                    //            else
-                    //            {
-                    //                if (gen1.LandPosition.X - basePos.X < 2200 - 200)
-                    //                {
-                    //                    gen1.Direction = "Right";
-                    //                    gen1.ChangeStatus(gen1.Style, "WalkLeft");
-                    //                    gen1.Duration = 2f;
-
-                    //                    gen2.Direction = "Right";
-                    //                    gen2.ChangeStatus(gen2.Style, "WalkRight");
-                    //                    gen2.Delay = 1f;
-
-                    //                    gen1.Start();
-
-                    //                    gen2.Start();
-
-                    //                    Stage = "WaitRush";
-                    //                }
-                    //            }
-
-                    //        }
-                    //        else if (6 <= ran && ran <= 7)
-                    //        {
-                    //            if (gen1.LandPosition.Y - basePos.Y > 200 && gen2.LandPosition.Y - basePos.Y > 150)
-                    //            {
-                    //                //向上
-                    //                gen1.Direction = "Up";
-                    //                gen1.ChangeAttackToWalk();
-                    //                gen1.Duration = 2f;
-
-                    //                gen2.Direction = "Up";
-                    //                gen2.ChangeAttackToWalk();
-                    //                gen2.Delay = 1f;
-
-                    //                gen1.Start();
-
-                    //                gen2.Start();
-
-                    //                Stage = "WaitRush";
-
-                    //                Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
-                    //            }
-                    //        }
-                    //        else if (8 <= ran && ran <= 10)
-                    //        {
-                    //            if (gen1.LandPosition.Y - basePos.Y < 460 && gen2.LandPosition.Y - basePos.Y < 460)
-                    //            {
-                    //                //向下
-                    //                gen1.Direction = "Down";
-                    //                gen1.ChangeAttackToWalk();
-                    //                gen1.Duration = 2f;
-
-                    //                gen2.Direction = "Down";
-                    //                gen2.ChangeAttackToWalk();
-                    //                gen2.Delay = 1f;
-
-                    //                gen1.Start();
-
-                    //                gen2.Start();
-
-                    //                Stage = "WaitRush";
-
-
-                    //                Platform.Current.PlayEffect(@"Content\Sound\Dantiao\Moving");
-                    //            }
-                    //        }
-
-                    //        elapsedTime = 0f;
-                    //    }
-                    //}
+                   
                     else if (Stage == "Over")
                     {
-                        if (InputManager.IsDown)
+                        genRight.Direction = "";
+                        genLeft.Direction = "";
+                        if (InputManager.IsDown && elapsedTime >= 1f)//此处加elapsedTime防止作出命令立即退出
                         {
                             Stage = "OverOut";
                             elapsedTime = 0f;
@@ -1043,7 +1044,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                     }
                     else if (Stage == "OverOut")
                     {
-                        if (elapsedTime >= 1f)
+                        if (elapsedTime >= 1f &&(genLeft.SayTime ==0 && genRight.SayTime == 0))//此处加saytime防止作出命令立即退出
                         {
                             Session.MainGame.mainGameScreen.dantiaoLayer = null;
 
@@ -1225,7 +1226,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             Flee = 5,
             Heavy = 2,
             Induce = 4,
-            Surround = 6
+            Surround = 6,
+            Anqi=7
         }
         private void HandleA(int force ,int A)
         {
@@ -1242,44 +1244,53 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
         }
         public void Fight(float gameTime, bool rush, DuelCommand command, General gen,General gen2)
         {
-            fightTime += gameTime;
+            fightTime += 1;
             int A = 45;
             HandleA(gen.Force,A);
-            if (fightTime >= 0.8f || rush && fightTime >= 0.3f)
+            if (rush)
             {
-                fightTime -= (rush ? 0.3f : 0.8f);
-                int basedamage = A / 2 + (int)(GameObject.Chance(50) ? 1 : -1) * 5;
+                //fightTime -= (rush ? 0.3f : 0.8f);
+                int basedamage = A / 2 + gen.WeaponA / 2 - gen2.ArmorA + (int)(GameObject.Chance(50) ? 1 : -1) * 5;
                 switch (command)
                 {
                     case DuelCommand.Attack:
-                        gen2.Life -=basedamage/2;rush = (GameObject.Chance(95) ? true : false);
+                        basedamage = basedamage/2;rush = true ;
                         break;
 
                     case DuelCommand.Heavy:
-                        rush = (GameObject.Chance(70*gen.Force/gen2.Force) ? true : false); gen2.Life -= basedamage*(rush?1:0);
+                        rush = (GameObject.Chance(70 * gen.Force/gen2.Force) ? true : false); //gen2.Life -= basedamage*(rush?1:0);
                         //if (!rush) { gen2.Pause(); }
                         break;
 
                     case DuelCommand.Ctritical:
-                         rush = (GameObject.Chance(10 * gen.Force / gen2.Force) ? true : false);gen2.Life -= basedamage*2 * (rush ? 1 : 0);
-                        if (!rush) { gen.Life -= basedamage / 2; }
+                        rush = (GameObject.Chance(30) ? true : false);//10 * gen.Force / gen2.Force
+                        basedamage = basedamage * 2 ;
+                        if (!rush) {
+                            basedamage = new Random().Next(10, 30);
+                            gen.SayWords += "     -" + basedamage + "      ";
+                            gen.SayTime = 2f;
+                            gen.Life -= basedamage;
+                        }
                         break;
 
                     case DuelCommand.Induce:
-                        gen2.Life -= basedamage / 2; rush = (GameObject.Chance(95) ? true : false);
+                        basedamage = basedamage / 3; rush = (GameObject.Chance(95) ? true : false);
                         break;
 
                     case DuelCommand.Flee:
-                        gen2.Life -= basedamage / 2; rush = (GameObject.Chance(95) ? true : false);
+                        basedamage = basedamage / 4; rush = (GameObject.Chance(95) ? true : false);
                         break;
 
                     case DuelCommand.Surround:
-                        gen2.Life -= basedamage / 2; rush = (GameObject.Chance(95) ? true : false);
+                        basedamage = basedamage / 3; rush = (GameObject.Chance(95) ? true : false);
                         break;
                 }
                 if (rush)
                 {
-                    Platform.Current.PlayEffect(@"Content\Sound\Dantiao\NormalAttack");              
+                    Platform.Current.PlayEffect(@"Content\Sound\Dantiao\NormalAttack");
+                    gen2.Life -= basedamage;
+                    gen2.SayWords = "-" + basedamage +"      ";
+                    gen2.SayTime = 2f;
                 }               
                 //gen2.Life -= A / 2 + (int)(GameObject.Chance(50) ? 1 : -1)*5;
              
@@ -1334,7 +1345,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
         public void Draw()
         {
-            if (IsVisible && Stage != "Cloud")
+            if (IsVisible && Stage != "Cloud")//
             {
 
                 CacheManager.Draw(@"Content\Textures\Resources\Dantiao\Cloud.png", basePos + cloudPos, cloudRec, Color.White * Alpha, SpriteEffects.None, scale, depth - 0.01f);
@@ -1349,7 +1360,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                 CacheManager.DrawString(null, genLeft.Person.Name, basePos + new Vector2(15 + 10 + 10, 10 + 10 + 10), Color.Red * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.045f);
 
-                CacheManager.DrawString(null, "武力：" + genLeft.Force, basePos + new Vector2(25, 175), Color.DarkRed * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.DrawString(null, "武力" + genLeft.Force, basePos + new Vector2(25, 175), Color.DarkRed * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.DrawString(null, " 武器" + genLeft.WeaponA, basePos + new Vector2(25 + 70, 175), Color.DarkRed * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.DrawString(null, " 防具" + genLeft.ArmorA, basePos + new Vector2(25 + 140, 175), Color.DarkRed * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+
+                CacheManager.Draw(genLeft.Person.TreasurePictureforGroup(1100), new Rectangle((int)basePos.X + 30 + 70, (int)basePos.Y + 175 + 20, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
+                CacheManager.Draw(genLeft.Person.TreasurePictureforGroup(4000), new Rectangle((int)basePos.X + 75 + 70, (int)basePos.Y + 175 + 20, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
+                CacheManager.Draw(genLeft.Person.TreasurePictureforGroup(4100), new Rectangle((int)basePos.X + 120 + 70, (int)basePos.Y + 175 + 20, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
+                //CacheManager.Draw(genLeft.Person.TreasurePictureforGroup(1100).Name, basePos + new Vector2(25 + 70, 175), null, Color.White * Alpha, SpriteEffects.None, scale, 0.037f);
 
                 CacheManager.Draw(@"Content\Textures\Resources\Dantiao\SwordBlackLeft.png", basePos + new Vector2(210, 25), null, Color.White * Alpha, SpriteEffects.None, scale, depth - 0.04f);
 
@@ -1365,9 +1383,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                 CacheManager.DrawZhsanAvatar(genRight.Person,genRight.Person.PictureIndex, 9999, "", new Rectangle(new Point(Convert.ToInt32(basePos.X + 1000 - 15 - 15 - 150), Convert.ToInt32(basePos.Y + 620 - 20 - 15 - 150)), new Point(150, 150)), Color.White * Alpha, depth - 0.035f);
 
-                CacheManager.DrawString(null, genRight.Person.Name, basePos + new Vector2(1000 - 15 - 15 - 140, 620 - 20 - 15 - 140), Color.Red * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.045f);
+                CacheManager.DrawString(null, genRight.Person.Name, basePos + new Vector2(1000 - 15 - 15 - 140, 620 - 20 - 15 - 140), Color.Blue * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.045f);
 
-                CacheManager.DrawString(null, "武力：" + genRight.Force, basePos + new Vector2(1000 - 140, 620 - 218), Color.DarkRed * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);             
+                CacheManager.DrawString(null, "武力" + genRight.Force, basePos + new Vector2(1000 - 280, 620 - 218), Color.DarkBlue * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.DrawString(null, " 武器" + genRight.WeaponA, basePos + new Vector2(1000 -210, 620 - 218), Color.DarkBlue * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.DrawString(null, " 防具" + genRight.ArmorA, basePos + new Vector2(1000 - 140, 620 - 218), Color.DarkBlue * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.036f);
+                CacheManager.Draw(genRight.Person.TreasurePictureforGroup(1100), new Rectangle((int)basePos.X + 1000 - 280 + 75, (int)basePos.Y + 620 - 218 - 40, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
+                CacheManager.Draw(genRight.Person.TreasurePictureforGroup(4000), new Rectangle((int)basePos.X + 1000 - 280 + 120, (int)basePos.Y + 620 - 218 - 40, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
+                CacheManager.Draw(genRight.Person.TreasurePictureforGroup(4100), new Rectangle((int)basePos.X + 1000 - 280 + 165, (int)basePos.Y + 620 - 218 - 40, 40, 40), null, Color.White * Alpha, 0f, Vector2.Zero, SpriteEffects.None, 0.0355f);
 
                 CacheManager.Draw(@"Content\Textures\Resources\Dantiao\SwordBlackRight.png", basePos + new Vector2(510, 520), null, Color.White * Alpha, SpriteEffects.None, scale, depth - 0.04f);
 
@@ -1520,34 +1543,100 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                 return 0;
             }  
         }
-        public void PerformCommand(DuelCommand command,General genRight)
+        public void PerformCommand(DuelCommand command, General gen, General destin, bool player)
         {
-            genRight.SayTimeTotal = 2f;
-            genRight.SayTime = 2f;          
+            gen.SayTimeTotal = 2f;
+            gen.SayTime = 2f;
+            string Name = gen.Person.Name;
+            string Name2 = destin.Person.Name;
+            //if (LIsPlayer && player||(!LIsPlayer && !player)) { Name = genLeft.Person.Name; Name2 = genAi.Person.Name; }
             switch (command)
             {
                 case DuelCommand.Attack:
-                    genRight.SayWords= $"今日就让你见识一下我{genRight.Person.Name}之武艺,吃我一击!";
+                    gen.SayWords= $"今日就让你见识一下我{Name}之武艺,吃我一击!";
                     break;
 
                 case DuelCommand.Heavy:
-                    genRight.SayWords = $"今日不施展下我之绝招,不知道我{genRight.Person.Name}的厉害!";
+                    gen.SayWords = $"今日不施展下我之绝招,不知道我{Name}的厉害!";
                     break;
 
                 case DuelCommand.Ctritical:
-                    genRight.SayWords = $"今日你我势不两立,吃我{genRight.Person.Name}的最后一招!";
+                    gen.SayWords = $"今日你我势不两立,吃我{Name}的最后一招!";                  
                     break;
 
                 case DuelCommand.Induce:
-                    genRight.SayWords =$"稍安勿躁,听我{genRight.Person.Name}一言......";
+                    gen.SayWords =$"稍安勿躁,听我{Name}一言......";
+                    if((gen.Life - destin.Life) > 50 && destin.Person.Loyalty < 100 || gen.Person.CanConvince(destin.Person))
+                    {
+                        destin.SayWords = $"{Name}将军言之有理！";
+                        Title = Name + "成功说服"+ Name2;
+                        if (LIsPlayer && player || (!LIsPlayer && !player))
+                        {
+                            Result = 10; //10、P2武将被说服
+                        }
+                        else
+                        {
+                            Result = 9;
+                        }
+                        gen.SayDisappear = false;
+                        destin.SayDisappear = false;
+                        Stage = "Over";
+                    }
                     break;
 
                 case DuelCommand.Flee:
-                    genRight.SayWords = $"{genLeft.Person.Name}果然名不虚传,我今日非你敌手,后会有期!";
+                    gen.SayWords = $"{Name2}果然名不虚传,我今日非你敌手,后会有期!";
+                    if (Math.Abs(gen.Life - destin.Life) < 50 && Math.Abs(gen.Person.BaseStrength - destin.Person.BaseStrength) < 25) {
+                        Title = Name + "逃跑";
+                        if (LIsPlayer && player || (!LIsPlayer && !player))
+                        {
+                            Result = 5; //5、P1武将逃跑
+                        }
+                        else
+                        {
+                            Result = 6;
+                        }
+                        Stage = "Over";
+                        gen.ChangeStatusDirection();
+                    }
                     break;
 
                 case DuelCommand.Surround:
-                    genRight.SayWords = $"且慢动手，{genRight.Person.Name}有要事相商......!";
+                    gen.SayWords = $"且慢动手，{Name}有要事相商......!";
+                    
+                    Title = Name + "被俘";
+                    if (LIsPlayer && player || (!LIsPlayer && !player))
+                    {
+                        Result = 7;//7、P1武将被俘虏
+                    }
+                    else
+                    {
+                        Result = 8;
+                    }
+                    Stage = "Over";
+                    gen.ChangeStatus(gen.Style, "Failure");
+                    gen.SayDisappear = false;
+                    break;
+
+                case DuelCommand.Anqi:
+                    gen.SayWords = $"{Name2}贼将休走!!!";
+                    if ((gen.Life - destin.Life) > 50 && (gen.Person.BaseStrength - destin.Person.BaseStrength) > 25)
+                    {
+                        Title = Name2 + "被俘";
+                        if (LIsPlayer && player || (!LIsPlayer && !player))
+                        {
+                            Result = 8; 
+                            
+                        }
+                        else
+                        {
+                            Result = 7;//
+                        }
+                        Stage = "Over";
+                        destin.ChangeStatus(destin.Style, "Failure");
+                        gen.SayDisappear = false;
+                        
+                    }
                     break;
             }
         }

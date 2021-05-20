@@ -32,7 +32,7 @@ namespace GameObjects
                 Person destination = troop.Persons.GetMaxStrengthPerson();
                 if (((maxStrengthPerson != null) && (destination != null)) && (this.ChallengeOftenShow || (GameObject.Random(GameObject.Square(destination.Calmness)) < GameObject.Random(0x19))))
                 {
-                    if (maxStrengthPerson.IsCivil() || destination.IsCivil())  //文官不单挑
+                    if (maxStrengthPerson.IsCivil() || destination.IsCivil() || maxStrengthPerson.ID==7108 || destination.ID == 7108)  //文官不单挑
                     {
                         return;
                     }
@@ -50,7 +50,7 @@ namespace GameObjects
             int flag = 0;
             //damage.ChallengeHappened = true;  //单挑发生
             if ((Setting.Current.GlobalVariables.ShowChallengeAnimation) &&   //Session.GlobalVariables.ShowChallengeAnimation
-                (Session.Current.Scenario.IsPlayer(maxStrengthPerson.BelongedFaction) || Session.Current.Scenario.IsPlayer(destination.BelongedFaction) || (Session.GlobalVariables.SkyEye && Session.GlobalVariables.SkyEyeSimpleNotification) || this.ChallengeOftenShow))  //单挑双方有玩家的武将才演示
+                (Session.Current.Scenario.IsPlayer(maxStrengthPerson.BelongedFaction) || Session.Current.Scenario.IsPlayer(destination.BelongedFaction) || (Session.GlobalVariables.SkyEye && !Session.GlobalVariables.SkyEyeSimpleNotification) || this.ChallengeOftenShow))  //单挑双方有玩家的武将才演示
             {
                 
                 try
@@ -129,6 +129,8 @@ namespace GameObjects
 
         private void challengeShow(TroopDamage damage, Person maxStrengthPerson, Person destination)
         {
+            bool LeftIsPlayer = Session.Current.Scenario.IsPlayer(maxStrengthPerson.BelongedFaction);
+
             DantiaoLayer.Persons = new List<Person>()
             {
                 maxStrengthPerson,
@@ -140,9 +142,9 @@ namespace GameObjects
             Session.MainGame.mainGameScreen.cloudLayer.Reverse = true;
 
             Session.MainGame.mainGameScreen.cloudLayer.Start();
-
-            Session.MainGame.mainGameScreen.dantiaoLayer = new DantiaoLayer(DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 2], DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 1]);
-
+            
+            Session.MainGame.mainGameScreen.dantiaoLayer = new DantiaoLayer(DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 2], DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 1], LeftIsPlayer);
+           
             Session.MainGame.mainGameScreen.dantiaoLayer.damage = damage;
 
             //throw new NotImplementedException("跨平台單挑程序尚未實現！");

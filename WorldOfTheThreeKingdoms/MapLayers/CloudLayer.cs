@@ -148,7 +148,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                 if (Reverse && cloudAlpha >= 1)
                 {
                     IsStart = false;
-
+                  
                     if (DantiaoLayer.Persons != null && DantiaoLayer.Persons.Count >= 2 && Session.MainGame.mainGameScreen.dantiaoLayer == null)
                     {
                         if (DantiaoLayer.Persons == null)
@@ -157,7 +157,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                         }
                         else
                         {
-                            Session.MainGame.mainGameScreen.dantiaoLayer = new DantiaoLayer(DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 2], DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 1]);
+                            bool LeftIsPlayer = Session.Current.Scenario.IsPlayer(DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 2].BelongedFaction);
+                            Session.MainGame.mainGameScreen.dantiaoLayer = new DantiaoLayer(DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 2], DantiaoLayer.Persons[DantiaoLayer.Persons.Count - 1],LeftIsPlayer);
                         }
                     }
 
