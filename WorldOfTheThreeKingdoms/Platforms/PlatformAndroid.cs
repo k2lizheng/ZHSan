@@ -36,7 +36,7 @@ namespace Platforms
 
         public static new bool IsMobilePlatForm = true;
 
-        public new string Channel = "";  //"PlayStore";
+        public new string Channel = "zhsan";  //"PlayStore";
 
         public bool LoadFromOBB
         {
@@ -99,7 +99,7 @@ namespace Platforms
 
         public static bool IsPhone;
 
-        public static new string PreferResolution = "925*520";
+        public static new string PreferResolution = "2340*1080";
 
         public new bool KeyBoardAvailable = false;
 
@@ -204,11 +204,11 @@ namespace Platforms
             Stream stream = null;
             if (LoadFromOBB)
             {
-                if (FileExists(res))
-                {
+                //if (FileExists(res))
+                //{
                     stream = AndroidContentManager.OpenStream(res);
-                }
-                else
+                //}
+                if (stream == null)
                 {
                     stream = Game.Activity.Assets.Open(res);
                 }
@@ -1235,6 +1235,7 @@ namespace Platforms
             }
         }
 
+        [System.Obsolete]
         private void TakeScreenshot(PlatformTask action)
         {
             //Date now = new Date();
