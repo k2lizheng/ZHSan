@@ -2053,9 +2053,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 this.Plugins.GameFramePlugin.Function = function;
                 this.Plugins.TabListPlugin.InitialValues(gameObjectList, selectedObjectList, InputManager.NowMouse.ScrollWheelValue, title);
                 this.Plugins.TabListPlugin.SetListKindByName(kind.ToString(), showCheckBox, multiselecting);
-                this.Plugins.TabListPlugin.SetSelectedTab(tabName);
+                this.Plugins.TabListPlugin.SetSelectedTab(tabName);             
                 this.Plugins.GameFramePlugin.SetFrameContent(this.Plugins.TabListPlugin.TabList, base.viewportSizeFull);
-                
+                                              
                 this.Plugins.GameFramePlugin.OKButtonEnabled = OKEnabled;
                 this.Plugins.GameFramePlugin.CancelButtonEnabled = CancelEnabled;
                 this.Plugins.GameFramePlugin.IsShowing = true;
@@ -3320,9 +3320,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     this.viewportSize.X = Session.ResolutionX - 20;  // Platform.GraphicsDevice.Viewport.Width;
                     this.viewportSize.Y = Convert.ToInt32(Session.ResolutionY - this.Plugins.ToolBarPlugin.Height - 10);  // Platform.GraphicsDevice.Viewport.Height - this.Plugins.ToolBarPlugin.Height;
                 }
-
+                
                 this.viewportSizeFull.X = Platform.GraphicsDevice.Viewport.Width;
                 this.viewportSizeFull.Y = Platform.GraphicsDevice.Viewport.Height;
+                if (Session.LargeContextMenu)
+                {
+                    this.viewportSizeFull.X = this.viewportSize.X;
+                    this.viewportSizeFull.Y = this.viewportSize.Y;
+                }
 
                 this.Plugins.ToolBarPlugin.SetRealViewportSize(new Point(this.viewportSize.X, this.viewportSize.Y));
 

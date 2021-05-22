@@ -585,7 +585,9 @@ namespace GameManager
                     }
                 }
             }
-            System.Drawing.Image pic = System.Drawing.Image.FromFile(id);
+                      
+            //System.Drawing.Image pic = System.Drawing.Image.FromFile(id);
+            Texture2D pic = LoadTexture(id);            
             if (m==2)
             {                  
                 //if (pic.Height > 240 && pic.Height<= 640)
@@ -595,14 +597,14 @@ namespace GameManager
                 //}
                 //else if ( pic.Height > 640)
                 //{
-                   pos.Height = 640;
+               pos.Height = 640;
                    //if (pic.Height > pic.Width)
                    //{
                    // pos.Height = (pos.Width * pic.Height) / pic.Width;
                    //}
                    //if (pic.Height < pic.Width)
                    //{
-                    pos.Width = (pos.Height * pic.Width) / pic.Height;
+                pos.Width = (pos.Height * pic.Width) / pic.Height;
                    //}
                 //}                          
             }
@@ -632,7 +634,7 @@ namespace GameManager
                     pos.Width = (pos.Height * pic.Width) / pic.Height;
                     pos.X = pos.X + pos.Height - pos.Width;
                 }
-                depth = 0.198f;
+                depth = 0.198f;          
             }
             DrawAvatar(id, pos, Color.White, false, true, TextureShape.None, null, depth);
         }

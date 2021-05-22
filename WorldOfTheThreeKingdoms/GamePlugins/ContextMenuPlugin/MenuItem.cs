@@ -71,21 +71,30 @@ namespace ContextMenuPlugin
                         nullable = null;
                         CacheManager.Draw(this.Enabled ? this.contextMenu.LeftClickItemSelectedTexture : this.contextMenu.DisabledItemSelectedTexture
                             , this.Position, nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None,0.04f);
+                        nullable = null;
+                        var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                        var pos = new Vector2(rec.X, rec.Y);
+                        var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                        if (Session.LargeContextMenu)
+                        {
+                            pos = new Vector2(rec.X, rec.Y)*1.3f;
+                            scale *= 1.3f;
+                        }
                         if (!this.open)
                         {
                             nullable = null;
-                            var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
-                            var pos = new Vector2(rec.X, rec.Y);
-                            var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                            //var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                            //var pos = new Vector2(rec.X, rec.Y);
+                            //var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
                             CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, this.Enabled ? Color.White : this.contextMenu.DisabledTextColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         }
                         else
                         {
                             nullable = null;
-                            var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
-                            var pos = new Vector2(rec.X, rec.Y);
+                            //var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                            //var pos = new Vector2(rec.X, rec.Y);
                             var color = this.Enabled ? Color.Gold : this.contextMenu.DisabledTextColor;
-                            var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                            //var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
                             CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         }
                     }
@@ -125,15 +134,24 @@ namespace ContextMenuPlugin
                 }
                 else if (this.menuKind.IsLeft)
                 {
+                    var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                    var pos = new Vector2(rec.X, rec.Y);
+
+                    var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                    if (Session.LargeContextMenu)
+                    {
+                        pos = new Vector2(rec.X, rec.Y) * 1.3f;
+                        scale *= 1.3f;
+                    }
                     if (this.Enabled)
                     {
                         nullable = null;
                         CacheManager.Draw(this.contextMenu.LeftClickItemTexture, this.Position, nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None,0.04f);                                             
 
-                        var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
-                        var pos = new Vector2(rec.X, rec.Y);
+                        //var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                        //var pos = new Vector2(rec.X, rec.Y);
 
-                        var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                        //var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
 
                         CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, this.contextMenu.LeftClickTextColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         
@@ -143,11 +161,11 @@ namespace ContextMenuPlugin
                         nullable = null;
                         CacheManager.Draw(this.contextMenu.DisabledItemTexture, this.Position, nullable, Color.White, 0f, Vector2.Zero, SpriteEffects.None,0.04f);
 
-                        var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
+                        //var rec = StaticMethods.CenterRectangle(this.Position, new Rectangle(0, 0, width, height));
 
-                        var pos = new Vector2(rec.X, rec.Y);
+                        //var pos = new Vector2(rec.X, rec.Y);
 
-                        var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
+                        //var scale = this.contextMenu.LeftClickFreeTextBuilder.Scale;
 
                         CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, this.contextMenu.DisabledTextColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         

@@ -320,6 +320,11 @@ namespace TabListPlugin
                 item.LoadFromXMLNode(node);
                 this.ListKinds.Add(item);
             }
+            if (Session.LargeContextMenu)
+            {
+                 this.rowHeight += 10;
+            }
+           
         }
 
         internal void PopSubKind()
