@@ -79,6 +79,22 @@ namespace TroopTitlePlugin
         internal int PersonID;
         internal Rectangle ThePortrait1Position;
         internal Rectangle ThePortrait2Position;
+
+        //internal PlatformTexture TheBackgrounds;//*jokosany在第二远地图上显示部队将领名字
+        internal PlatformTexture FactionColorsPicture;//*jokosany在第二远地图上显示部队将领名字
+        internal PlatformTexture FactionColorsBackground;//*jokosany在第二远地图上显示部队将领名字
+        internal Rectangle FactionColorsPosition;//*jokosany在第二远地图上显示部队将领名字
+        //internal Rectangle TheBackgroundsPosition;//*jokosany在第二远地图上显示部队将领名字
+        //internal Point BackgroundsSize;//*jokosany在第二远地图上显示部队将领名字
+        internal FreeText TroopNamesText;//*jokosany在第二远地图上显示部队将领名字
+        // internal PlatformTexture TheBackgrounds;//*jokosany在第二远地图上显示部队将领名字
+        //internal PlatformTexture FactionColorsPicture;//*jokosany在第二远地图上显示部队将领名字
+        //internal PlatformTexture FactionColorsBackground;//*jokosany在第二远地图上显示部队将领名字
+        //internal Rectangle FactionColorsPosition;//*jokosany在第二远地图上显示部队将领名字
+        //internal Rectangle TheBackgroundsPosition;//*jokosany在第二远地图上显示部队将领名字
+        //internal Point BackgroundsSize;//*jokosany在第二远地图上显示部队将领名字
+        //internal FreeText TroopNamesText;//*jokosany在第二远地图上显示部队将领名字
+
 /*
         internal bool HasPersonPicture
         {get
@@ -211,11 +227,39 @@ namespace TroopTitlePlugin
 
         internal void DrawTroop(Troop troop, bool playerControlling)
         {
-            if (Session.Current.Scenario.ScenarioMap.TileWidth >= 50)
+            //*jokosany在第二远地图上显示部队将领名字
+            if (Session.Current.Scenario.ScenarioMap.TileWidth < 70 && Session.Current.Scenario.ScenarioMap.TileWidth > 35)
             {
                 Color white = Color.White;
                 this.DisplayOffset = Session.MainGame.mainGameScreen.GetPointByPosition(troop.Position);
-                this.DisplayOffset = new Point(this.DisplayOffset.X, this.DisplayOffset.Y - 13);
+                this.DisplayOffset = new Point(this.DisplayOffset.X, this.DisplayOffset.Y);
+                if (troop.BelongedFaction != null)
+                {
+                    white = troop.BelongedFaction.FactionColor;
+                }
+
+                //  CacheManager.Draw(this.TheBackgrounds, this.TheBackgroundsDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.47f);
+
+                CacheManager.Draw(this.FactionColorsPicture, this.FactionColorsDisplayPosition, null, white, 0f, Vector2.Zero, SpriteEffects.None, 0.469f);
+                CacheManager.Draw(this.FactionColorsBackground, this.FactionColorsDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+
+                //  Rectangle? sourceRectangle = null;
+                //   CacheManager.Draw(this.TheBackgrounds, new Rectangle(this.TheBackgroundsDisplayPosition.X, this.TheBackgroundsDisplayPosition.Y, this.BackgroundsSize.X, this.BackgroundsSize.Y), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.47f);
+                //  CacheManager.Draw(this.TheBackgrounds, new Rectangle(this.displayOffset.X, this.displayOffset.Y, this.BackgroundsSize.X, this.BackgroundsSize.Y), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.47f);
+
+                // this.TroopNamesText.Text = troop.Leader.Name;
+                this.TroopNamesText.Text = troop.Leader.SurName;
+                this.TroopNamesText.Draw(0.462f);
+
+
+            }
+            //*jokosany
+            if (Session.Current.Scenario.ScenarioMap.TileWidth >= 70)
+            {
+                Color white = Color.White;
+                this.DisplayOffset = Session.MainGame.mainGameScreen.GetPointByPosition(troop.Position);
+                this.DisplayOffset = new Point(this.DisplayOffset.X - 15, this.DisplayOffset.Y - 25);
+                //*jokosany上面X坐标修改为+3,Y-5
                 if (troop.BelongedFaction != null)
                 {
                     white = troop.BelongedFaction.FactionColor;
@@ -224,6 +268,10 @@ namespace TroopTitlePlugin
                 PersonID =(int)(troop.Leader.PictureIndex);
                 //FactionID = troop.BelongedFaction.ID;
                 UIKind = "Old";
+                if (Switch1 == "0")
+                {
+                    UIKind = "New0";
+                }
                 if (Switch1 == "1")
                 {
                     UIKind = "New1";
@@ -331,6 +379,117 @@ namespace TroopTitlePlugin
                         CacheManager.Draw(this.StuntTexture, this.StuntIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.4688f);
                     }
                 }
+                if (UIKind == "New0")
+                {
+
+                    TheTroopKindPicture = PictureNull;
+                    if (TheTroopKind == 0) { TheTroopKindPicture = TheTroopKind11Picture; }
+                    else if (TheTroopKind == 1) { TheTroopKindPicture = TheTroopKind12Picture; }
+                    else if (TheTroopKind == 2) { TheTroopKindPicture = TheTroopKind13Picture; }
+                    else if (TheTroopKind == 3) { TheTroopKindPicture = TheTroopKind14Picture; }
+                    else if (TheTroopKind == 4) { TheTroopKindPicture = TheTroopKind15Picture; }
+                    try
+                    {                      
+                        CacheManager.Draw(this.TheBackground1, this.TheBackgroundDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.47f);
+                    }
+                    catch { }
+                    //try
+                    //{ 
+                    //CacheManager.Draw(troop.Leader.TroopPortrait, this.ThePortraitDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.469f);
+
+                    CacheManager.DrawZhsanAvatar(troop.Leader, "s", this.ThePortraitDisplayPosition, Color.White, 0.469f);
+
+                    //if (ShowFactionName1Background == "on")
+                    //{
+                    //   CacheManager.Draw(this.FactionName1Background, this.FactionNameDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.462f);
+                    //}
+                    //CacheManager.Draw(this.FactionColor1Picture, this.FactionColorDisplayPosition, null, white, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
+                    // CacheManager.Draw(this.FactionColor1Background, this.FactionColorDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                    //*jokosany势力颜色
+                    CacheManager.Draw(this.FactionColor1Picture, this.FactionColorDisplayPosition, null, white, 0f, Vector2.Zero, SpriteEffects.None, 0.471f);
+                    //}
+                    //catch { }
+                    try
+                    {
+                        CacheManager.Draw(this.TheTroopKindPicture, this.TheTroopKindDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                    }
+                    catch { }
+                    try
+                    {
+                        CacheManager.Draw(this.Theshiqi1Texture, this.TheshiqiDisplayPosition(troop), this.TheshiqiPosition(troop), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.467f);
+                        CacheManager.Draw(this.Thezhanyi1Texture, this.ThezhanyiDisplayPosition(troop), this.ThezhanyiPosition(troop), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.467f);
+
+                    }
+                    catch { }
+                    if (playerControlling && (Session.GlobalVariables.SkyEye || Session.Current.Scenario.IsCurrentPlayer(troop.BelongedFaction)))
+                    {
+                        if (!troop.ControlAvail())
+                        {
+                            CacheManager.Draw(this.TheNoControl1Texture, this.TheNoControlIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                        }
+                        else
+                        {
+                            switch (troop.ControlState)
+                            {
+                                case TroopControlState.Undone:
+                                    CacheManager.Draw(this.TheActionUndone1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+
+                                case TroopControlState.Done:
+                                    CacheManager.Draw(this.TheActionDone1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+
+                                case TroopControlState.Auto:
+                                    CacheManager.Draw(this.TheActionAuto1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+
+                                case TroopControlState.AutoDone:
+                                    CacheManager.Draw(this.TheActionAutoDone1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+
+                                case TroopControlState.Attacked:
+                                    CacheManager.Draw(this.TheActionAttacked1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+
+                                case TroopControlState.Moved:
+                                    CacheManager.Draw(this.TheActionMoved1Texture, this.TheActionIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.465f);
+                                    break;
+                            }
+                        }
+                        if (troop.Food < troop.FoodCostPerDay)
+                        {
+                            CacheManager.Draw(this.TheFoodShortage1Texture, this.TheFoodIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
+                        }
+                    }
+                    if (troop.CurrentStunt != null)
+                    {
+                        CacheManager.Draw(this.TheStunt1Texture, this.TheStuntIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
+                    }
+                    if (FactionName1Kind == "1")
+                    {
+                        this.FactionName1Text.Text = troop.Leader.SurName;
+                    }
+                    else if (FactionName1Kind == "2")
+                    {
+                        this.FactionName1Text.Text = troop.Leader.BelongedFaction.Leader.SurName;
+                    }
+                    else if (FactionName1Kind == "3")
+                    {
+                        if (troop.Leader.BelongedFaction.Leader.Name == troop.Leader.BelongedFaction.Name)
+                        {
+                            this.FactionName1Text.Text = troop.Leader.BelongedFaction.Leader.SurName;
+                        }
+                        this.FactionName1Text.Text = troop.Leader.BelongedFaction.Name;
+                    }
+                    this.TroopName1Text.Text = troop.Leader.Name;
+                    this.Thebingli1Text.Text = troop.Army.Quantity.ToString();
+                    this.Speed1Text.Text = troop.Speed.ToString();
+                    this.FactionName1Text.Draw(white, 0.462f);
+                    this.TroopName1Text.Draw(0.462f);
+                    this.Thebingli1Text.Draw(0.462f);
+                    this.Speed1Text.Draw(0.462f);
+                }
+
                 if (UIKind == "New1")
                 {
 
@@ -593,6 +752,7 @@ namespace TroopTitlePlugin
             this.FactionName2Text.DisplayOffset = this.displayOffset;
             this.TroopName1Text.DisplayOffset = this.displayOffset;
             this.TroopName2Text.DisplayOffset = this.displayOffset;
+            this.TroopNamesText.DisplayOffset = this.displayOffset;//*jokosany在第二远地图上显示部队将领名字
             this.Thebingli1Text.DisplayOffset = this.displayOffset;
             this.Thebingli2Text.DisplayOffset = this.displayOffset;
             this.Speed1Text.DisplayOffset = this.displayOffset;
@@ -739,7 +899,11 @@ namespace TroopTitlePlugin
         {
             get
             {
-                if (UIKind == "New2")
+                if (UIKind == "New0")
+                {                             
+                    return new Rectangle(this.DisplayOffset.X + this.FactionColorsPosition.X + 18, this.DisplayOffset.Y + this.FactionColorsPosition.Y + 32, this.FactionColorsPosition.Width + 7, this.FactionColorsPosition.Height + 10);                   
+                }
+                else if (UIKind == "New2")
                 {
                     return new Rectangle(this.DisplayOffset.X + this.FactionColor2Position.X, this.DisplayOffset.Y + this.FactionColor2Position.Y, this.FactionColor2Position.Width, this.FactionColor2Position.Height);
                 }
@@ -865,6 +1029,25 @@ namespace TroopTitlePlugin
                 }
             }
         }
+
+        //*jokosany在第二远地图上显示部队将领名字
+        //private Rectangle TheBackgroundsDisplayPosition
+        //{
+        //    get
+        //    {
+        //        return new Rectangle(this.DisplayOffset.X + this.TheBackgroundsPosition.X, this.DisplayOffset.Y + this.TheBackgroundsPosition.Y, this.TheBackgroundsPosition.Width, this.TheBackgroundsPosition.Height);
+        //    }
+        //}
+
+        private Rectangle FactionColorsDisplayPosition
+        {
+            get
+            {
+                return new Rectangle(this.DisplayOffset.X + this.FactionColorsPosition.X, this.DisplayOffset.Y + this.FactionColorsPosition.Y, this.FactionColorsPosition.Width, this.FactionColorsPosition.Height);
+            }
+        }
+
+        //*jokosany
         //////////////
     }
 
