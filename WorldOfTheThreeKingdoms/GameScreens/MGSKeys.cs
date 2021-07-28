@@ -252,6 +252,20 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     }
 
                 }
+                else if (InputManager.KeyBoardState.IsKeyDown(Keys.T))
+                {
+                    if (this.CurrentArchitecture != null && this.CurrentArchitecture.BelongedFaction == Session.Current.Scenario.CurrentPlayer)
+                    {
+                        this.currentKey = Keys.T;
+                        this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.PersonGeneratorType, FrameFunction.GetZhiBao, false, true, true, false, this.CurrentArchitecture.AvailGeneratorTypeList(), null, "制作宝物", "");
+                    }
+                    else if (this.LastArchitecture != null && this.LastArchitecture.BelongedFaction == Session.Current.Scenario.CurrentPlayer)
+                    {
+                        this.currentKey = Keys.T;
+                        this.CurrentArchitecture = this.LastArchitecture;
+                        this.ShowTabListInFrame(UndoneWorkKind.Frame, FrameKind.PersonGeneratorType, FrameFunction.GetZhiBao, false, true, true, false, this.CurrentArchitecture.AvailGeneratorTypeList(), null, "制作宝物", "");
+                    }
+                }
                 else if (InputManager.KeyBoardState.IsKeyDown(Keys.LeftAlt) && InputManager.KeyBoardState.IsKeyDown(Keys.Z))
                 {
                     Session.GlobalVariables.EnableCheat = true;
@@ -272,9 +286,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     this.Plugins.youcelanPlugin.IsShowing = false;
                     this.mapEdited = true;
                 }
-                else if (InputManager.KeyBoardState.IsKeyDown(Keys.LeftAlt) && InputManager.KeyBoardState.IsKeyDown(Keys.F) && Session.GlobalVariables.EnableCheat)
+                else if (InputManager.KeyBoardState.IsKeyDown(Keys.LeftAlt) && InputManager.KeyBoardState.IsKeyDown(Keys.G) && Session.GlobalVariables.EnableCheat)
                 {
-                    this.currentKey = Keys.F;//q已经被网格占用，改为f关闭
+                    this.currentKey = Keys.G;//q已经被网格占用，改为f关闭
                     this.editMode = false;
                     this.mainMapLayer.xianshidituxiaokuai = false;
                     this.Plugins.youcelanPlugin.IsShowing = true;
