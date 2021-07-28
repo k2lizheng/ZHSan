@@ -26,7 +26,7 @@ namespace WorldOfTheThreeKingdoms.Android
         //, LaunchMode = Android.Content.PM.LaunchMode.SingleInstance
         //, ScreenOrientation = ScreenOrientation.SensorLandscape
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
-    public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
+    public class Activity1 : AndroidGameActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
@@ -49,10 +49,11 @@ namespace WorldOfTheThreeKingdoms.Android
                     //Game1.SendErrMsg("", args.Exception);
                     // Do something...
                 };
-
-                var g = new MainGame();
-                //g.IsFixedTimeStep = true;
-                //g.TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)GameManager.Setting.Current.SpeedUp)));
+                GameTime time = new GameTime();
+                var g = new MainGame(time);
+                
+                g.IsFixedTimeStep = true;
+                g.TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)GameManager.Setting.Current.SpeedUp)));
                 var view = (View)g.Services.GetService(typeof(View));
 
                 SetContentView(view);//SetContentView(g.Window);  //temple remove
@@ -111,7 +112,7 @@ namespace WorldOfTheThreeKingdoms.Android
             //{
             //    Session.ResumeGame();
             //}
-            base.OnResume();
+            base.OnResume(); 
         }
 
         protected override void OnDestroy()

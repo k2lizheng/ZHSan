@@ -40,8 +40,8 @@ namespace WorldOfTheThreeKingdoms
             if (Platform.PlatFormType == PlatFormType.Win || Platform.PlatFormType == PlatFormType.Desktop)
             {
                 //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionHandler);
-                
-                using (MainGame game = new MainGame())
+                Microsoft.Xna.Framework.GameTime time = new Microsoft.Xna.Framework.GameTime();
+                using (MainGame game = new MainGame(time))
                 {
                     if (System.Diagnostics.Debugger.IsAttached)
                     {

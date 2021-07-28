@@ -76,7 +76,7 @@ namespace WorldOfTheThreeKingdoms
 
         public bool isDebug = false;
         public bool loaded2 = false;
-        public MainGame()
+        public MainGame(GameTime time)
         {
             //第一步
           
@@ -105,8 +105,8 @@ namespace WorldOfTheThreeKingdoms
             Session.Init();
 
             //加速 TargetElapsedTime表示执行一帧所需要的时间
-            IsFixedTimeStep = true;
-            TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)Setting.Current.SpeedUp)));
+            //IsFixedTimeStep = true;
+            //TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)Setting.Current.SpeedUp)));
             //TargetElapsedTime = new System.TimeSpan(0, 0, 0, 0, (int)System.Math.Round(1000.0f / (60.0f * Setting.Current.SpeedUp)));
             //TargetElapsedTime = System.TimeSpan.FromMilliseconds(16.666);
 
@@ -122,6 +122,8 @@ namespace WorldOfTheThreeKingdoms
             {
                 DateTime buildDate = new FileInfo(Platform.Current.Location).LastWriteTime;
                 base.Window.Title = "中华三国志(v1.4.5) - build-" + buildDate.Year + "-" + buildDate.Month + "-" + buildDate.Day;
+                IsFixedTimeStep = true;
+                TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)Setting.Current.SpeedUp)));
             }
 
             Platform.Current.SetMouseVisible(false);
