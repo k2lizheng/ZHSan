@@ -10,9 +10,11 @@ using Android.Views;
 using Android.Widget;
 using GameManager;
 using Java.Lang;
+using Java.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Platforms;
 using System.Collections.Generic;
 using System.IO;
@@ -194,7 +196,10 @@ namespace Platforms
         {
             return System.Environment.OSVersion.Platform + " " + System.Environment.OSVersion.VersionString;
         }
-
+        //public void PlaySong(Song song)
+        //{
+        //    MediaPlayer.Play(song);
+        //}
         #region 加載資源文件
 
         public Stream LoadStream(string res)
@@ -428,7 +433,10 @@ namespace Platforms
 
             if (full)
             {
-
+                foreach (var file in allFiles)//暂时添加
+                {                   
+                    directories.Add(file);                                         
+                }
             }
             else
             {
@@ -456,10 +464,19 @@ namespace Platforms
             {
                 dir = dir.Substring(0, dir.LastIndexOf('/'));
             }
-
+            //根據MOD來選擇素材
+            //if (Setting.Current.MOD != null)
+            //{
+            //    var mod = dir.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
+            //    if (DirectoryExists(mod))
+            //    {
+            //        dir = mod;
+            //    }                                
+            //}
+           
             if (LoadFromOBB)
             {
-                list = AndroidContentManager.entries.Where(en => en.StartsWith(dir)).NullToEmptyArray().Select(en => en.Contains("/") ? en.Substring(en.LastIndexOf('/') + 1) : en).NullToEmptyArray();
+                list = AndroidContentManager.entries.Where(en => en.StartsWith(dir)).NullToEmptyArray().Select(en => en.Contains("/") ? en.Substring(en.LastIndexOf('/') + 1) : en).NullToEmptyArray();//获取所有文件的文件名
             }
             else
             {
@@ -480,14 +497,27 @@ namespace Platforms
 
         public override string[] GetFilesBasic(string dir, bool all = false)
         {
-            string[] files = null;
-            dir = dir.Replace("\\", "/"); 
-            files = Game.Activity.Assets.List(dir);
-            if (all)
+            //string[] files = null;
+            //dir = dir.Replace("\\", "/"); 
+            //files = Game.Activity.Assets.List(dir);
+            //if (all)
+            //{
+            //    files = files.Select(fi => dir + fi).NullToEmptyArray();
+            //}
+            //return files;
+            string[] list = null;
+            dir = dir.Replace("\\", "/");
+            if (dir.Contains("/"))
             {
-                files = files.Select(fi => dir + fi).NullToEmptyArray();
+                dir = dir.Substring(0, dir.LastIndexOf('/'));
             }
-            return files;
+           
+            if (LoadFromOBB)
+            {
+                list = AndroidContentManager.entries.Where(en => en.StartsWith(dir)).NullToEmptyArray().Select(en => en.Contains("/") ? en.Substring(en.LastIndexOf('/') + 1) : en).NullToEmptyArray();//获取所有文件的文件名
+            }
+            
+            return list;
         }
 
         public override bool DirectoryExists(string dir)
@@ -1571,6 +1601,7 @@ namespace Platforms
             }
         }
 
+
     }
 
     public static class AndroidContentManager
@@ -1604,6 +1635,10 @@ namespace Platforms
                     //#else
                     //            obbPath = Path.Combine (Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName, String.Format ("main.{0}.{1}.obb", expansionPackVersion, ainfo.PackageName));
                     //#endif
+                    if (!File.Exists(obbPath))
+                    {
+                        obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "zhsan", "obb", ainfo.PackageName, $"main.{Platform.PackVersion}.{ainfo.PackageName}.obb");
+                    }                   
                     entries = new List<string>();
                     if (File.Exists(obbPath))
                     {

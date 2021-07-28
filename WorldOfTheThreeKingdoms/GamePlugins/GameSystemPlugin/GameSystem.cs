@@ -34,7 +34,15 @@ namespace GameSystemPlugin
             }
             this.OptionDialogPlugin.AddOption("退出游戏", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.TryToExit));
             this.OptionDialogPlugin.AddOption("返回初始界面", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.ReturnMainMenu));
-            this.OptionDialogPlugin.AddOption("继续游戏", null, null);
+            if (Session.LargeContextMenu)
+            {
+                this.OptionDialogPlugin.AddOption("继续/右键信息", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.MoblieHandle));
+                if (Session.MainGame.mainGameScreen.CurrentTroop != null)
+                {
+                    this.OptionDialogPlugin.AddOption("部队属性", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.MoblieHandle));
+                }               
+            }
+            else { this.OptionDialogPlugin.AddOption("继续游戏", null, null); }
             this.OptionDialogPlugin.EndAddOptions();
         }
 

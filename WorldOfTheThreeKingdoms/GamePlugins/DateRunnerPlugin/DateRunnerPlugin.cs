@@ -111,6 +111,13 @@ namespace DateRunnerPlugin
             //this.dateRunner.DaysLeftTextBuilder.SetFreeTextBuilder(font);
 
             this.dateRunner.DaysLeftTextColor = color;
+            if (Session.LargeContextMenu)
+            {
+                this.dateRunner.PlayPosition.Width *= 2;
+                //this.dateRunner.StopPosition.Width *= 2;
+                this.dateRunner.StopPosition.X *= 3;
+
+            }
         }
 
         public void Pause()

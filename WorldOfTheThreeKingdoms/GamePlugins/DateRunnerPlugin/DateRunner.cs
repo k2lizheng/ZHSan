@@ -211,7 +211,7 @@ namespace DateRunnerPlugin
 
         internal void Initialize(Screen screen)
         {            
-            screen.OnMouseLeftDown += new Screen.MouseLeftDown(this.screen_OnMouseLeftDown);
+            screen.OnMouseLeftUp += new Screen.MouseLeftUp(this.screen_OnMouseLeftUp);
             screen.OnMouseMove += new Screen.MouseMove(this.screen_OnMouseMove);
         }
 
@@ -321,7 +321,7 @@ namespace DateRunnerPlugin
             }
         }
 
-        private void screen_OnMouseLeftDown(Point position)
+        private void screen_OnMouseLeftUp(Point position)
         {
             if (base.Enabled)
             {

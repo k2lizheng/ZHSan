@@ -1175,6 +1175,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 else
                                 {
                                     troop.mingling = "Move";
+                                    troop.TargetArchitecture = null;
                                 }
                                 troop.RealDestination = this.selectingLayer.SelectedPoint;
                                 if (!((targetArchitecture == null) || troop.BelongedFaction.IsFriendly(targetArchitecture.BelongedFaction)))
@@ -2850,10 +2851,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 btBack.Update();
                 if (btBack.MouseOver)
                 {
-                    //if (InputManager.IsPressed)
-                    //{
-                    //    InputManager.SleepTime = 1f;
-                    //}
+                    if (InputManager.IsPressed)
+                    {
+                        InputManager.SleepTime = 0.1f;
+                    }
                 }
             }
             if (base.EnableUpdate)
@@ -3317,8 +3318,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 }
                 else
                 {
-                    this.viewportSize.X = Session.ResolutionX - 20;  // Platform.GraphicsDevice.Viewport.Width;
-                    this.viewportSize.Y = Convert.ToInt32(Session.ResolutionY - this.Plugins.ToolBarPlugin.Height - 10);  // Platform.GraphicsDevice.Viewport.Height - this.Plugins.ToolBarPlugin.Height;
+                    this.viewportSize.X = Session.ResolutionX - 40;  // Platform.GraphicsDevice.Viewport.Width;
+                    this.viewportSize.Y = Convert.ToInt32(Session.ResolutionY - this.Plugins.ToolBarPlugin.Height - 20);  // Platform.GraphicsDevice.Viewport.Height - this.Plugins.ToolBarPlugin.Height;
                 }
                 
                 this.viewportSizeFull.X = Platform.GraphicsDevice.Viewport.Width;

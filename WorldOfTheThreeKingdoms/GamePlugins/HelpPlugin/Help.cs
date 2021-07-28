@@ -75,6 +75,10 @@ namespace HelpPlugin
             {
                 // Diable cancelling help dialog when left click the mouse, in order to enhance the user experience
                 // this.IsShowing = false;
+                if (Session.LargeContextMenu)
+                {
+                    this.IsShowing = false;
+                }
             }
             else
             {

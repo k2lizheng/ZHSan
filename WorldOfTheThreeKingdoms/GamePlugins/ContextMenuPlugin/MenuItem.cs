@@ -109,7 +109,11 @@ namespace ContextMenuPlugin
                         var color = this.Enabled ? Color.White : this.contextMenu.RightDisabledTextColor;
 
                         var scale = this.contextMenu.RightClickFreeTextBuilder.Scale;
-
+                        if (Session.LargeContextMenu)
+                        {
+                            pos = new Vector2(rec.X, rec.Y) * 1.3f;
+                            scale *= 1.3f;
+                        }
                         CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, color, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         
                     }
@@ -183,7 +187,11 @@ namespace ContextMenuPlugin
                         var pos = new Vector2(rec.X, rec.Y);
 
                         var scale = this.contextMenu.RightClickFreeTextBuilder.Scale;
-
+                        if (Session.LargeContextMenu)
+                        {
+                            pos = new Vector2(rec.X, rec.Y) * 1.3f;
+                            scale *= 1.3f;
+                        }
                         CacheManager.DrawString(Session.Current.Font, this.DisplayName, pos, this.contextMenu.RightClickTextColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.0399f);
                         
                     }
