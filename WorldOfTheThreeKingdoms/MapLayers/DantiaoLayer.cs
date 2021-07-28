@@ -1356,7 +1356,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                 CacheManager.Draw(@"Content\Textures\Resources\Dantiao\Avatar.png", basePos + new Vector2(15 + 10, 10 + 10), null, Color.White * Alpha, SpriteEffects.None, scale, depth - 0.04f);
 
-                CacheManager.DrawZhsanAvatar(genLeft.Person, genLeft.Person.PictureIndex, 9999, "", new Rectangle(new Point(Convert.ToInt32(basePos.X + 15 + 10), Convert.ToInt32(basePos.Y + 10 + 10)), new Point(150, 150)), Color.White * Alpha, depth - 0.035f);
+                CacheManager.DrawZhsanAvatar(genLeft.Person, "", new Rectangle(new Point(Convert.ToInt32(basePos.X + 15 + 10), Convert.ToInt32(basePos.Y + 10 + 10)), new Point(150, 150)), Color.White * Alpha, depth - 0.035f);
 
                 CacheManager.DrawString(null, genLeft.Person.Name, basePos + new Vector2(15 + 10 + 10, 10 + 10 + 10), Color.Red * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.045f);
 
@@ -1381,7 +1381,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                 CacheManager.Draw(@"Content\Textures\Resources\Dantiao\Avatar.png", basePos + new Vector2(1000 - 15 - 15 - 150, 620 - 20 - 15 - 150), null, Color.White * Alpha, SpriteEffects.None, scale, depth - 0.04f);
 
-                CacheManager.DrawZhsanAvatar(genRight.Person,genRight.Person.PictureIndex, 9999, "", new Rectangle(new Point(Convert.ToInt32(basePos.X + 1000 - 15 - 15 - 150), Convert.ToInt32(basePos.Y + 620 - 20 - 15 - 150)), new Point(150, 150)), Color.White * Alpha, depth - 0.035f);
+                CacheManager.DrawZhsanAvatar(genRight.Person, "", new Rectangle(new Point(Convert.ToInt32(basePos.X + 1000 - 15 - 15 - 150), Convert.ToInt32(basePos.Y + 620 - 20 - 15 - 150)), new Point(150, 150)), Color.White * Alpha, depth - 0.035f);
 
                 CacheManager.DrawString(null, genRight.Person.Name, basePos + new Vector2(1000 - 15 - 15 - 140, 620 - 20 - 15 - 140), Color.Blue * Alpha, 0f, Vector2.Zero, scale.X * 0.8f, SpriteEffects.None, depth - 0.045f);
 
