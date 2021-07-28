@@ -9,6 +9,7 @@
     using GameObjects.PersonDetail;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using Platforms;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -47,6 +48,8 @@
         internal Rectangle StuntClient;
         internal FreeRichText StuntText = new FreeRichText();
         internal FreeText SurNameText;
+        internal Rectangle TreasureTextClient;
+        internal FreeRichText TreasureText = new FreeRichText();
 
         internal Rectangle MoreMessageBGClient;
         internal Point MoreMessageBGSize;
@@ -101,6 +104,7 @@
         internal Person IDN;
         private string ThePersonSound;
         internal string Switch3;
+        private int CurrentTreasureGID;
 
 
         public PersonDetail()
@@ -200,6 +204,7 @@
                 this.InfluenceText.Draw(0.1999f);
                 this.ConditionText.Draw(0.1999f);
                 this.BiographyText.Draw(0.1999f);
+                this.TreasureText.Draw(0.1999f);
                 CacheManager.Draw(this.TreasureBG, this.TreasureBGClientDisplayPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1988f);
                 CacheManager.Draw(this.TitleBG, this.TitleBGClientDisplayPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1988f);
                // CacheManager.Draw(this.StuntBG, this.StuntBGClientDisplayPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.21f);
@@ -224,17 +229,8 @@
                             int current = enumerator3.Current;
                             if (treasure.TreasureGroup == current)
                             {
-                                if (File.Exists(treasure.Picture.Name.ToString())){
-                                    try
-                                    {
-                                        CacheManager.Draw(treasure.Picture, this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f);
-                                    }
-                                    catch
-                                    {
-                                       
-                                    }
-                                }
-                                else { CacheManager.Draw("Content/Textures/Resources/Treasure/9999.png", this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f); }
+                                CacheManager.DrawTreasure(treasure, this.TreasuresClientDisplayPosition(current), sourceRectangle, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.1987f);
+                                
                             }
                         }
                     }
@@ -262,11 +258,11 @@
             }
             if (StaticMethods.PointInRectangle(position, this.TreasureBGClientDisplayPosition) && this.ShowingPerson.PictureIndex > Convert.ToInt32(this.ShowingPerson.PictureIndex))
             {              
-                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex*100 - 1)/100;
+                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex*100 - 1)/100; this.ShowingPerson.PictureIndexString = null;
             }
             if (StaticMethods.PointInRectangle(position, this.TitleBGClientDisplayPosition))
             {
-                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex * 100 + 1) / 100;
+                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex * 100 + 1) / 100; this.ShowingPerson.PictureIndexString = null;
             }
             if ((this.Switch_MoreMessage == "off") && StaticMethods.PointInRectangle(position, this.MoreMessageBGDisplayPosition))
             {
@@ -373,6 +369,12 @@
             if (StaticMethods.PointInRectangle(position, this.PersonBGClientDisplayPosition) && this.Switch_PersonBG == "off")
             {
                 this.Switch_PersonBG = "on";
+                ThePersonSound = Platform.Current.GetPersonVioce(IDN, "");
+                //p = person;              
+                if (this.ThePersonSound.Length > 0 && Switch3 == "on")
+                { 
+                    this.screen.PlayNormalSound(this.ThePersonSound); 
+                }
 
             }
             else if (this.Switch_PersonBG == "on" && StaticMethods.PointInRectangle(position, this.PersonBGClientDisplayPosition))
@@ -386,6 +388,60 @@
                 this.ShowingPerson.YearDead = Session.Current.Scenario.Date.Year + 10;
                 this.ShowingPerson.BeAvailable();
                 this.ShowingPerson.PersonBiography.InGame=Session.Current.Scenario.Date.ToString()+"，因奇怪的力量复活了。"+ "\u000a"+ this.ShowingPerson.PersonBiography.InGame;
+            }
+            if (StaticMethods.PointInRectangle(position, this.TreasureBGClientDisplayPosition))
+            {
+                for (int num = 0; num < this.TreasureGroup.Count; num++)
+                {
+                    if (StaticMethods.PointInRectangle(position, this.TreasuresClientDisplayPosition(this.TreasureGroup[num])))
+                    {
+                       
+                        this.CurrentTreasureGID = (TreasureGroup[num]);
+                        this.TreasureText.Clear();
+                        //this.TreasureText.AddText("可赏赐宝物列表", Color.Khaki);
+                        //this.TreasureText.AddNewLine();
+                        foreach (Treasure t in this.ShowingPerson.BelongedFaction.Leader.Treasures)
+                        {
+                            if (t.TreasureGroup == TreasureGroup[num])
+                            {
+                                this.TreasureText.AddText(t.Name, Color.Khaki);
+                                this.TreasureText.AddText(t.InfluenceString, Color.SkyBlue);
+                                this.TreasureText.AddNewLine();
+                            }
+                        }
+                        this.TreasureText.ResortTexts();
+
+                    }
+                }
+            }
+            if (StaticMethods.PointInRectangle(position, this.MoreMessageBGDisplayPosition2) && this.TreasureText.RowHeight > 0)
+            {
+                int num2 = (position.Y - this.MoreMessageBGDisplayPosition2.Y) / this.TreasureText.RowHeight;
+                if (num2 > -1)
+                {
+                    int num3 = num2;
+                    if (this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID).Count > num3)
+                    {
+                        Treasure treasure = this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID)[num3] as Treasure;
+                        foreach (Treasure t in this.ShowingPerson.TreasureListforGroup(CurrentTreasureGID))
+                        {
+                            this.ShowingPerson.LoseTreasure(t);
+                            this.ShowingPerson.BelongedFaction.Leader.ReceiveTreasure(t);
+                        }
+                        this.ShowingPerson.BelongedFaction.Leader.LoseTreasure(treasure);
+                        this.ShowingPerson.ReceiveTreasure(treasure);
+                        this.TreasureText.Clear();
+                        //this.TreasureText.AddText("可赏赐宝物列表", Color.Khaki);
+                        //this.TreasureText.AddNewLine();
+                        foreach (Treasure t in this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID))
+                        {                            
+                                this.TreasureText.AddText(t.Name, Color.Khaki);
+                                this.TreasureText.AddText(t.InfluenceString, Color.SkyBlue);
+                                this.TreasureText.AddNewLine();                           
+                        }
+                        this.TreasureText.ResortTexts();
+                    }
+                }
             }
         }
 
@@ -798,8 +854,9 @@
 
         internal void SetPerson(Person person)
         {
+            this.AllSkillTexts.SimpleClear();
             foreach (Skill skill in Session.Current.Scenario.GameCommonData.AllSkills.Skills.Values)
-            {
+            {               
                 Rectangle position = new Rectangle(this.SkillDisplayOffset.X + (skill.DisplayCol * this.SkillBlockSize.X), this.SkillDisplayOffset.Y + (skill.DisplayRow * this.SkillBlockSize.Y), this.SkillBlockSize.X, this.SkillBlockSize.Y);
                 this.AllSkillTexts.AddText(skill.Name, position);
                 this.LinkedSkills.Add(skill);
@@ -921,11 +978,22 @@
             {
                 this.StuntText.AddText(stunt.Name, Color.Khaki);
                 this.StuntText.AddText(" 战意消耗" + stunt.Combativity.ToString(), Color.SkyBlue);
-                this.StuntText.AddNewLine();
+                this.StuntText.AddNewLine();                
             }
             this.StuntText.ResortTexts();
             this.BiographyText.Clear();
-            
+            this.TreasureText.Clear();
+            //this.TreasureText.AddText("君主宝物列表", Color.Khaki);
+            //this.TreasureText.AddNewLine();
+            //foreach (Treasure t in person.BelongedFaction.Leader.Treasures)
+            //{
+                
+            //        this.TreasureText.AddText(t.Name, Color.Khaki);
+            //        this.TreasureText.AddText(t.InfluencesString, Color.SkyBlue);
+            //        this.TreasureText.AddNewLine();
+               
+            //}
+            //this.TreasureText.ResortTexts();
             if (person.PersonBiography != null)
             {
                 this.BiographyText.Clear();
@@ -1032,39 +1100,18 @@
                 this.MoreMessageText.ResortTexts();
            
             }
-            this.IDN = person;
-            if (Directory.Exists(@"Content/Sound/Animation/Person/" + this.IDN.ID.ToString()) && (this.Switch3 == "on"))
-            {
-                string[] files = Directory.GetFiles("Content/Sound/Animation/Person/" + this.IDN.ID.ToString(), "CriticalStrike" + "*.wav");
-                if (files.Count() > 0)
-                {
-                    this.ThePersonSound = "Content/Sound/Animation/Person/" + this.IDN.ID.ToString() + "/" + "CriticalStrike" + GameObject.Random(1, files.Count()) + ".wav";
-                }
-            }
-            else if (Directory.Exists(@"Content/Sound/Animation/Person/" + ((int)this.IDN.PictureIndex).ToString()) && (this.Switch3 == "on"))
-            {
-                string[] files = Directory.GetFiles("Content/Sound/Animation/Person/" + ((int)this.IDN.PictureIndex).ToString(), "CriticalStrike" + "*.wav");
-                if (files.Count() > 0)
-                {
-                    this.ThePersonSound = "Content/Sound/Animation/Person/" + ((int)this.IDN.PictureIndex).ToString() + "/" + "CriticalStrike" + GameObject.Random(1, files.Count()) + ".wav";
-                }
-            }
-            else if (person.Sex == true && File.Exists(@"Content/Sound/Female.wav"))
-            {
-                this.ThePersonSound = "Content/Sound/Female.wav";
-
-            }
-            else
-            this.ThePersonSound = ""; //"Content/Sound/Open.wav";
-            if (this.ThePersonSound.Length > 0)
-            { this.screen.PlayNormalSound(this.ThePersonSound); }
+            IDN = person;
 
         }
 
         internal void SetPosition(ShowPosition showPosition)
         {
-            Rectangle rectDes = new Rectangle(0, 0, this.screen.viewportSize.X, this.screen.viewportSize.Y);
-            Rectangle rect = new Rectangle(0, 0, this.BackgroundSize.X, this.BackgroundSize.Y);
+            //if (Session.LargeContextMenu && this.screen.viewportSize.Y < 600)
+            //{
+            //    this.BackgroundSize.Y=this.screen.viewportSize.Y;
+            //}
+            Rectangle rectDes = new Rectangle(0 + 100, 0, this.screen.viewportSize.X, this.screen.viewportSize.Y);
+            Rectangle rect = new Rectangle(0 + 200, 0, this.BackgroundSize.X + 200, this.BackgroundSize.Y);
             switch (showPosition)
             {
                 case ShowPosition.Center:
@@ -1122,6 +1169,8 @@
             this.ConditionText.DisplayOffset = new Point(this.DisplayOffset.X + this.ConditionClient.X, this.DisplayOffset.Y + this.ConditionClient.Y);
             this.BiographyText.DisplayOffset = new Point(this.DisplayOffset.X + this.BiographyClient.X, this.DisplayOffset.Y + this.BiographyClient.Y);
             this.MoreMessageText.DisplayOffset = new Point(this.DisplayOffset.X + this.MoreMessageClient.X, this.DisplayOffset.Y + this.MoreMessageClient.Y);
+            this.TreasureText.DisplayOffset = new Point(this.DisplayOffset.X + 861, this.DisplayOffset.Y + this.MoreMessageClient.Y);
+            //this.TreasureText.DisplayOffset = new Point(this.DisplayOffset.X + this.TitleClient.X, this.DisplayOffset.Y + this.TitleClient.Y);
         }
 
         private Rectangle BackgroundDisplayPosition
@@ -1214,6 +1263,13 @@
                 return  new Rectangle(this.MoreMessageBGClient.X + this.DisplayOffset.X, this.MoreMessageBGClient.Y + this.DisplayOffset.Y, this.MoreMessageBGSize.X, this.MoreMessageBGSize.Y);
             }
          }
+        private Rectangle MoreMessageBGDisplayPosition2
+        {
+            get
+            {
+                return new Rectangle(this.DisplayOffset.X + 861, this.DisplayOffset.Y + this.MoreMessageClient.Y, this.MoreMessageBGSize.X, this.MoreMessageBGSize.Y);
+            }
+        }
         private Rectangle StuntDisplayPosition
         {
             get

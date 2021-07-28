@@ -765,6 +765,18 @@ namespace GameObjects
             }
             return false;
         }
+        public TreasureList TreasureListforGroup(int id)
+        {
+            TreasureList list = new TreasureList();
+            foreach (Treasure t in this.Treasures)
+            {
+                if (t.TreasureGroup == id)
+                {
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
 
         //↓获取人物某类称号的名称
         public string TitleNameforGroup(int id)
@@ -1249,6 +1261,11 @@ namespace GameObjects
                 waitForFeiZiPeriod = value;
             }
         }
+        public string PictureIndexModString;
+
+        public string PictureIndexString;
+
+        public int BGkind = 0;
 
 
         private void updateDayCounters()

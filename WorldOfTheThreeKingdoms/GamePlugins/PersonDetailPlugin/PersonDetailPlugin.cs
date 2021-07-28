@@ -170,12 +170,20 @@ namespace PersonDetailPlugin
             node = nextSibling.ChildNodes.Item(14);
             this.personDetail.MoreMessageClient = StaticMethods.LoadRectangleFromXMLNode(node);
             this.personDetail.MoreMessageText.ClientWidth = this.personDetail.MoreMessageClient.Width;
-            this.personDetail.MoreMessageText.ClientHeight = this.personDetail.MoreMessageClient.Height;
+            this.personDetail.MoreMessageText.ClientHeight = this.personDetail.MoreMessageClient.Height;                      
             this.personDetail.MoreMessageText.RowMargin = int.Parse(node.Attributes.GetNamedItem("RowMargin").Value);
             this.personDetail.MoreMessageText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);
+
+            this.personDetail.TreasureTextClient = StaticMethods.LoadRectangleFromXMLNode(node);
+            this.personDetail.TreasureText.ClientWidth = this.personDetail.MoreMessageClient.Width;
+            this.personDetail.TreasureText.ClientHeight = this.personDetail.MoreMessageClient.Height;
+            this.personDetail.TreasureText.RowMargin = int.Parse(node.Attributes.GetNamedItem("RowMargin").Value);
+            this.personDetail.TreasureText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);
             StaticMethods.LoadFontAndColorFromXMLNode(node, out font, out color);
             this.personDetail.MoreMessageText.Builder.SetFreeTextBuilder(font);
             this.personDetail.MoreMessageText.DefaultColor = color;
+            this.personDetail.TreasureText.Builder.SetFreeTextBuilder(font);
+            this.personDetail.TreasureText.DefaultColor = color;
             node = nextSibling.ChildNodes.Item(15);
             this.personDetail.MoreMessageBGClient = StaticMethods.LoadRectangleFromXMLNode(node);
             this.personDetail.MoreMessageBGSize.X = int.Parse(node.Attributes.GetNamedItem("Width").Value);

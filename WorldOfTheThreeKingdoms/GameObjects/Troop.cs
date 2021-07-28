@@ -978,22 +978,23 @@ namespace GameObjects
         {
             if (Setting.Current.GlobalVariables.TroopVoice)
             {
-                if (Directory.Exists("Content/Sound/Animation/Person/" + this.Leader.ID))
-                {
-                    string[] files = Directory.GetFiles("Content/Sound/Animation/Person/" + this.Leader.ID, a.Name + "*.wav");
-                    if (files.Count() > 0)
-                    {
-                        return "Content/Sound/Animation/Person/" + this.Leader.ID + "/" + a.Name + GameObject.Random(1, files.Count()) + ".wav";
-                    }
-                    else
-                    {
-                        return this.Leader.Sex ? "Content/Sound/Animation/Female/" + a.Name : "Content/Sound/Animation/Male/" + a.Name;
-                    }
-                }
-                else
-                {
-                    return this.Leader.Sex ? "Content/Sound/Animation/Female/" + a.Name : "Content/Sound/Animation/Male/" + a.Name;
-                }
+                return Platform.Current.GetPersonVioce(this.Leader, a.Name);
+                //if (Directory.Exists("Content/Sound/Animation/Person/" + this.Leader.ID))
+                //{
+                //    string[] files = Directory.GetFiles("Content/Sound/Animation/Person/" + this.Leader.ID, a.Name + "*.wav");
+                //    if (files.Count() > 0)
+                //    {
+                //        return "Content/Sound/Animation/Person/" + this.Leader.ID + "/" + a.Name + GameObject.Random(1, files.Count()) + ".wav";
+                //    }
+                //    else
+                //    {
+                //        return this.Leader.Sex ? "Content/Sound/Animation/Female/" + a.Name : "Content/Sound/Animation/Male/" + a.Name;
+                //    }
+                //}
+                //else
+                //{
+                //    return this.Leader.Sex ? "Content/Sound/Animation/Female/" + a.Name : "Content/Sound/Animation/Male/" + a.Name;
+                //}
             }
             else
             {
@@ -7939,7 +7940,7 @@ namespace GameObjects
             if ((this.CurrentStunt != null) && (this.StuntDayLeft > 0))
             {
             }
-            if (this.AutoCombatMethodID != -1)
+            if (this.AutoCombatMethodID >0)
             {
                 this.CurrentStratagem = null;
                 this.CurrentCombatMethod = Session.Current.Scenario.GameCommonData.AllCombatMethods.GetCombatMethod(this.AutoCombatMethodID);
