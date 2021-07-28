@@ -477,6 +477,98 @@ namespace GameManager
                 }
             }
         }
+        public static void DrawPic(Person person, Rectangle pos, Color color, bool isUser = false, bool isTemp = true, TextureShape shape = TextureShape.None, float[] shapeParams = null, float depth = 0f, string type="", bool IsPic=true)
+        {
+            int m = 0;
+            if (type == "m" || type == "t")           {               m = 1;            }
+            else if (type == "e")           {               m = 3;            }
+            else if (type == "L")            {                m = 2;            }
+            type = (type == "s") ? "s" : "";
+            string name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{person.PictureIndexString}{type}.jpg";
+            if (person.PictureIndex> Convert.ToInt32(person.PictureIndex))
+            {
+                string pictureIndex2 = string.Format("{0:N2}", person.PictureIndex);
+                pictureIndex2 = (pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0');
+                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex2}{type}.jpg";
+                name = name.Replace("Default", "Default/" + Convert.ToInt32(person.PictureIndex));
+            }
+            else if(m!=2)
+            {
+                person.PictureIndexString = person.PictureIndex.ToString();
+                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{Convert.ToInt32(person.PictureIndex)}{type}.jpg";
+            }
+            if (person.PictureIndexModString != null)
+            {
+                name = name.Replace("Content", "MODs/" + person.PictureIndexModString);
+            }
+            if (m == 2 && person.BGkind == 1)
+            {
+                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/BG/{Convert.ToInt32(person.PictureIndex)}.jpg";
+            }
+            if (!String.IsNullOrEmpty(name))
+            {
+                Texture2D pic = LoadAvatar(name, isUser, isTemp, shape, shapeParams);
+               
+                if (m == 2)
+                {
+                    
+                    //if (pic.Height > 240 && pic.Height<= 640)
+                    //{
+                    //  pos.Height = pic.Height;
+                    //  pos.Width = pic.Width;
+                    //}
+                    //else if ( pic.Height > 640)
+                    //{
+                    pos.Height = 640;
+                    //if (pic.Height > pic.Width)
+                    //{
+                    // pos.Height = (pos.Width * pic.Height) / pic.Width;
+                    //}
+                    //if (pic.Height < pic.Width)
+                    //{
+                    pos.Width = (pos.Height * pic.Width) / pic.Height;
+                    //}
+                    //}                          
+                }
+                else if (m == 3)
+                {
+                    if (pic.Height > 640)
+                    {
+                        pos.Height = 640;
+                        pos.Width = (pos.Height * pic.Width) / pic.Height;
+                    }
+                    else
+                    {
+                        pos.Height = pic.Height;
+                        pos.Width = pic.Width;
+                    }
+                }
+                else if (m == 1 && pic.Height != pic.Width)
+                {
+
+                    if (pic.Height > pic.Width + 80)
+                    {
+                        //pos.Y = 16;
+                        pos.Height = (pos.Width * pic.Height) / pic.Width;
+                        pos.Y = pos.Y + pos.Width - pos.Height;
+                    }
+                    if (pic.Height < pic.Width)
+                    {
+                        pos.Width = (pos.Height * pic.Width) / pic.Height;
+                        pos.X = pos.X + pos.Height - pos.Width;
+                    }
+                    depth = 0.198f;
+                }
+                if (pic != null && !pic.IsDisposed)
+                {
+                    if (Scale != Vector2.One)
+                    {
+                        pos = new Rectangle(Convert.ToInt16(pos.X * Scale.X), Convert.ToInt16(pos.Y * Scale.Y), Convert.ToInt16(pos.Width * Scale.X), Convert.ToInt16(pos.Height * Scale.Y));
+                    }
+                    Session.Current.SpriteBatch.Draw(pic, pos, null, color, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                }
+            }
+        }
 
         public static void DrawAvatar(string name, Vector2 pos, Color color, Vector2 scale, Rectangle? source = null, bool isUser = false, bool isTemp = true)
         {
@@ -504,139 +596,117 @@ namespace GameManager
             //{
             //    pictureID += 0.2f;
             //}
-            DrawZhsanAvatar(person,pictureID, person.FallbackPictureIndex, type, pos, color, depth);
+            //if(type=="L" && !person.hasBG) { DrawZhsanAvatar(person, pictureID, person.FallbackPictureIndex, type, pos, color, depth); }
+            if (person.PictureIndexString!= null || (type == "L" && person.BGkind > 0))
+            {               
+                DrawPic(person, pos, Color.White, false, true, TextureShape.None, null, depth, type, true);
+                if (type == "L" && person.BGkind == 0) { DrawZhsanAvatar(person, pictureID, person.FallbackPictureIndex, type, pos, color, depth); }
+            }
+            else
+            {
+                DrawZhsanAvatar(person, pictureID, person.FallbackPictureIndex, type, pos, color, depth);
+            }
+            
         }
 
         public static void DrawZhsanAvatar(Person person,float pictureIndex, int fallbackIndex, string type, Rectangle pos, Color color, float depth)
         {
+
+            string id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex}{type}.jpg";
             int m = 0;
-            string id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Player/{0}{1}.jpg", pictureIndex, type);
-            if (type == "m" || type == "t")
+            if (type == "m" || type == "t")//e头像放大，m头像适应比例，t事件头像
             {
-                m = 1;
+                //m = 1;
                 type = "";
+                id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex}{type}.jpg";
             }
             else if(type == "e")
             {
-                m = 3;
+                //m = 3;
                 type = "";
+                id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex}{type}.jpg";
             }
             else if(type == "L")
             {
-                m = 2;
-                type = "";
-                id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/BG/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
-            }
-            if (Platform.Current.FileExists(id)&&m==2)
-            {
-
-            }
-            else if (!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
-            {
-                id = id.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
-            }
-
-            if (Platform.Current.FileExists(id))
-            {
-
-            }
-            else
-            {
-                id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", pictureIndex, type);
-               
-                if (!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
-                {
-                    id = id.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
-                }
-
+                //m = 2;             
+                id = $@"Content/Textures/GameComponents/PersonPortrait/Images/BG/{Convert.ToInt32(pictureIndex)}.jpg";
                 if (Platform.Current.FileExists(id))
                 {
-
+                    person.BGkind = 1;
+                    DrawPic(person, pos, Color.White, false, true, TextureShape.None, null, depth, type, true);
+                    return;
+                }
+                if (person.PictureIndexString != null)
+                {
+                    person.BGkind = 2;
+                    Texture2D pic = LoadAvatar(id, false, true, TextureShape.None, null);
+                    //pos.Height = 640;
+                    //pos.Width = (pos.Height * pic.Width) / pic.Height;
+                    Session.Current.SpriteBatch.Draw(pic, pos, null, color, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                }
+               return;
+            }
+            //id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex}{type}.jpg";
+            if (pictureIndex > Convert.ToInt32(pictureIndex))//切换头像用
+            {
+                string pictureIndex2 = string.Format("{0:N2}", pictureIndex);
+                pictureIndex2 = (pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0');
+                id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex2}{type}.jpg";
+                //string pictureIndex2 = String.Format("{0:N2}", (pictureIndex * 100 + 1) / 100);
+                //pictureIndex2 =" ("+(pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0')+")";
+                //id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}{2}.jpg", Convert.ToInt32(pictureIndex), type, pictureIndex2);
+                id = id.Replace("Default", "Default/" + Convert.ToInt32(pictureIndex));
+                if (Platform.Current.FileExists(id))
+                {
+                    
                 }
                 else
                 {
-                    id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", pictureIndex, type);
-                    if ( pictureIndex > Convert.ToInt32(pictureIndex))//切换头像用
-                    {
-                        string pictureIndex2 = String.Format("{0:N2}", pictureIndex);
-                        pictureIndex2 = (pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0') ;
-                        id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", pictureIndex2, type);
-                        //string pictureIndex2 = String.Format("{0:N2}", (pictureIndex * 100 + 1) / 100);
-                        //pictureIndex2 =" ("+(pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0')+")";
-                        //id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}{2}.jpg", Convert.ToInt32(pictureIndex), type, pictureIndex2);
-                        id = id.Replace("Default", "Default/" + Convert.ToInt32(pictureIndex));
-                        if (Platform.Current.FileExists(id))
-                        {
+                    person.PictureIndex = (pictureIndex * 100 - 1) / 100;
+                    //id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
+                }
 
-                        }
-                        else
-                        {
-                            person.PictureIndex = (pictureIndex*100-1)/100;
-                            id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
-                        }
-                    }
+                person.PictureIndexString = pictureIndex.ToString();
+            }
+         
+            else if (!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
+            {
+                id = id.Replace("Content", "MODs/" + Setting.Current.MODRuntime);
+                if (Platform.Current.FileExists(id))
+                {
+                    person.PictureIndexString = pictureIndex.ToString();
+                    person.PictureIndexModString = Setting.Current.MODRuntime;
+                } 
+            
+                else
+                {
+                    id = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex}{type}.jpg";                  
                     if (Platform.Current.FileExists(id))
                     {
-
+                        person.PictureIndexString = pictureIndex.ToString();
                     }
                     else
-                    {
-                        id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", fallbackIndex, type);
+                    {                       
+                        //id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", fallbackIndex, type);
+                        person.PictureIndexString = fallbackIndex.ToString();
                     }
                 }
             }
-                      
-            //System.Drawing.Image pic = System.Drawing.Image.FromFile(id);
-            Texture2D pic = LoadTexture(id);            
-            if (m==2)
-            {                  
-                //if (pic.Height > 240 && pic.Height<= 640)
-                //{
-                //  pos.Height = pic.Height;
-                //  pos.Width = pic.Width;
-                //}
-                //else if ( pic.Height > 640)
-                //{
-               pos.Height = 640;
-                   //if (pic.Height > pic.Width)
-                   //{
-                   // pos.Height = (pos.Width * pic.Height) / pic.Width;
-                   //}
-                   //if (pic.Height < pic.Width)
-                   //{
-                pos.Width = (pos.Height * pic.Width) / pic.Height;
-                   //}
-                //}                          
-            }
-            else if(m==3)
+            else if (Platform.Current.FileExists(id))
             {
-                if (pic.Height > 640)
-                {
-                    pos.Height = 640;
-                    pos.Width = (pos.Height * pic.Width) / pic.Height;
-                }
-                else {
-                      pos.Height = pic.Height;
-                      pos.Width = pic.Width;
-                }
+                person.PictureIndexString = pictureIndex.ToString();
             }
-            else if(m == 1 && pic.Height != pic.Width)
-            {
+            else
+            {              
+                person.PictureIndexString = fallbackIndex.ToString();
+            }
+            //Texture2D pic = LoadTexture(id);            
 
-                if (pic.Height > pic.Width + 80)
-                {
-                    //pos.Y = 16;
-                    pos.Height = (pos.Width * pic.Height) / pic.Width;
-                    pos.Y = pos.Y + pos.Width - pos.Height;
-                }
-                if (pic.Height < pic.Width)
-                {                  
-                    pos.Width = (pos.Height * pic.Width) / pic.Height;
-                    pos.X = pos.X + pos.Height - pos.Width;
-                }
-                depth = 0.198f;          
-            }
-            DrawAvatar(id, pos, Color.White, false, true, TextureShape.None, null, depth);
+            //DrawAvatar(id, pos, Color.White, false, true, TextureShape.None, null, depth);
+
+            DrawPic(person, pos, Color.White, false, true, TextureShape.None, null, depth, type, true);
+            
+            
         }
 
         public static void DrawShape(string name, TextureShape shape, float[] shapeParms, Vector2 pos, Color color, Vector2 scale, Rectangle? source = null, bool isTemp = true)
@@ -704,7 +774,24 @@ namespace GameManager
                 TextManager.DrawTexts(text, FontPair, pos, color, 0, scale, layerDepth);
             }
         }
-        
+        public static void DrawTreasure(Treasure treasure, Rectangle rec, Rectangle? source, Color color, float rotation, Vector2 origin, SpriteEffects effect, float depth)
+        {
+            if (Platform.Current.FileExists(treasure.Picture.Name.ToString()))
+            {              
+                 CacheManager.Draw(treasure.Picture, rec, source, color, rotation, origin, effect, depth);               
+            }
+            else 
+            {
+                try 
+                {                   
+                    CacheManager.Draw("Content/Textures/Resources/Treasure/9999.png", rec, source, color, rotation, origin, effect, depth);
+                }
+                catch
+                {
+                }
+            }
+        }
+
         /// <summary>
         /// 画文字并返回文字范围的矩形列表（支持多行文字）
         /// </summary>
