@@ -478,6 +478,7 @@ namespace Platforms
                             MediaPlayer.Play(getrandomsong());
                         }
                     }
+                    //Session.Current.MusicContent.Load<Song>(res);
                     MediaPlayer.Play(getrandomsong());
                 }
             }
@@ -661,7 +662,10 @@ namespace Platforms
                     
                 }
             }
-
+            if (Platform.PlatFormType == PlatFormType.Android)
+            {
+                files = files.Select(fi => dir + "" + fi).NullToEmptyArray();//20210525加入安卓判定去掉中间斜杠
+            }
             return files;
         }
 
@@ -692,7 +696,50 @@ namespace Platforms
 
             return dirs;
         }
+        public string GetPersonVioce(GameObjects.Person p, string a)
+        {
+            string ThePersonSound = "";
+            if (!Setting.Current.GlobalVariables.TroopVoice && a.Length > 0)
+            {
+                return ThePersonSound;
+            }
+            if (DirectoryExists(@"Content/Sound/Animation/Person/" + p.ID.ToString()) )
+            {
+                //string[] files = Directory.GetFiles("Content/Sound/Animation/Person/" + p.ID.ToString(), "CriticalStrike" + "*.wav");
+                string[] files = GetMODFiles("Content/Sound/Animation/Person/" + p.ID.ToString() + "/",false);
+                if (a.Length > 0)
+                {
+                    files = files.NullToEmptyArray().Select(en => en.Contains(a) ? en : "").NullToEmptyArray();
+                }
+                if (files.Count() > 0)
+                {
+                    //ThePersonSound = "Content/Sound/Animation/Person/" + p.ID.ToString() + "/" + "CriticalStrike" + GameObjects.GameObject.Random(1, files.Count()) + ".wav";
+                    ThePersonSound = files[GameObjects.GameObject.Random(0, files.Count()-1)];
+                }
+            }
+            else if (DirectoryExists(@"Content/Sound/Animation/Person/" + ((int)p.PictureIndex).ToString()))
+            {
+                string[] files = GetMODFiles("Content/Sound/Animation/Person/" + ((int)p.PictureIndex).ToString() + "/", false);
+                if (a.Length > 0)
+                {
+                    files = files.NullToEmptyArray().Select(en => en.Contains(a) ? en : "").NullToEmptyArray();
+                }
+                if (files.Count() > 0)
+                {
+                    ThePersonSound = files[GameObjects.GameObject.Random(0, files.Count() - 1)];
+                }
+            }
+            else if (p.Sex == true && FileExists(@"Content/Sound/Female.wav") && a.Length < 1)
+            {
+                ThePersonSound = "Content/Sound/Female.wav";
+            }
+            else
+            {
+                return p.Sex ? "Content/Sound/Animation/Female/" + a : "Content/Sound/Animation/Male/" + a;
+            }
+            return ThePersonSound;
 
+        }
         protected string UserApplicationDataPath
         {
             get
