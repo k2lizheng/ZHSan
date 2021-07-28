@@ -125,10 +125,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                         if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(architecture.Position)&&(Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || Session.Current.Scenario.CurrentPlayer.IsArchitectureKnown(architecture))
                         {
-                            if (!architecture.IncrementNumberList.IsEmpty)
-                            {
-                                architecture.IncrementNumberList.Draw(Session.Current.Scenario.GameCommonData.NumberGenerator, new GetDisplayRectangle(Session.MainGame.mainGameScreen.mainMapLayer.GetDestination), Session.MainGame.mainGameScreen.mainMapLayer.TileWidth, gameTime);
-                            }
+                            //if (!architecture.IncrementNumberList.IsEmpty)
+                            //{
+                            //    architecture.IncrementNumberList.Draw(Session.Current.Scenario.GameCommonData.NumberGenerator, new GetDisplayRectangle(Session.MainGame.mainGameScreen.mainMapLayer.GetDestination), Session.MainGame.mainGameScreen.mainMapLayer.TileWidth, gameTime);
+                            //}
                             if (!architecture.DecrementNumberList.IsEmpty)
                             {
                                 architecture.DecrementNumberList.Draw(Session.Current.Scenario.GameCommonData.NumberGenerator, new GetDisplayRectangle(Session.MainGame.mainGameScreen.mainMapLayer.GetDestination), Session.MainGame.mainGameScreen.mainMapLayer.TileWidth, gameTime);
@@ -138,13 +138,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                         }
                         else
                         {
-                            architecture.IncrementNumberList.Clear();
+                            //architecture.IncrementNumberList.Clear();
                             architecture.DecrementNumberList.Clear();
                         }
                     }
                     else
                     {
-                        architecture.IncrementNumberList.Clear();
+                        //architecture.IncrementNumberList.Clear();
                         architecture.DecrementNumberList.Clear();
                     }
                 }
