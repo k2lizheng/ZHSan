@@ -393,7 +393,7 @@
             {
                 for (int num = 0; num < this.TreasureGroup.Count; num++)
                 {
-                    if (StaticMethods.PointInRectangle(position, this.TreasuresClientDisplayPosition(this.TreasureGroup[num])))
+                    if (this.ShowingPerson.BelongedFaction != null && StaticMethods.PointInRectangle(position, this.TreasuresClientDisplayPosition(this.TreasureGroup[num])))
                     {
                        
                         this.CurrentTreasureGID = (TreasureGroup[num]);
@@ -420,7 +420,7 @@
                 if (num2 > -1)
                 {
                     int num3 = num2;
-                    if (this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID).Count > num3)
+                    if (this.ShowingPerson.BelongedFaction != null && this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID).Count > num3)
                     {
                         Treasure treasure = this.ShowingPerson.BelongedFaction.Leader.TreasureListforGroup(CurrentTreasureGID)[num3] as Treasure;
                         foreach (Treasure t in this.ShowingPerson.TreasureListforGroup(CurrentTreasureGID))
@@ -1101,6 +1101,13 @@
            
             }
             IDN = person;
+            if (!Session.LargeContextMenu) {
+                ThePersonSound = Platform.Current.GetPersonVioce(IDN, "");
+                if (this.ThePersonSound.Length > 0 && Switch3 == "on")
+                {
+                    this.screen.PlayNormalSound(this.ThePersonSound);
+                }
+            }
 
         }
 

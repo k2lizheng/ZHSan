@@ -492,10 +492,10 @@ namespace GameManager
                 name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{pictureIndex2}{type}.jpg";
                 name = name.Replace("Default", "Default/" + Convert.ToInt32(person.PictureIndex));
             }
-            else if(m!=2)
+            else if(m != 2 && type != "")
             {
                 person.PictureIndexString = person.PictureIndex.ToString();
-                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{Convert.ToInt32(person.PictureIndex)}{type}.jpg";
+                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{Convert.ToInt32(person.PictureIndexString)}{type}.jpg";
             }
             if (person.PictureIndexModString != null)
             {
@@ -508,6 +508,9 @@ namespace GameManager
             if (!String.IsNullOrEmpty(name))
             {
                 Texture2D pic = LoadAvatar(name, isUser, isTemp, shape, shapeParams);
+                if(pic != null)
+                {
+
                
                 if (m == 2)
                 {
@@ -566,6 +569,7 @@ namespace GameManager
                         pos = new Rectangle(Convert.ToInt16(pos.X * Scale.X), Convert.ToInt16(pos.Y * Scale.Y), Convert.ToInt16(pos.Width * Scale.X), Convert.ToInt16(pos.Height * Scale.Y));
                     }
                     Session.Current.SpriteBatch.Draw(pic, pos, null, color, 0f, Vector2.Zero, SpriteEffects.None, depth);
+                } 
                 }
             }
         }
