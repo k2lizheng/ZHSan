@@ -267,6 +267,7 @@
             if ((this.Switch_MoreMessage == "off") && StaticMethods.PointInRectangle(position, this.MoreMessageBGDisplayPosition))
             {
                 this.ShowingPerson.PictureIndex = Convert.ToInt32(this.ShowingPerson.PictureIndex);
+                this.ShowingPerson.PictureIndexString = null;
                 this.MoreMessageText.Clear();
                 this.MoreMessageText.AddText("兵科经验", this.MoreMessageText.TitleColor);
                 this.MoreMessageText.AddNewLine();

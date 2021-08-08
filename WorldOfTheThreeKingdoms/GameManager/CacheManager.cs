@@ -666,7 +666,7 @@ namespace GameManager
                 }
                 else
                 {
-                    person.PictureIndex = (pictureIndex * 100 - 1) / 100;
+                    person.PictureIndex = pictureIndex = (pictureIndex * 100 - 1) / 100;
                     //id = String.Format(@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{0}{1}.jpg", Convert.ToInt32(pictureIndex), type);
                 }
 
