@@ -124,7 +124,7 @@ namespace GameManager
                 if (!String.IsNullOrEmpty(value) && value.Contains("*"))
                 {
                     if (Setting.Current != null)
-                    {
+                    {                       
                         Setting.Current.Resolution = value;
                     }
                 }
@@ -336,22 +336,22 @@ namespace GameManager
                 }
             }).Start();
 
-            //if (String.IsNullOrEmpty(Setting.Current.Difficulty))
-            //{
-            //    if (String.IsNullOrEmpty(Session.GlobalVariables.GameDifficulty))
-            //    {
-            //        Setting.Current.Difficulty = Difficulty.beginner.ToString();
-            //    }
-            //    else
-            //    {
-            //        Setting.Current.Difficulty = Session.GlobalVariables.GameDifficulty;
-            //    }
-            //}
+            if (String.IsNullOrEmpty(Setting.Current.Difficulty))
+            {
+                if (String.IsNullOrEmpty(Session.GlobalVariables.GameDifficulty))
+                {
+                    Setting.Current.Difficulty = Difficulty.beginner.ToString();
+                }
+                else
+                {
+                    Setting.Current.Difficulty = Session.GlobalVariables.GameDifficulty;
+                }
+            }
 
-            //if (String.IsNullOrEmpty(Setting.Current.BattleSpeed))
-            //{
-            //    Setting.Current.BattleSpeed = Setting.Current.GlobalVariables.FastBattleSpeed.ToString();
-            //}
+            if (String.IsNullOrEmpty(Setting.Current.BattleSpeed))
+            {
+                Setting.Current.BattleSpeed = Setting.Current.GlobalVariables.FastBattleSpeed.ToString();
+            }
 
             Session.LoadFont(Setting.Current.Language);
 
@@ -463,7 +463,7 @@ namespace GameManager
             else if (Platform.PlatFormType == PlatFormType.Android || Platform.PlatFormType == PlatFormType.iOS || Platform.PlatFormType == PlatFormType.UWP)
             {
                 //Platform.Current.PreparePhone();
-
+                LargeContextMenu = true;
                 width = Session.MainGame.fullScreenDestination.Width;  // int.Parse(Platform.PreferResolution.Split('*')[0]);
                 height = Session.MainGame.fullScreenDestination.Height;  // int.Parse(Platform.PreferResolution.Split('*')[1]);
             }
@@ -473,8 +473,18 @@ namespace GameManager
             {
                 if (slope >= 1.5)
                 {
-                    Session.Resolution = "1000*620";  //"925*520";
-                                                      //LargeContextMenu = true;
+                    int height2 = int.Parse(Session.Resolution.Split('*')[1]);
+                    Session.Resolution = (int)width * height2 / height + "*" + height2;
+                    //Session.Resolution = "1000*620";  //"925*520";
+                    //Session.Resolution = width/2+"*"+ height/2;       //LargeContextMenu = true;
+                    if (height2 < 600 && height2 > 580)
+                    {
+                        Session.Resolution = "1000*620";
+                    }
+                    else if(height2 <= 580)
+                    {
+                        Session.Resolution = "1000*660";
+                    }
                 }
                 else
                 {
@@ -600,7 +610,22 @@ namespace GameManager
         public static void PlayMusic(string category)
         {
             string[] songs = null;
-            songs = Platform.Current.GetMODFiles(@"Content\Music\" + category, true).NullToEmptyArray();
+            if(Platform.PlatFormType == PlatFormType.Android) 
+            {
+                if(!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
+                {
+                    songs = Platform.Current.GetDirectoriesBasic(@"MODs/" + Setting.Current.MOD.ToString() + "/Music/" + category, true, true);                   
+                }
+                if(songs == null)
+                {
+                    songs = Platform.Current.GetDirectoriesBasic(@"Content\Music\" + category, true, true);
+                }
+            }
+            else
+            {
+                songs = Platform.Current.GetMODFiles(@"Content\Music\" + category, true).NullToEmptyArray();
+            }
+            
 
             Platform.Current.PlaySong(songs);
             //if (songs.Length > 0)

@@ -118,13 +118,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         Scenario CurrentScenario = null;
 
         List<Scenario> ScenarioSaveList = new List<Scenario>();
-
         List<CheckBox> btScenarioSelectList = new List<CheckBox>();
-        List<CheckBox> btScenarioSelectListPaged = new List<CheckBox>();
+        List<CheckBox> btScenarioSelectListPaged = new List<CheckBox>();            
 
         Frame frame_PlayersList = null;
-        List<CheckBox> btScenarioPlayersList = new List<CheckBox>();
-        List<CheckBox> btScenarioPlayersListPaged = new List<CheckBox>();
+        List<ButtonTexture> btScenarioPlayersList = new List<ButtonTexture>(); //List<CheckBox> btScenarioPlayersList = new List<CheckBox>();
+        List<ButtonTexture> btScenarioPlayersListPaged = new List<ButtonTexture>();//List<CheckBox> btScenarioPlayersListPaged = new List<CheckBox>();              
 
         List<ButtonTexture> btDantiaoPlayersList = new List<ButtonTexture>();
         List<ButtonTexture> btDantiaoPlayersListPaged = new List<ButtonTexture>();
@@ -134,13 +133,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         string[] hards1 = new string[] { "beginner", "easy", "normal", "hard", "veryhard", "custom" };
         string[] hards2 = new string[] { "入门", "初级", "上级", "超级", "修罗", "自订" };
 
-        string[] AvaliableResolutions = new string[] { "1024*768", "1280*720", "1368*768", "1440*900", "1920*1080" };
-
+        string[] AvaliableResolutions = new string[] { "1024*768", "1280*720", "1368*768", "1440*900", "1920*1080" };      
         //private bool doNotSetDifficultyToCustom = false;
 
         NumericSetTextureF nstMusic, nstSound;
 
-        NumericSetTextureF nstArmySpeed, nstDialogTime, nstBattleSpeed, nstAutoSaveTime, nstShowNumberAddTime, nstSpeedUp;
+        NumericSetTextureF nstArmySpeed, nstDialogTime, nstBattleSpeed, nstAutoSaveTime, nstShowNumberAddTime, nstSpeedUp, nstMobileResolutions;
 
         NumericSetTextureF nstViewDetail, nstGeneralBattleDead, nstGeneralYun, nstFeiZiYun, nstZhaoXian, nstSearchGen, nstZaiNan, nstDayInTurn;
 
@@ -217,7 +215,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 if (Platform.Current.DirectoryExists("MODs"))
                 {
-                    dires = Platform.Current.GetDirectories("MODs", false, false).NullToEmptyList();
+                    //dires = Platform.Current.GetDirectories("MODs", false, false).NullToEmptyList();
+                   //var dirsBasic = Platform.Current.GetDirectoriesBasic("MODs", false, false).NullToEmptyArray();
+
+                    var dirsExpan = Platform.Current.GetDirectoriesExpan("MODs", false, false).NullToEmptyArray();
+
+                    dires = dirsExpan.NullToEmptyList();
                 }
             }
             else
@@ -2167,7 +2170,16 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 NowNumber = 1,
                 Unit = 1
             };
-
+            //if (Platform.IsMobilePlatForm) 
+            //{ 
+                nstMobileResolutions = new NumericSetTextureF(580, 660, 670, null, new Vector2(420, 280), true)
+                {
+                IntMode = true,
+                DisNumber = false,
+                NowNumber = int.Parse(Setting.Current.Resolution.Split('*')[1]),
+                Unit = 10
+                };
+            //}
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(165, heightBase + height * 4.5f))
             {
                 ID = "AutoSave"
@@ -2201,7 +2213,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 MaxLength = 5,
                 Position = new Vector2(150, 120 + 60 * 2)
             };
-            tbBattleSpeed.Text = Setting.Current.GlobalVariables.FastBattleSpeed.ToString();
+            tbBattleSpeed.Text = Setting.Current.BattleSpeed;
             tbBattleSpeed.OnTextBoxSelected += (sender, e) =>
             {
                 UnCheckTextBoxs();
@@ -2465,8 +2477,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             pageIndex = pageIndex1 = 1;
 
             btScenarioSelectList = new List<CheckBox>();
-
-            btScenarioPlayersList = new List<CheckBox>();
+            //btScenarioPlayersList = new List<CheckBox>();            
+            btScenarioPlayersList = new List<ButtonTexture>();
             CurrentScenario = null;
             ScenarioList = SimpleSerializer.DeserializeJsonFile<List<Scenario>>(file, false, false, false);
             //var str = SimpleSerializer.SerializeJson(ScenarioList, false, true, true);
@@ -2511,12 +2523,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                             var factions = scenario.Factions;
 
-                            btScenarioPlayersList = new List<CheckBox>();
-                            
+                            btScenarioPlayersList = new List<ButtonTexture>();
+
                             for (int i = 0; i < factions.Count; i++)
                             {
                                 var id0 = factions[i];
-                                var btPlayer = new CheckBox(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", "", null)
+                                var btPlayer = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", null)
                                 {
                                     ID = id0.Name,
                                     bounds = new List<FontStashSharp.Bounds>()
@@ -2524,7 +2536,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 };
                                 btPlayer.OnButtonPress += (sender0, e0) =>
                                 {
-                                    var btP = (CheckBox)sender0;
+                                    var btP = (ButtonTexture)sender0;
                                     var id1 = btP.ID;
                                     
                                     faction = scenario.Factions.GameObjects.FirstOrDefault(fi => fi.Name == id1) as Faction;
@@ -2575,45 +2587,54 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     {
                         var iDs = CurrentScenario.IDs.Split(',').NullToEmptyList();
                         var names = CurrentScenario.Names.Split(',').NullToEmptyList();
-                        frame_PlayersList = new Frame(new Vector2(0, 151), new Rectangle(0, 0, 1030, 410), null, 1f, FrameScrollbarType.Vertical);
-                        frame_PlayersList.FixedBackground = false;
-                        frame_PlayersList.CanvasRightPadding = 1030;
+                        //frame_PlayersList = new Frame(new Vector2(0, 151), new Rectangle(0, 0, 1030, 410), null, 1f, FrameScrollbarType.Vertical);
+                        //frame_PlayersList.FixedBackground = false;
+                        //frame_PlayersList.CanvasRightPadding = 1030;
+                        btScenarioPlayersList = new List<ButtonTexture>();
                         for (int i = 0; i < iDs.Count; i++)
                         {
                             var id0 = iDs[i];
-                            var contentCheckBox = new CheckBox(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", "", new Vector2(480, 24*i), frame_PlayersList) { ViewTextColor = Color.White,
+                            //var contentCheckBox = new CheckBox(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", "", new Vector2(480, 24*i), frame_PlayersList) { ViewTextColor = Color.White,
+                            //    ID = id0
+                            //};
+                            var btPlayer = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", null)
+                            {
                                 ID = id0
                             };
-
-                            contentCheckBox.OnButtonPress += (sender1, e1) =>
+                            btPlayer.OnButtonPress += (sender0, e0) =>
                             {
-                                var bt = (CheckBox)sender1;
-                                bt.Selected = !bt.Selected;
+                                var btP = (ButtonTexture)sender0;
+                                btP.Selected = !btP.Selected;
                             };
-                            btScenarioPlayersList.Add(contentCheckBox);
-                            var Name = CurrentScenario.Names.Split(',').NullToEmptyArray()[i].WordsSubString2(4);
-                            var leader = CurrentScenario.LeaderNames.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
-                            var Reputation = CurrentScenario.Reputations.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
-                            var ArchitectureCount = CurrentScenario.ArchitectureCounts.Split(',').NullToEmptyArray()[i].WordsSubString2(2);
-                            var CapitalName = CurrentScenario.CapitalNames.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
-                            var Population = CurrentScenario.Populations.Split(',').NullToEmptyArray()[i].WordsSubString2(8);
-                            var MilitaryCount = CurrentScenario.MilitaryCounts.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
-                            var Fund = CurrentScenario.Funds.Split(',').NullToEmptyArray()[i].WordsSubString2(8);
-                            var Food = CurrentScenario.Foods.Split(',').NullToEmptyArray()[i];
+                            //contentCheckBox.OnButtonPress += (sender1, e1) =>
+                            //{
+                            //    var bt = (CheckBox)sender1;
+                            //    bt.Selected = !bt.Selected;
+                            //};
+                            btScenarioPlayersList.Add(btPlayer);//btScenarioPlayersList.Add(contentCheckBox);
+                            //var Name = CurrentScenario.Names.Split(',').NullToEmptyArray()[i].WordsSubString2(4);
+                            //var leader = CurrentScenario.LeaderNames.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
+                            //var Reputation = CurrentScenario.Reputations.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
+                            //var ArchitectureCount = CurrentScenario.ArchitectureCounts.Split(',').NullToEmptyArray()[i].WordsSubString2(2);
+                            //var CapitalName = CurrentScenario.CapitalNames.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
+                            //var Population = CurrentScenario.Populations.Split(',').NullToEmptyArray()[i].WordsSubString2(8);
+                            //var MilitaryCount = CurrentScenario.MilitaryCounts.Split(',').NullToEmptyArray()[i].WordsSubString2(3);
+                            //var Fund = CurrentScenario.Funds.Split(',').NullToEmptyArray()[i].WordsSubString2(8);
+                            //var Food = CurrentScenario.Foods.Split(',').NullToEmptyArray()[i];
                             //var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[i];
-                            contentCheckBox.Scale = 0.65f;
-                            contentCheckBox.ViewTextScale = 1f;
-                            contentCheckBox.offsetText = new Vector2(-10,0);
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(0, 0), Name));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(70, 0), leader));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(130, 0), Reputation));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(175, 0), ArchitectureCount));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(205, 0), CapitalName));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(250, 0), Population));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(340, 0), MilitaryCount));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(385, 0), Fund));
-                            contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(450, 0), Food));
-                            frame_PlayersList.AddContentContorl(contentCheckBox);
+                            //contentCheckBox.Scale = 0.65f;
+                            //contentCheckBox.ViewTextScale = 1f;
+                            //contentCheckBox.offsetText = new Vector2(-10,0);
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(0, 0), Name));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(70, 0), leader));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(130, 0), Reputation));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(175, 0), ArchitectureCount));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(205, 0), CapitalName));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(250, 0), Population));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(340, 0), MilitaryCount));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(385, 0), Fund));
+                            //contentCheckBox.AlignTexts.Add(new AlignText(new Vector2(450, 0), Food));
+                            //frame_PlayersList.AddContentContorl(contentCheckBox);
                         }
 
                         pageIndex1 = 1;
@@ -2723,7 +2744,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "beginner";
 
                     this.nstDianNaoShengTao.NowNumber = 0;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2773,7 +2793,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "easy";
 
                     this.nstDianNaoShengTao.NowNumber = 0;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2822,7 +2841,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-                    Session.globalVariablesTemp.GameDifficulty = "normal";
 
                     this.nstDianNaoShengTao.NowNumber = 0f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2874,7 +2892,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-                    Session.globalVariablesTemp.GameDifficulty = "hard";
 
                     this.nstDianNaoShengTao.NowNumber = 10f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2926,7 +2943,6 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-                    Session.globalVariablesTemp.GameDifficulty = "veryhard";
 
                     this.nstDianNaoShengTao.NowNumber = 10f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
@@ -2972,7 +2988,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             btScenarioSelectList = new List<CheckBox>();
 
-            btScenarioPlayersList = new List<CheckBox>();
+            btScenarioPlayersList = new List<ButtonTexture>(); //btScenarioPlayersList = new List<CheckBox>();
 
             ScenarioList = GameScenario.LoadScenarioSaves();
 
@@ -3480,16 +3496,18 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 if (selectfaction == true)
                 {
                     btScenarioList.ForEach(bt => bt.Update());
+                    btPre1.Position = new Vector2(518, 515);
+                    btNext1.Position = new Vector2(770, 515);
+                    btPre1.Visible = btNext1.Visible = true;
 
-                   
                     if (dantiao)
                     {
-                        btPre1.Position = new Vector2(518, 515);
-                        btNext1.Position = new Vector2(770, 515);
-                        btPre1.Visible = btNext1.Visible = true;
+                        //btPre1.Position = new Vector2(518, 515);
+                        //btNext1.Position = new Vector2(770, 515);
+                        //btPre1.Visible = btNext1.Visible = true;
                         if (faction == null)
                         {
-                            btScenarioPlayersListPaged = GenericTools.GetPageList<CheckBox>(btScenarioPlayersList, pageIndex1.ToString(), 15, ref pageCount1, ref page1);
+                            btScenarioPlayersListPaged = GenericTools.GetPageList<ButtonTexture>(btScenarioPlayersList, pageIndex1.ToString(), 15, ref pageCount1, ref page1);
 
                             for (int i = 0; i < btScenarioPlayersListPaged.Count; i++)
                             {
@@ -3518,22 +3536,22 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     }
                     else
                     {
-                        //btScenarioPlayersListPaged = GenericTools.GetPageList<ButtonTexture>(btScenarioPlayersList, pageIndex1.ToString(), 15, ref pageCount1, ref page1);
+                        btScenarioPlayersListPaged = GenericTools.GetPageList<ButtonTexture>(btScenarioPlayersList, pageIndex1.ToString(), 15, ref pageCount1, ref page1);
 
-                        //for (int i = 0; i < btScenarioPlayersListPaged.Count; i++)
-                        //{
-                        //    var btOne = btScenarioPlayersListPaged[i];
-                        //    btOne.Position = new Vector2(480, 151 + 24 * i);
-                        //    btOne.Update();
-                        //}
-                        //for (int iii = 0; iii < frame_PlayersList.ContentContorls.Count; iii++)
-                        //{
-                        //    CheckBox checkbox = frame_PlayersList.ContentContorls[iii] as CheckBox;
-                        //    checkbox.Position = new Vector2(480,  24 * iii);
-                        //}
-                        ////frame_PlayersList.Position = new Vector2(480, 150);
-                        ////frame_PlayersList.CanvasHeight = 600;
-                        ////frame_PlayersList.CanvasWidth = 500;
+                        for (int i = 0; i < btScenarioPlayersListPaged.Count; i++)
+                        {
+                            var btOne = btScenarioPlayersListPaged[i];
+                            btOne.Position = new Vector2(480, 151 + 24 * i);
+                            btOne.Update();
+                        }
+                        for (int iii = 0; iii < frame_PlayersList.ContentContorls.Count; iii++)
+                        {
+                            CheckBox checkbox = frame_PlayersList.ContentContorls[iii] as CheckBox;
+                            checkbox.Position = new Vector2(480, 24 * iii);
+                        }
+                        //frame_PlayersList.Position = new Vector2(480, 150);
+                        //frame_PlayersList.CanvasHeight = 600;
+                        //frame_PlayersList.CanvasWidth = 500;
                         //frame_PlayersList.ReCalcuateCanvasSize();
                         frame_PlayersList.Update();
                         if (CurrentScenario != null)
@@ -4200,7 +4218,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                 Setting.Current.GamerName = tbGamerName.Text.NullToStringTrim();
 
-                var nsts = new NumericSetTextureF[] { nstMusic, nstSound, nstArmySpeed, nstDialogTime, nstBattleSpeed, nstAutoSaveTime, nstShowNumberAddTime, nstSpeedUp };//后面没有战斗速度的处理，虽然此参数并无用
+                var nsts = new NumericSetTextureF[] { nstMusic, nstSound, nstArmySpeed, nstDialogTime, nstBattleSpeed, nstAutoSaveTime, nstShowNumberAddTime, nstSpeedUp, nstMobileResolutions };//后面没有战斗速度的处理，虽然此参数并无用
 
                 foreach (var nst in nsts)
                 {
@@ -4263,6 +4281,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 if (Setting.Current.SpeedUp != (int)nstSpeedUp.NowNumber)
                 {
                     Setting.Current.SpeedUp = (int)nstSpeedUp.NowNumber;
+                }
+
+                if ( Platform.IsMobilePlatForm && int.Parse(Setting.Current.Resolution.Split('*')[1]) != (int)nstMobileResolutions.NowNumber)
+                {
+                    Setting.Current.Resolution = Setting.Current.Resolution.Split('*')[0] +"*"+ (int)nstMobileResolutions.NowNumber;
+                    Session.ChangeDisplay(true);
+
                 }
             }
             else if (MenuType == MenuType.About)
@@ -4419,8 +4444,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                         var Food = CurrentScenario.Foods.Split(',').NullToEmptyArray()[index];
                                         var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[index];
                                         bt.Scale = 0.5f;
-                                       // cbs = new CheckBoxSetting() { Offset = new Vector2(5, 2), Scale = 0.8f };
-                                        bt.Draw(cbs);//0322势力选择错位先放着
+                                        // cbs = new CheckBoxSetting() { Offset = new Vector2(5, 2), Scale = 0.8f };
+                                        //bt.Draw(cbs);//0322势力选择错位先放着
+                                        bt.Draw(null, Color.White * alpha);
 
                                         CacheManager.DrawString(Session.Current.Font, Name, bt.Position + new Vector2(30, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
                                         CacheManager.DrawString(Session.Current.Font, leader, bt.Position + new Vector2(92, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
@@ -4494,14 +4520,45 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     }
                     else
                     {
-                        frame_PlayersList.ContentContorls.ForEach(bt =>
+                        btScenarioPlayersListPaged.ForEach(bt =>
                         {
-                            CheckBox checkBox = bt as CheckBox;
-                            int index = frame_PlayersList.ContentContorls.IndexOf(checkBox);
-                            var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[index];
-                            if (checkBox.MouseOver)
+                            //CheckBox checkBox = bt as CheckBox;
+                            //int index = frame_PlayersList.ContentContorls.IndexOf(checkBox);
+                            //var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[index];
+                            //if (checkBox.MouseOver)
+                            //{
+                            //    CacheManager.DrawAvatar(@"Content\Textures\GameComponents\PersonPortrait\Images\Default\" + LeaderPic + ".jpg", new Rectangle(221, 81, 191, 191), Color.White, false, true, TextureShape.None, null);
+                            //}
+                            int index = btScenarioPlayersList.IndexOf(bt);
+                            Color color = bt.Selected ? Color.Yellow : Color.White;
+                            if (index >= 0)
                             {
-                                CacheManager.DrawAvatar(@"Content\Textures\GameComponents\PersonPortrait\Images\Default\" + LeaderPic + ".jpg", new Rectangle(221, 81, 191, 191), Color.White, false, true, TextureShape.None, null);
+                                var Name = CurrentScenario.Names.Split(',').NullToEmptyArray()[index];
+                                var leader = CurrentScenario.LeaderNames.Split(',').NullToEmptyArray()[index];
+                                var Reputation = CurrentScenario.Reputations.Split(',').NullToEmptyArray()[index];
+                                var ArchitectureCount = CurrentScenario.ArchitectureCounts.Split(',').NullToEmptyArray()[index];
+                                var CapitalName = CurrentScenario.CapitalNames.Split(',').NullToEmptyArray()[index];
+                                var Population = CurrentScenario.Populations.Split(',').NullToEmptyArray()[index];
+                                var MilitaryCount = CurrentScenario.MilitaryCounts.Split(',').NullToEmptyArray()[index];
+                                var Fund = CurrentScenario.Funds.Split(',').NullToEmptyArray()[index];
+                                var Food = CurrentScenario.Foods.Split(',').NullToEmptyArray()[index];
+                                var LeaderPic = CurrentScenario.LeaderPics.Split(',').NullToEmptyArray()[index];
+                                bt.Scale = 0.5f;
+                                bt.Draw(null, Color.White * alpha);
+
+                                CacheManager.DrawString(Session.Current.Font, Name, bt.Position + new Vector2(30, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, leader, bt.Position + new Vector2(92, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, Reputation, bt.Position + new Vector2(143, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, ArchitectureCount, bt.Position + new Vector2(190, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, CapitalName, bt.Position + new Vector2(230, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, Population, bt.Position + new Vector2(275, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, MilitaryCount, bt.Position + new Vector2(360, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, Fund, bt.Position + new Vector2(410, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                CacheManager.DrawString(Session.Current.Font, Food, bt.Position + new Vector2(470, 2), color * alpha, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+                                if (bt.MouseOver)
+                                {
+                                    CacheManager.DrawAvatar(@"Content\Textures\GameComponents\PersonPortrait\Images\Default\" + LeaderPic + ".jpg", new Rectangle(221, 81, 191, 191), Color.White * alpha, false, true, TextureShape.None, null);
+                                }
                             }
                         });
                         frame_PlayersList.Draw();
@@ -4912,6 +4969,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     btnLargeResolution.Alpha = alpha;
                     btnLargeResolution.Draw();
                 }
+                else
+                {
+                    CacheManager.DrawString(Session.Current.Font, "高度", new Vector2(250, 188 + 44 * 2 ), Color.White * alpha, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
+                }
 
 
                 //tbBattleSpeed.tranAlpha = alpha;
@@ -4956,6 +5017,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 nstSpeedUp.Heightchange = -5;
                 nstSpeedUp.leftTexture.Scale = 0.8f;
                 nstSpeedUp.rightTexture.Scale = 0.8f;
+                nstMobileResolutions.Widthchange = -50;
+                nstMobileResolutions.Heightchange = -5;
+                nstMobileResolutions.leftTexture.Scale = 0.8f;
+                nstMobileResolutions.rightTexture.Scale = 0.8f;
                 nstMusic.Draw(alpha);
                 nstSound.Draw(alpha);
 
@@ -4965,7 +5030,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 nstAutoSaveTime.Draw(alpha);
                 nstShowNumberAddTime.Draw(alpha);
                 nstSpeedUp.Draw(alpha);
-
+                if (Platform.IsMobilePlatForm) {
+                    nstMobileResolutions.Draw(alpha);
+                }
                 CacheManager.DrawString(Session.Current.Font, "对话窗显示时间:", new Vector2(195, 427), Color.White * alpha, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
 
                 CacheManager.DrawString(Session.Current.Font, "战斗速度(越大越慢):", new Vector2(195, 476), Color.White * alpha, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 1f);
