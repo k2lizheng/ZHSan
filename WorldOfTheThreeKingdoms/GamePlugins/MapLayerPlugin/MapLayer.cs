@@ -3,6 +3,7 @@ using GameManager;
 using GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PluginInterface;
 using System;
 using WorldOfTheThreeKingdoms.GameScreens;
 
@@ -23,7 +24,7 @@ namespace MapLayerPlugin
         internal PlatformTexture NextTroopActiveTexture;
         internal Rectangle NextTroopPosition;
         internal PlatformTexture NextTroopTexture;
-
+        private IOptionDialog OptionDialogPlugin;
 
         public override void Draw()
         {
@@ -117,19 +118,16 @@ namespace MapLayerPlugin
                             Session.MainGame.mainGameScreen.JumpTo((faction.Troops[faction.troopSequence] as Troop).Position);
                             faction.troopSequence--;
                     }
+                    //Session.MainGame.mainGameScreen.CurrentTroop = faction.Troops[faction.troopSequence] as Troop;
+                    //this.OptionDialogPlugin.AddOption("属性", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.MoblieHandle));
                 }
             }
-        }
-        
-
-        private void screen_OnMouseLeftDown(Point position)
-        {
             if (base.Enabled)
             {
                 if (StaticMethods.PointInRectangle(position, this.NormalLayerDisplayPosition))
                 {
                     Session.GlobalVariables.ShowGrid = !Session.GlobalVariables.ShowGrid;
-                    
+
                 }
 
                 else if (StaticMethods.PointInRectangle(position, this.RoutewayLayerDisplayPosition))
@@ -138,12 +136,18 @@ namespace MapLayerPlugin
                     {
                         Session.GlobalVariables.CurrentMapLayer = MapLayerKind.Routeway;
                     }
-                    else 
+                    else
                     {
                         Session.GlobalVariables.CurrentMapLayer = MapLayerKind.Normal;
                     }
                 }
             }
+        }
+        
+
+        private void screen_OnMouseLeftDown(Point position)
+        {
+           
         }
 
         private void screen_OnMouseMove(Point position, bool leftDown)
