@@ -55,6 +55,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         public GamePlugin Plugins;
         private Point position;
         private RoutewayLayer routewayLayer;
+        private SpineLayer spineLayer;
         private string SaveFileName;
         private ScreenManager screenManager;
         private float scrollSpeedScale;
@@ -94,6 +95,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.selectingLayer = new SelectingLayer();
             this.tileAnimationLayer = new TileAnimationLayer();
             this.routewayLayer = new RoutewayLayer();
+            this.spineLayer = new SpineLayer();
             this.Plugins = new GamePlugin();
             this.SelectorTroops = new TroopList();
             this.scrollSpeedScale = 1f;
@@ -400,7 +402,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 this.DrawMouseArrow();
             }
-
+            //this.spineLayer.Draw((float)(gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0));
         }
 
         private void DrawInputer()
@@ -902,11 +904,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 case SelectingUndoneWorkKind.ArchitectureAvailableContactArea:
                     if (!this.selectingLayer.Canceled)
                     {
-                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null )
+                        if(this.CurrentMilitaries.Count==1 && this.CurrentMilitary!=null && this.CurrentPerson!=null)//加上this.CurrentPerson!=null防止自动出征一部队错误
                         {
                             this.screenManager.SetCreatingTroopPosition(this.selectingLayer.SelectedPoint);
                         }
-                        else if (this.CurrentMilitaries.Count > 1)
+                        else if (this.CurrentMilitaries.Count >= 1)
                         {
                             this.screenManager.SetTroopsPosition(this.selectingLayer.SelectedPoint);
                         }
@@ -1177,10 +1179,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                     troop.mingling = "Move";
                                     troop.TargetArchitecture = null;
                                 }
-                                troop.RealDestination = this.selectingLayer.SelectedPoint;
+                                troop.RealDestination = this.selectingLayer.SelectedPoint;                               
                                 if (!((targetArchitecture == null) || troop.BelongedFaction.IsFriendly(targetArchitecture.BelongedFaction)))
                                 {
                                     troop.BelongedLegion.Kind = LegionKind.Offensive;
+                                    if (troop.CanAttack(troop.TargetArchitecture)) troop.Destination = troop.Position;
                                 }
                                 else
                                 {
@@ -1249,7 +1252,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 }
                                 else
                                 {
-                                    this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
+                                   //this.CurrentTroop.RealDestination = this.CurrentTroop.Position;
                                 }
                             }
                             
@@ -2169,7 +2172,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         public void ToggleFullScreen()
         {
             Platform.SetGraphicsWidthHeight(Session.MainGame.Window.ClientBounds.Width, Session.MainGame.Window.ClientBounds.Height);
-
+            if(Session.LargeContextMenu) Setting.Current.DisplayMode = "Full";
             Session.MainGame.ToggleFullScreen();
             this.RefreshDisableRects();
         }
@@ -2224,6 +2227,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     dialog.SpeakingPerson = Session.Current.Scenario.Persons.GetGameObject(dialog.SpeakingPersonID) as Person;//修复部队事件未识别说话武将
                     if (dialog.SpeakingPerson !=null)
                     {
+                        if (te.Sound == null && Setting.Current.GlobalVariables.TroopVoice)
+                        {
+                            String ThePersonSound = Platform.Current.GetPersonVioce(dialog.SpeakingPerson, "");
+                            if (ThePersonSound.Length > 0 )
+                            {
+                                PlayNormalSound(ThePersonSound);
+                            }
+                        }
                         this.Plugins.tupianwenziPlugin.SetGameObjectBranch(dialog.SpeakingPerson, troop, dialog.Text, te.Image, te.Sound,te.TryToShowString);//增加gameobject
                     }
                     else
@@ -3320,6 +3331,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 {
                     this.viewportSize.X = Session.ResolutionX - 40;  // Platform.GraphicsDevice.Viewport.Width;
                     this.viewportSize.Y = Convert.ToInt32(Session.ResolutionY - this.Plugins.ToolBarPlugin.Height - 20);  // Platform.GraphicsDevice.Viewport.Height - this.Plugins.ToolBarPlugin.Height;
+                    if (Setting.Current.DisplayMode == "Window") this.viewportSize.Y -= 60;//上移下面按钮条，以适应曲面屏
                 }
                 
                 this.viewportSizeFull.X = Platform.GraphicsDevice.Viewport.Width;
@@ -3537,6 +3549,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             get
             {
+                if (Session.LargeContextMenu) return Setting.Current.DisplayMode == "Full";
                 return Platform.GraphicsDevice.PresentationParameters.IsFullScreen;  // base.GraphicsDevice.PresentationParameters.IsFullScreen;
             }
         }
