@@ -72,6 +72,7 @@ namespace GameManager
             {
                 string file1 = "Setting.config";
                 //string file2 = "settings.config";
+                if (Platform.Current.Channel == "zhsan" && Platform.Current.UserDirectoryExist("")) Platform.Current.UserDirectoryCreate("");
                 if (Platform.Current.UserFileExist(new string[] { file1 })[0])
                 {
                     try
@@ -149,7 +150,7 @@ namespace GameManager
                 }
                 if (Current.SpeedUp == null)
                 {
-                    Current.SpeedUp = 1;
+                    Current.SpeedUp = 6;
                 }
                 if (String.IsNullOrEmpty(Current.Chuchangsuiji.ToString()))
                 {

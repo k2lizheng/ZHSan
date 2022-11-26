@@ -325,7 +325,7 @@ namespace GameGlobal
             XmlDocument document = new XmlDocument();
 
             string xml = Platform.Current.LoadText("Content/Data/GlobalVariables.xml");
-
+            if (Platform.Current.UserFileExist(new string[] { "GlobalVariables.xml" })[0]) xml = Platform.Current.GetUserText("GlobalVariables.xml");
             document.LoadXml(xml);
 
             XmlNode nextSibling = document.FirstChild.NextSibling;
