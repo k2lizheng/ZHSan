@@ -1633,8 +1633,9 @@ namespace GameObjects
             this.AITechniques();
             this.AIMakeMarriage();
             this.AISelectPrince();
-            this.AIZhiBao();
+            
             this.AIZhaoXian();
+            this.AIZhiBao();
             this.AIAppointMayor();
             this.AIHouGong();
             this.AIArchitectures();
@@ -3714,13 +3715,14 @@ namespace GameObjects
         }
         private void AIZhiBao()
         {
+            if (Session.Current.Scenario.Date.Month < 12) return;
             if (Session.GlobalVariables.ZhaoXianSuccessRate <= 0|| Session.Parameters.AITreasureChance<=0) return;
 
             if (Session.Current.Scenario.IsPlayer(this)) return;
-            if (this.leader.TreasureCount > 10) return; 
+            if (this.YearOfficialLimit > Math.Min(this.CityCount,3)) return; 
             foreach (Architecture a in this.Architectures)
             {
-                while (a.CanZhaoXian() && !a.HasEnoughPeople && this.leader.TreasureCount < 10 &&(PersonCount <= 1 || a.IsFundEnough))
+                while (!a.HasEnoughPeople && this.leader.TreasureCount < 10 &&(PersonCount <= 1 || a.IsFundEnough))
                 {
                     PersonGeneratorTypeList list = Session.Current.Scenario.GameCommonData.AllPersonGeneratorTypes;
                     Dictionary<PersonGeneratorType, float> weights = new Dictionary<PersonGeneratorType, float>();
