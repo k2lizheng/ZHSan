@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using Tools;
 using FontStashSharp;
+using FairyGUI;
+
 namespace GameManager
 {
     public class PlatformTexture
@@ -485,7 +487,7 @@ namespace GameManager
             else if (type == "L")            {                m = 2;            }
             type = (type == "s") ? "s" : "";
             string name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{person.PictureIndexString}{type}.jpg";
-            if (person.PictureIndex> Convert.ToInt32(person.PictureIndex))
+            if (person.PictureIndex != Convert.ToInt32(person.PictureIndex))
             {
                 string pictureIndex2 = string.Format("{0:N2}", person.PictureIndex);
                 pictureIndex2 = (pictureIndex2.Substring(pictureIndex2.Length - 2, 2)).TrimStart('0');
@@ -494,8 +496,8 @@ namespace GameManager
             }
             else if(m != 2 && type != "")
             {
-                person.PictureIndexString = person.PictureIndex.ToString();
-                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{Convert.ToInt32(person.PictureIndexString)}{type}.jpg";
+                //person.PictureIndexString = person.PictureIndex.ToString();
+                name = $@"Content/Textures/GameComponents/PersonPortrait/Images/Default/{person.PictureIndexString}{type}.jpg";
             }
             if (person.PictureIndexModString != null)
             {
@@ -882,5 +884,25 @@ namespace GameManager
 
             return null;
         }
+        public static void NewWindows()
+        {
+            GRoot.inst.AddChild(new WorldOfTheThreeKingdoms.GameScreens.ScreenLayers.BagScene());
+        }
+        //public static void test_spine_importer_zip_is_valid()
+        //{
+        //    var filepath = $"\\Assets\\spineboy.zip";
+        //    var impoter = new SpineContentImporter().Import(filepath, new TestContentImporterContext());
+        //    var spineboy = new SpineProcessorResult(impoter);
+        //    //Atlas a = new Atlas();
+        //    //pineImporterResult spineboy = new SpineImporterResult(impoter.Atlas, impoter.Json, impoter.TempTexturePath);
+        //    ContentSkeletonJson c = new ContentSkeletonJson(impoter.Atlas);
+        //    //spineboy.SkeletonJson;
+        //    //SpineProcessorResult(spineboy);
+        //    //spineboy.Skeleton.X += 400;
+        //    //spineboy.Skeleton.Y += 400;
+        //    //spineboy.Skeleton.UpdateWorldTransform();
+        //    //Assert.IsTrue(impoter.Atlas.Contains(@"spineboy.png"));
+        //    //Assert.IsTrue(!string.IsNullOrEmpty(impoter.TempTexturePath));
+        //}
     }
 }

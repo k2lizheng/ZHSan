@@ -142,6 +142,20 @@ namespace Platforms
             GraphicsDeviceManager = new GraphicsDeviceManager(MainGame);
 
             GraphicsDeviceManager.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+            GraphicsDeviceManager.GraphicsProfile = GraphicsProfile.HiDef;
+            GraphicsDeviceManager.PreferMultiSampling = true;
+
+
+            GraphicsDeviceManager.PreferredBackBufferWidth = 1136;
+            GraphicsDeviceManager.PreferredBackBufferHeight = 640;
+
+            GraphicsDeviceManager.ApplyChanges();
+#if WINDOWS
+            MainGame.Components.Add(new FairyGUI.Stage(MainGame, new FairyGUI.Scripts.Core.Text.WindowInputCapturer(MainGame.Window.Handle, MainGame)));
+            //MainGame.Components.Add(new FairyGUI.Stage(MainGame, null));
+#else
+			MainGame.Components.Add(new Stage(MainGame, null));
+#endif
         }
 
         public static void SetGraphicsWidthHeight(int width, int height)
@@ -1148,12 +1162,10 @@ namespace Platforms
                 //}
             }
         }
-
         public override void InitInputCapturer()
         {
-            wic = new WindowInputCapturer(MainGame.Window.Handle);
+            wic = new WindowInputCapturer(MainGame.Window.Handle, (MainGame)MainGame);
         }
-
         public override List<Character> GetChars()
         {
             return WindowInputCapturer.myCharacters;
@@ -1543,6 +1555,7 @@ namespace Platforms
             }
         }
 
+       
     }
 
     public class PlatformTask
@@ -1623,7 +1636,7 @@ namespace Platforms
             WM_CHAR = 0x0102,
         }
 
-        public WindowInputCapturer(IntPtr windowHandle)
+        public WindowInputCapturer(IntPtr windowHandle, MainGame mainGame)
         {
             AssignHandle(windowHandle);
         }
