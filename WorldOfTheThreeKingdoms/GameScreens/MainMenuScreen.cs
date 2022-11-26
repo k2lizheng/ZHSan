@@ -2746,7 +2746,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
 
                     this.nstDianNaoShengTao.NowNumber = 0;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.0f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
@@ -2795,7 +2795,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
 
                     this.nstDianNaoShengTao.NowNumber = 0;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.1f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
                     this.AIEncircleRank = 15;
@@ -2843,8 +2843,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
 
                     this.nstDianNaoShengTao.NowNumber = 0f;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
-                    this.nstDianNaoEWai2.NowNumber = 0.01f;
+                    this.nstDianNaoEWai1.NowNumber = 0.3f;
+                    this.nstDianNaoEWai2.NowNumber = 0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
 
@@ -2894,7 +2894,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
 
                     this.nstDianNaoShengTao.NowNumber = 10f;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.6f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
@@ -4368,6 +4368,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 if (btnDantiao.Visible)
                 {
                     CacheManager.DrawString(Session.Current.Font, "单挑", btnDantiao.Position + new Vector2(20, 7), Color.DarkRed, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                    if (Session.LargeContextMenu) 
+                    { 
+                        CacheManager.DrawString(Session.Current.Font, "bug反馈QQ群：945187421 bug修复by正", btnDantiao.Position + new Vector2(-380, 3), Color.DarkRed, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+                    }                 
                 }
             }
             else if (MenuType == MenuType.New)
