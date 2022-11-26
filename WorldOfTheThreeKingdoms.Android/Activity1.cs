@@ -14,6 +14,8 @@ using System;
 using Android.Graphics;
 using Platforms;
 using Tools;
+using Android;
+using Android.Support.V4.App;
 
 namespace WorldOfTheThreeKingdoms.Android
 {
@@ -34,11 +36,11 @@ namespace WorldOfTheThreeKingdoms.Android
             {
                 this.Window.AddFlags(WindowManagerFlags.Fullscreen);
                 this.Window.AddFlags(WindowManagerFlags.KeepScreenOn);
-                
+                AskPermission();
                 Platform.Activity1 = this;
 
                 base.OnCreate(bundle);
-
+               
                 SetFullScreen();
 
                 AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
@@ -65,7 +67,18 @@ namespace WorldOfTheThreeKingdoms.Android
                 //WebTools.TakeWarnMsg("OnCreate", "", ex);
             }
         }
-
+        private void AskPermission()
+        {
+            bool sSRPR = ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage) |
+                         ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.ReadExternalStorage);
+            if (!sSRPR)
+            { 
+                ActivityCompat.RequestPermissions(this, new System.String[]{
+                    Manifest.Permission.WriteExternalStorage,
+                    Manifest.Permission.ReadExternalStorage}, 0);
+                Platform.Sleep(5000);
+            }                     
+        }
         public void SetFullScreen()
         {
             View decorView = Window.DecorView;
