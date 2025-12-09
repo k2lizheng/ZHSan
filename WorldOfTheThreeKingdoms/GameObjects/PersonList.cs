@@ -84,7 +84,7 @@ namespace GameObjects
         public void ApplyInfluences()
         {
           
-            this.PurifyInfluences();
+            //this.PurifyInfluences();
             foreach (Person person in base.GameObjects)
             {
                 person.ApplyTitles(false);
