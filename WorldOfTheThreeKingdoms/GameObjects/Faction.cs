@@ -3715,6 +3715,7 @@ namespace GameObjects
         }
         private void AIZhiBao()
         {
+            if (!Setting.Current.TreasureT) return;
             if (Session.Current.Scenario.Date.Month < 12) return;
             if (Session.GlobalVariables.ZhaoXianSuccessRate <= 0|| Session.Parameters.AITreasureChance<=0) return;
 

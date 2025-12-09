@@ -378,12 +378,17 @@ namespace GameObjects
                     break;
 
             }
-            int a = Random(0, influenceList.Count);
-            int b = Random(0, influenceList.Count);
+            int a = Random(0, influenceList.Count - 1);
+            int b = Random(0, influenceList.Count - 1);
             int c = (a + b) / 2;
             r.Worth = Math.Abs( c - influenceList.Count/2 ) * 160 / influenceList.Count ;
-            Influence s = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(influenceList[c]);
-            r.Influences.AddInfluence(s);
+            try
+            {
+                Influence s = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(influenceList[c]); 
+                r.Influences.AddInfluence(s);
+            }
+            catch { }
+           
 
         }
 

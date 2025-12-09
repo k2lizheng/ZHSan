@@ -4765,7 +4765,20 @@ namespace GameObjects
             return false;
         }
 
+        public bool CanZhiBao()
+        {
+            if (this.BelongedFaction != null && Session.GlobalVariables.ZhaoXianSuccessRate > 0 && Setting.Current.TreasureT
+              && this.BelongedFaction.ZhaoxianFailureCount < 1 && this.BelongedFaction != null && this.BelongedFaction.Leader.Status != PersonStatus.Captive)
 
+            {
+                if (this.AvailGeneratorTypeList().Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         public PersonGeneratorTypeList AvailGeneratorTypeList()
         {
             PersonGeneratorTypeList list = new PersonGeneratorTypeList();
@@ -4870,6 +4883,8 @@ namespace GameObjects
             Treasure r = Treasure.createTreasure(param,isAI);
             this.ZhiBao(r);
             this.DecreaseFund(preferredType.CostFund);
+            this.BelongedFaction.YearOfficialLimit++;
+            preferredType.TypeCount++;
         }
         /*
         public int CreatePersonCost
@@ -6912,7 +6927,7 @@ namespace GameObjects
                 {
                     this.DevelopFund();
                 }
-
+                if (this.ID == this.BelongedFaction.CapitalID) this.IncreaseFund(1000);
             }
 
         }

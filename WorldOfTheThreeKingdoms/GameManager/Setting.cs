@@ -37,6 +37,8 @@ namespace GameManager
         public int? SpeedUp { get; set; }
         [DataMember]
         public bool Chuchangsuiji { get; set; }
+        [DataMember]
+        public bool TreasureT { get; set; }//宝物制作
 
         [DataMember]
         public string MOD { get; set; }
@@ -156,7 +158,10 @@ namespace GameManager
                 {
                     Current.Chuchangsuiji = false;
                 }
-    
+                if (String.IsNullOrEmpty(Current.TreasureT.ToString()))
+                {
+                    Current.TreasureT = false;
+                }
                 //if (Current.NewsBoard == null)
                 //{
                 //    Current.NewsBoard = new NewsBoard() { Detail = "游戏公告加载中，请稍候……" };

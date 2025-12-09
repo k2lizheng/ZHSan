@@ -1877,6 +1877,25 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 }
             };
             btSettingList.Add(btOne);
+            btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(left + 300, heightBase + height * 0.5f))
+            {
+                ID = "TreasureT"
+            };
+            btOne.OnButtonPress += (sender, e) =>
+            {
+                var bt = (ButtonTexture)sender;
+                if (bt.Selected)
+                {
+                    bt.Selected = false;
+                    Setting.Current.TreasureT = false;
+                }
+                else
+                {
+                    bt.Selected = true;
+                    Setting.Current.TreasureT = true;
+                }
+            };
+            btSettingList.Add(btOne);
 
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(left, heightBase + height * 0.5f))
             {
@@ -3373,6 +3392,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             btOne = btSettingList.FirstOrDefault(bt => bt.ID == "OutFocus");
             btOne.Selected = Setting.Current.GlobalVariables.RunWhileNotFocused;
+
+            btOne = btSettingList.FirstOrDefault(bt => bt.ID == "TreasureT");
+            btOne.Selected = Setting.Current.TreasureT;
 
             if (MODs != null)
             {
@@ -5053,6 +5075,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 CacheManager.DrawString(Session.Current.Font, "播放一般音效", new Vector2(left, 190), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
                 CacheManager.DrawString(Session.Current.Font, "演示单挑", new Vector2(left + 300, 190), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+
+                CacheManager.DrawString(Session.Current.Font, "宝物制作", new Vector2(left + 300, 190 + height * 0.5f), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
                 CacheManager.DrawString(Session.Current.Font, "播放战斗音效", new Vector2(left, 190 + height * 0.5f), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
