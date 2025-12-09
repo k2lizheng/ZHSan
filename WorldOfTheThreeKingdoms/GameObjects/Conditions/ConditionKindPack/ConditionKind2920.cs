@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfTheThreeKingdoms.GameObjects.Conditions.ConditionKindPack
+namespace GameObjects.Conditions.ConditionKindPack
 {
     [DataContract]
     class ConditionKind2920 : ConditionKind

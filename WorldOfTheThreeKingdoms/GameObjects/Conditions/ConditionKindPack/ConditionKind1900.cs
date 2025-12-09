@@ -8,10 +8,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfTheThreeKingdoms.GameObjects.Conditions.ConditionKindPack
+
+namespace GameObjects.Conditions.ConditionKindPack
 {
-    [DataContract]
-    class ConditionKind1900 : ConditionKind
+    [DataContract]public class ConditionKind1900 : ConditionKind
     {
         private int number = 0;
 
