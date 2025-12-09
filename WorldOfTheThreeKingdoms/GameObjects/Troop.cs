@@ -1457,7 +1457,7 @@ namespace GameObjects
             {
                 if (hasTargetTroopFlag && ((credit < 500) || (GameObject.Chance(this.Combativity) && GameObject.Chance(90))))
                 { //Label_0712:
-                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values)
+                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values.ToArray())//ToArray()添加防止集合已修改;可能无法执行枚举操作
                     {
                         if (!this.HasCombatMethod(method.ID))
                         {
