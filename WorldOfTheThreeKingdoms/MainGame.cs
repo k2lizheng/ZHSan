@@ -1,4 +1,3 @@
-using FairyGUI;
 using GameGlobal;
 using GameManager;
 using Microsoft.Xna.Framework;
@@ -77,10 +76,10 @@ namespace WorldOfTheThreeKingdoms
 
         public bool isDebug = false;
         public bool loaded2 = false;
-
         public MainGame(GameTime time)
         {
-            //第一步           
+            //第一步
+          
             Platform.MainGame = this;
 
             //if (Platform.PlatFormType == PlatFormType.Win || Platform.PlatFormType == PlatFormType.Desktop)
@@ -131,10 +130,7 @@ namespace WorldOfTheThreeKingdoms
             Platform.Current.SetBarStyle();
             Platform.Current.SetTimerDisabled(true);
             Platform.Current.ApplicationViewChanged();
-           
-            Content.RootDirectory = "Content";
 
-            
             //System.Windows.Forms.Control control = System.Windows.Forms.Control.FromHandle(base.Window.Handle);
             //this.GameForm = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(this.Window.Handle);
             //this.GameForm.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -203,7 +199,6 @@ namespace WorldOfTheThreeKingdoms
             this.Window.ClientSizeChanged += this.Window_ClientSizeChanged;
 
             base.Initialize();
-
         }
 
         private void Window_ClientSizeChanged(object sender, EventArgs e)
@@ -232,8 +227,6 @@ namespace WorldOfTheThreeKingdoms
 
             Session.LoadContent(base.Content);
 
-
-            GRoot.inst.AddChild(new WorldOfTheThreeKingdoms.GameScreens.ScreenLayers.BagScene());
             Session.PlayMusic("Start");
             
         }
