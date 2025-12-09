@@ -2673,7 +2673,10 @@ namespace GameObjects
 
                             }
                         }
-
+                        if(this.suoshurenwu < 0)
+                        {
+                            this.suoshurenwu = this.spouse != null ? this.spouse.ID : this.BelongedFaction.ID;
+                        }
                         Person p = Session.Current.Scenario.Persons.GetGameObject(this.suoshurenwu) as Person;
 
                         if (this.Status != PersonStatus.Princess || !this.WillHateIfChongxing)
