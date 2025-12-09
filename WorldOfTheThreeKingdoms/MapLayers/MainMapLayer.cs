@@ -610,8 +610,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                             var tileNums2 = GetCurrentViewMapTileNums2();
 
-                            var maps = tileNums2.Select(num => this.MapTiles[num % 30, num / 30]).Where(ma => ma != null && ma.TileTexture == null).ToArray();
-
+                            int mapsN = 30;
+                            if (Setting.Current.MODRuntime == "Shanshui") 
+                            { 
+                                mapsN = 12;//原为30，但丝路山水版会一直报错
+                                //this.DisplayingMapTiles.Add(this.MapTiles[i / Session.Current.Scenario.ScenarioMap.NumberOfSquaresInEachTile, j / Session.Current.Scenario.ScenarioMap.NumberOfSquaresInEachTile]);
+                            }                   
+                            var maps = tileNums2.Select(num => this.MapTiles[num % mapsN, num / mapsN]).Where(ma => ma != null && ma.TileTexture == null).ToArray();
                             if (maps != null && maps.Length > 0)
                             {
                                 mapTile = maps.FirstOrDefault();
