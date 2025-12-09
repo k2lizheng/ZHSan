@@ -198,9 +198,16 @@ namespace Platforms
         {
             return System.Environment.OSVersion.Platform + " " + System.Environment.OSVersion.VersionString;
         }
-        //public void PlaySong(Song song)
+        //public override void PlaySong(string[] songs)
         //{
-        //    MediaPlayer.Play(song);
+        //    try
+        //    {
+        //       MediaPlayer mediaPlayer =new MediaPlayer();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //监控此
+        //    }
         //}
         #region 加載資源文件
 
@@ -217,7 +224,13 @@ namespace Platforms
                 //}
                 if (stream == null)
                 {
-                    stream = Game.Activity.Assets.Open(res);
+                    try 
+                    { 
+                        stream = Game.Activity.Assets.Open(res);
+                    }
+                    catch { 
+                    }
+                    
                 }
             }
             else
@@ -666,6 +679,19 @@ namespace Platforms
             {
                 lock (Platform.IoLock)
                 {
+                    if (searchPattern.Contains("Music"))
+                    {
+                        searchPattern = PathStorage + "/" + searchPattern;
+                        Java.IO.File file = new Java.IO.File(searchPattern);
+                        Java.IO.File[] files = file.ListFiles();
+                        List<string> list = new List<string>();
+                        //string[] str =null;
+                        for(int i=0; i < files.Length; i++)
+                        {
+                            list.Add(files[i].ToString());
+                        }
+                        return list.ToArray();
+                    }
                     using (IsolatedStorageFile storage = GetIsolatedStorageFile())
                     {
                         var files = storage.GetFileNames(searchPattern);
@@ -765,6 +791,7 @@ namespace Platforms
                         {
                             return null;
                         }
+
                     }
                 }
             }
@@ -950,23 +977,24 @@ namespace Platforms
         public void SaveUserFile(string res, string content, bool fullPathProvided)
         {
             try
-            {                  
-                if (fullPathProvided || res.Contains("Save") || res.Contains("Setting"))
-                {                   
-                    if (res.Contains("xml"))res = res.Substring(13);
-                    res = res.Replace("\\", "/");
-                    DelUserFiles0(new string[] { res }, null);
+            {   lock (Platform.IoLock)
+                {               
+                    if (fullPathProvided || res.Contains("Save") || res.Contains("Setting"))
+                    {                   
+                        if (res.Contains("xml"))res = res.Substring(13);
+                        res = res.Replace("\\", "/");
+                        DelUserFiles0(new string[] { res }, null);
 
-                    string path = PathStorage + "/" + res;
-                    using var fileWriter = new StreamWriter(path);
-                    fileWriter.Write(content);
-                    fileWriter.Close();
-                    return;
+                        string path = PathStorage + "/" + res;
+                        using var fileWriter = new StreamWriter(path);
+                        fileWriter.Write(content);
+                        fileWriter.Close();
+                        return;
 
-                }
-                DelUserFiles(new string[] { res }, null);
-                lock (Platform.IoLock)
-                {
+                    }
+
+                    DelUserFiles(new string[] { res }, null);
+                
                     using (IsolatedStorageFile storage = GetIsolatedStorageFile())
                     {
                         string path = res;
@@ -1795,7 +1823,7 @@ namespace Platforms
             lock (Platform.IoLock)
             {
                 var ze = zif.GetEntry(filePath);
-
+                if (ze == null) return null;
                 using (var stream = zif.GetInputStream(ze))
                 {
                     var mstream = new MemoryStream((int)ze.Size);
