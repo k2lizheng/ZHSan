@@ -22,7 +22,7 @@ namespace GameSystemPlugin
         private void BuildOptionDialog()
         {
             this.OptionDialogPlugin.SetStyle("Basic");
-            this.OptionDialogPlugin.SetTitle("系统选项");
+            //this.OptionDialogPlugin.SetTitle("系统选项");
             this.OptionDialogPlugin.Clear();
             if (Session.Current.Scenario.SaveAvail())
             {
@@ -36,6 +36,8 @@ namespace GameSystemPlugin
             this.OptionDialogPlugin.AddOption("返回初始界面", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.ReturnMainMenu));
             if (Session.LargeContextMenu)
             {
+                //this.OptionDialogPlugin.AddOption("输出存档", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.OutputSave));
+                //this.OptionDialogPlugin.AddOption("导入存档", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.ImportSave));
                 this.OptionDialogPlugin.AddOption("继续/右键信息", null, new GameDelegates.VoidFunction(Session.MainGame.mainGameScreen.MoblieHandle));
                 if (Session.MainGame.mainGameScreen.CurrentTroop != null)
                 {

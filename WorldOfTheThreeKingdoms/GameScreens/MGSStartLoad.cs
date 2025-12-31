@@ -211,7 +211,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 Session.GlobalVariables.SaveToXml();
                 Session.Parameters.SaveToXml();
-
+                Setting.Current.GlobalVariables = Session.globalVariablesTemp.Clone();
+                Setting.Save();
                 //这里已经保存了玩家自定的信息后，再单独加载剧本制作者设定的信息，这样不会将玩家的设定保存覆盖
                 string str = @"Content\Data\Scenario\" + base.InitializationFileName + "GlobalVariables.xml";
                 if (File.Exists(Environment.CurrentDirectory + "\\" + str))

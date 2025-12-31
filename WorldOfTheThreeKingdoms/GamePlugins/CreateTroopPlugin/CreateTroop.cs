@@ -333,6 +333,10 @@ namespace CreateTroopPlugin
                         {
                             s.Influences.PurifyInfluence(person, Applier.Stunt, 0, false);
                         }
+                        foreach (Influence s in this.CreatingMilitary.Kind.Influences.Influences.Values)
+                        {
+                            s.PurifyInfluence(this.CreatingTroop, Applier.MilitaryKind, 0);
+                        }
                         person.PurifyAllTreasures(false);
                     }                  
                 }
@@ -468,7 +472,14 @@ namespace CreateTroopPlugin
                     }
                 }
                 this.OtherPersonText.ResortTexts();
-                this.CombatMethodText.Clear();
+                this.CombatMethodText.Clear();              
+                if (this.CreatingTroop.PersonCount > 0)
+                {
+                    this.CombatMethodText.AddText("影响条数 ：" + this.CreatingTroop.InfluencesApplying.Count, Color.LightGreen);
+                    this.CombatMethodText.AddNewLine();
+                    this.CombatMethodText.AddText("战斗力 ：" + this.CreatingTroop.FightingForce, Color.LightGreen);
+                }
+                this.CombatMethodText.AddNewLine();
                 this.CombatMethodText.AddText("部队战法", this.CombatMethodText.TitleColor);
                 this.CombatMethodText.AddNewLine();
                 if (this.CreatingTroop.PersonCount > 0)
@@ -875,18 +886,21 @@ namespace CreateTroopPlugin
                     {
                         int maxFightingAbility = 0;
                         foreach (Person p in this.CreatingPersons)
-                        {
-                            this.CreatingTroop = Troop.CreateSimulateTroop(this.CreatingArchitecture, this.CreatingPersons, p, this.CreatingMilitary, this.RationDays, this.CreatingArchitecture.Position);
+                        {                           
+                            this.CreatingTroop = Troop.CreateSimulateTroop(this.CreatingArchitecture, this.CreatingPersons, p, this.CreatingMilitary, this.RationDays, this.CreatingArchitecture.Position);                           
                             this.MoveCandidatesToPersons();
                             if (this.CreatingTroop.FightingForce > maxFightingAbility)
                             {
                                 maxFightingAbility = this.CreatingTroop.FightingForce;
                                 selectedLeader = p;
                             }
-                        }
+                            this.CreatingLeader = p;
+                            PurifyInfluenceDisplay();
+                        }                      
                     }
                     this.CreatingLeader = selectedLeader;
-                    this.RefreshDetailDisplay();
+                    //this.CreatingTroop = Troop.CreateSimulateTroop(this.CreatingArchitecture, this.CreatingPersons, this.CreatingLeader, this.CreatingMilitary, this.RationDays, this.CreatingArchitecture.Position);
+                    this.RefreshDetailDisplay();                   
                 }
             });
         }

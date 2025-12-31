@@ -54,7 +54,7 @@ namespace GameGlobal
         [DataMember]
         public const float FrontTileAnimationLayerDepth = 0.65f;
         [DataMember]
-        public string GameDifficulty;
+        public string GameDifficulty = "custom";
         [DataMember]
         public const float GameFrameDepth = 0.4f;
         [DataMember]
@@ -325,7 +325,7 @@ namespace GameGlobal
             XmlDocument document = new XmlDocument();
 
             string xml = Platform.Current.LoadText("Content/Data/GlobalVariables.xml");
-
+            if (Platform.Current.UserFileExist(new string[] { "GlobalVariables.xml" })[0]) xml = Platform.Current.GetUserText("GlobalVariables.xml");
             document.LoadXml(xml);
 
             XmlNode nextSibling = document.FirstChild.NextSibling;

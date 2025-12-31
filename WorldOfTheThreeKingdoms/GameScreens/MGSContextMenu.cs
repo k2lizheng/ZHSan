@@ -1017,9 +1017,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     this.CurrentTroop.CurrentCombatMethod = null;
                     this.CurrentTroop.CurrentStratagem = null;
                     this.CurrentTroop.AutoCombatMethodID = -1;
-                    //this.CurrentTroop.Operated = false;
+                    this.CurrentTroop.TroopStatus = TroopStatus.一般;//this.CurrentTroop.Operated = false;
                     this.CurrentTroop.SelectedMove = false;
                     this.CurrentTroop.SelectedAttack = false;
+                    this.CurrentTroop.StepNotFinished = true;
                     break;
 
                 case ContextMenuResult.TroopCombatMethod:
@@ -1334,6 +1335,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens
         {
             this.ContextMenuRightClick();
         }
+        //public void ImportSave()
+        //{
+        //    this.ContextMenuRightClick();
+        //}
+        //public void OutputSave()
+        //{
+        //    Platforms.Platform.Current.OutputUserFile();
+        //}
 
     }
 }

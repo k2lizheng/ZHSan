@@ -381,7 +381,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         }
                         else
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();
                             Session.parametersTemp = Session.parametersBasic.Clone();
 
                             //InitConfig();
@@ -410,7 +411,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     {
                         if (MenuType == MenuType.New)
                         {
-                            Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();
+                            //Session.globalVariablesTemp = Session.globalVariablesBasic.Clone();                                                      
+                            Session.globalVariablesTemp = Setting.Current.GlobalVariables.Clone();
                             Session.parametersTemp = Session.parametersBasic.Clone();
                             InitConfig();
                             MenuType = MenuType.Config;
@@ -1877,6 +1879,25 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 }
             };
             btSettingList.Add(btOne);
+            btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(left + 300, heightBase + height * 0.5f))
+            {
+                ID = "TreasureT"
+            };
+            btOne.OnButtonPress += (sender, e) =>
+            {
+                var bt = (ButtonTexture)sender;
+                if (bt.Selected)
+                {
+                    bt.Selected = false;
+                    Setting.Current.TreasureT = false;
+                }
+                else
+                {
+                    bt.Selected = true;
+                    Setting.Current.TreasureT = true;
+                }
+            };
+            btSettingList.Add(btOne);
 
             btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(left, heightBase + height * 0.5f))
             {
@@ -2744,9 +2765,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-
+                    Session.globalVariablesTemp.GameDifficulty = "beginner";
                     this.nstDianNaoShengTao.NowNumber = 0;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.0f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
@@ -2793,9 +2814,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-
+                    Session.globalVariablesTemp.GameDifficulty = "easy";
                     this.nstDianNaoShengTao.NowNumber = 0;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.1f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
                     this.AIEncircleRank = 15;
@@ -2841,10 +2862,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = false;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = false;
-
+                    Session.globalVariablesTemp.GameDifficulty = "normal";
                     this.nstDianNaoShengTao.NowNumber = 0f;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
-                    this.nstDianNaoEWai2.NowNumber = 0.01f;
+                    this.nstDianNaoEWai1.NowNumber = 0.3f;
+                    this.nstDianNaoEWai2.NowNumber = 0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
 
@@ -2892,9 +2913,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-
+                    Session.globalVariablesTemp.GameDifficulty = "hard";
                     this.nstDianNaoShengTao.NowNumber = 10f;
-                    this.nstDianNaoEWai1.NowNumber = 1.0f;
+                    this.nstDianNaoEWai1.NowNumber = 0.6f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
 
                     this.nstDianNaoYinWanJiaHeBing.NowNumber = -1f;
@@ -2943,7 +2964,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                     Session.globalVariablesTemp.AIAutoTakeNoFactionPerson = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptives = true;
                     Session.globalVariablesTemp.AIAutoTakePlayerCaptiveOnlyUnfull = true;
-
+                    Session.globalVariablesTemp.GameDifficulty = "veryhard";
                     this.nstDianNaoShengTao.NowNumber = 10f;
                     this.nstDianNaoEWai1.NowNumber = 1.0f;
                     this.nstDianNaoEWai2.NowNumber = 0.0f;
@@ -3227,7 +3248,15 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             //電腦
 
-            changeDifficultySelection(Difficulty.easy);
+            //changeDifficultySelection(Difficulty.easy);
+            if (Enum.TryParse(Session.globalVariablesTemp.GameDifficulty, true, out Difficulty difficulty))
+            {
+                changeDifficultySelection(difficulty);
+            }
+            else
+            {
+                changeDifficultySelection(Difficulty.easy);
+            }
 
             btConfigList4.FirstOrDefault(bt => bt.ID == "DianNaoShuoFuFuLu").Selected = (bool)Session.globalVariablesTemp.AIAutoTakeNoFactionCaptives;
 
@@ -3373,6 +3402,9 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             btOne = btSettingList.FirstOrDefault(bt => bt.ID == "OutFocus");
             btOne.Selected = Setting.Current.GlobalVariables.RunWhileNotFocused;
+
+            btOne = btSettingList.FirstOrDefault(bt => bt.ID == "TreasureT");
+            btOne.Selected = Setting.Current.TreasureT;
 
             if (MODs != null)
             {
@@ -4368,6 +4400,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 if (btnDantiao.Visible)
                 {
                     CacheManager.DrawString(Session.Current.Font, "单挑", btnDantiao.Position + new Vector2(20, 7), Color.DarkRed, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                    if (Session.LargeContextMenu) 
+                    { 
+                        CacheManager.DrawString(Session.Current.Font, "bug反馈QQ群：945187421 bug修复by正", btnDantiao.Position + new Vector2(-380, 3), Color.DarkRed, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+                    }                 
                 }
             }
             else if (MenuType == MenuType.New)
@@ -5049,6 +5085,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 CacheManager.DrawString(Session.Current.Font, "播放一般音效", new Vector2(left, 190), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
                 CacheManager.DrawString(Session.Current.Font, "演示单挑", new Vector2(left + 300, 190), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+
+                CacheManager.DrawString(Session.Current.Font, "宝物制作", new Vector2(left + 300, 190 + height * 0.5f), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 
                 CacheManager.DrawString(Session.Current.Font, "播放战斗音效", new Vector2(left, 190 + height * 0.5f), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
 

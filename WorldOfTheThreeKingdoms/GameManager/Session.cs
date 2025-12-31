@@ -613,6 +613,11 @@ namespace GameManager
             if(Platform.PlatFormType == PlatFormType.Android) 
             {
                 if(!(Setting.Current == null || String.IsNullOrEmpty(Setting.Current.MODRuntime)))
+                //if (Setting.Current != null && !Platform.Current.UserDirectoryExist("Music/" + category))
+                //{
+                //    songs = Platform.Current.GetUserFileNames("Music/" + category);
+                //}
+                //else if(String.IsNullOrEmpty(Setting.Current.MODRuntime))
                 {
                     songs = Platform.Current.GetDirectoriesBasic(@"MODs/" + Setting.Current.MOD.ToString() + "/Music/" + category, true, true);                   
                 }

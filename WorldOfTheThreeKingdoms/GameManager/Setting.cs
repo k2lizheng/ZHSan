@@ -37,6 +37,8 @@ namespace GameManager
         public int? SpeedUp { get; set; }
         [DataMember]
         public bool Chuchangsuiji { get; set; }
+        [DataMember]
+        public bool TreasureT { get; set; }//宝物制作
 
         [DataMember]
         public string MOD { get; set; }
@@ -72,6 +74,7 @@ namespace GameManager
             {
                 string file1 = "Setting.config";
                 //string file2 = "settings.config";
+                if (Platform.Current.Channel == "zhsan" && Platform.Current.UserDirectoryExist("")) Platform.Current.UserDirectoryCreate("");
                 if (Platform.Current.UserFileExist(new string[] { file1 })[0])
                 {
                     try
@@ -149,13 +152,16 @@ namespace GameManager
                 }
                 if (Current.SpeedUp == null)
                 {
-                    Current.SpeedUp = 1;
+                    Current.SpeedUp = 6;
                 }
                 if (String.IsNullOrEmpty(Current.Chuchangsuiji.ToString()))
                 {
                     Current.Chuchangsuiji = false;
                 }
-    
+                if (String.IsNullOrEmpty(Current.TreasureT.ToString()))
+                {
+                    Current.TreasureT = false;
+                }
                 //if (Current.NewsBoard == null)
                 //{
                 //    Current.NewsBoard = new NewsBoard() { Detail = "游戏公告加载中，请稍候……" };
