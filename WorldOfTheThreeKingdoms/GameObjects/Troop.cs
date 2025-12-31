@@ -2584,7 +2584,7 @@ namespace GameObjects
                         this.BelongedFaction.ClosedRouteways.Add(key, null);
                     }
                 }
-                if (this.CanEnter() && this.Army.Kind.Movability > 1)
+                if (this.CanEnter() && this.Army.Kind.Movability > 1 && this.realDestination == this.Destination)//this.realDestination == this.Destination经过自己方城取消自动进入
                 {
                     this.Enter();
                     cannotFindRouteRounds = 0;
@@ -13320,7 +13320,7 @@ namespace GameObjects
                         this.CurrentTileAnimationKind = TileAnimationKind.鼓舞;
                         break;
                 }
-                if (this.preAction != TroopPreAction.无)
+                if (this.preAction != TroopPreAction.无 && Session.Current.Scenario != null)
                 {
                     if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(this.Position) && (((Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || Session.Current.Scenario.CurrentPlayer.IsFriendly(this.BelongedFaction)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(this.Position)))
                         this.TryToPlaySound(this.Position, this.getSoundPath(Session.Current.Scenario.GameCommonData.AllTileAnimations.GetAnimation((int)this.CurrentTileAnimationKind)), false);
