@@ -40,6 +40,8 @@ namespace Platforms
 
         public new string Channel = "zhsan";  //"PlayStore";
 
+        private string PathStorage = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "zhsan");
+
         public bool LoadFromOBB
         {
             get
@@ -101,7 +103,7 @@ namespace Platforms
 
         public static bool IsPhone;
 
-        public static new string PreferResolution = "2340*1080";
+        public static new string PreferResolution = "1000*670";
 
         public new bool KeyBoardAvailable = false;
 
@@ -196,9 +198,16 @@ namespace Platforms
         {
             return System.Environment.OSVersion.Platform + " " + System.Environment.OSVersion.VersionString;
         }
-        //public void PlaySong(Song song)
+        //public override void PlaySong(string[] songs)
         //{
-        //    MediaPlayer.Play(song);
+        //    try
+        //    {
+        //       MediaPlayer mediaPlayer =new MediaPlayer();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //监控此
+        //    }
         //}
         #region 加載資源文件
 
@@ -215,7 +224,13 @@ namespace Platforms
                 //}
                 if (stream == null)
                 {
-                    stream = Game.Activity.Assets.Open(res);
+                    try 
+                    { 
+                        stream = Game.Activity.Assets.Open(res);
+                    }
+                    catch { 
+                    }
+                    
                 }
             }
             else
@@ -574,10 +589,21 @@ namespace Platforms
             {
                 lock (Platform.IoLock)
                 {
-                    using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                    if (path =="" || Setting.Current.DisplayMode == "Full")
                     {
-                        return storage.DirectoryExists(path);
+                        path = path.Replace("\\", "/");
+                        Java.IO.File fileWriter = new Java.IO.File(PathStorage + "/" + path);
+                        return fileWriter.Mkdir();
                     }
+                    else
+                    { 
+                        using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                        {
+                            return storage.DirectoryExists(path);
+                        }
+
+                    }
+                       
                 }
             }
             catch (Exception ex)
@@ -593,10 +619,24 @@ namespace Platforms
             {
                 lock (Platform.IoLock)
                 {
-                    using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                    if(path == "" || Setting.Current.DisplayMode == "Full")
                     {
-                        storage.CreateDirectory(path);
+                        path = path.Replace("\\", "/");
+                        Java.IO.File fileWriter = new Java.IO.File(PathStorage +"/"+ path);                       
+                        fileWriter.Mkdir();
+                        if (path == "") 
+                        {
+                            fileWriter = new Java.IO.File(PathStorage + "/" + "obb");
+                        }
                     }
+                    else
+                    {
+                        using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                        {
+                            storage.CreateDirectory(path);
+                        }
+                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -604,7 +644,30 @@ namespace Platforms
                 WebTools.TakeWarnMsg("創建用戶文件夾失敗:" + path, "UserCreateDirectory:" + UserApplicationDataPath + path, ex);
             }
         }
+        public void OutputUserFile(string res, string content, PlatformTask action)
+        {
+            //string saveDir = @"Save\";//ava.IO.FileOutputStream fos = new Java.IO.FileOutputStream(path);
+            string path = res;
+            path = "/" + path;
+            path = PathStorage + path;
+                      
+            try
+            {
+                using (var fileWriter = new StreamWriter(path))
+                {
+                    fileWriter.Write(content);
+                    fileWriter.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                WebTools.TakeWarnMsg("創建用戶文件失敗:" + path, "UserCreateDirectory:" + UserApplicationDataPath + path, ex);
+            }
+        }
+        public void ImportUserFile()
+        {
 
+        }
         /// <summary>
         /// 獲得用戶文件
         /// </summary>
@@ -616,6 +679,19 @@ namespace Platforms
             {
                 lock (Platform.IoLock)
                 {
+                    if (searchPattern.Contains("Music"))
+                    {
+                        searchPattern = PathStorage + "/" + searchPattern;
+                        Java.IO.File file = new Java.IO.File(searchPattern);
+                        Java.IO.File[] files = file.ListFiles();
+                        List<string> list = new List<string>();
+                        //string[] str =null;
+                        for(int i=0; i < files.Length; i++)
+                        {
+                            list.Add(files[i].ToString());
+                        }
+                        return list.ToArray();
+                    }
                     using (IsolatedStorageFile storage = GetIsolatedStorageFile())
                     {
                         var files = storage.GetFileNames(searchPattern);
@@ -644,22 +720,35 @@ namespace Platforms
         {
             try
             {
-                res = res.Replace("/", "\\");
+                res = res.Replace("\\", "/");
                 lock (Platform.IoLock)
                 {
-                    using (IsolatedStorageFile storage = GetIsolatedStorageFile())
-                    {
-                        if (storage.FileExists(res))
+                    if (res.Contains("xml") || res.Contains("Setting") || (Setting.Current.DisplayMode == "Full" && res.Contains("Save")))
+                    {                      
+                        string path = PathStorage + "/" + res;
+
+                        using (var streamReader = new StreamReader(path))
                         {
-                            var isolatedFileStream = storage.OpenFile(res, FileMode.Open);
-                            using (var streamReader = new StreamReader(isolatedFileStream))
-                            {
-                                return streamReader.ReadToEnd();
-                            }
+                            return streamReader.ReadToEnd();
+                            //streamReader.Close();                           
                         }
-                        else
+                    }
+                    else 
+                    {
+                        using (IsolatedStorageFile storage = GetIsolatedStorageFile())
                         {
-                            return null;
+                            if (storage.FileExists(res))
+                            {
+                                var isolatedFileStream = storage.OpenFile(res, FileMode.Open);
+                                using (var streamReader = new StreamReader(isolatedFileStream))
+                                {
+                                    return streamReader.ReadToEnd();
+                                }
+                            }
+                            else
+                            {
+                                return null;
+                            }
                         }
                     }
                 }
@@ -702,6 +791,7 @@ namespace Platforms
                         {
                             return null;
                         }
+
                     }
                 }
             }
@@ -839,30 +929,34 @@ namespace Platforms
                 return null;
             }
             try
-            {
+            {               
                 lock (Platform.IoLock)
-                {
-                    using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                {                   
+                    using IsolatedStorageFile storage = GetIsolatedStorageFile();
+                    List<bool> results = new List<bool>();
+                    foreach (string re in res)
                     {
-                        List<bool> results = new List<bool>();
-                        foreach (string re in res)
+                        bool exis = false;
+                        if (!System.String.IsNullOrEmpty(re.Trim()))
                         {
-                            bool exis = false;
-                            if (!System.String.IsNullOrEmpty(re.Trim()))
+                            try
                             {
-                                try
+                                if (re.Contains("xml") || re.Contains("Setting") || (Setting.Current.DisplayMode == "Full" && re.Contains("Save")))
                                 {
-                                    exis = storage.FileExists(re.Trim());
+                                    string r = re.Replace("\\", "/");
+                                    Java.IO.File fileWriter = new Java.IO.File(PathStorage + "/" + r);
+                                    exis = fileWriter.Exists();
                                 }
-                                catch
-                                {
-
-                                }
+                                else exis = storage.FileExists(re.Trim());
                             }
-                            results.Add(exis);
+                            catch
+                            {
+
+                            }
                         }
-                        return results.ToArray();
+                        results.Add(exis);
                     }
+                    return results.ToArray();
                 }
             }
             catch (System.Exception ex)
@@ -871,18 +965,36 @@ namespace Platforms
                 return null;
             }
         }
+        public void SaveUserFile(string res, string content)
+        {
+            SaveUserFile(res, content, false);
+        }
         /// <summary>
         /// 保存用戶文本
         /// </summary>
         /// <param name="res"></param>
         /// <param name="content"></param>
-        public void SaveUserFile(string res, string content, bool fullPathProvided = false)
+        public void SaveUserFile(string res, string content, bool fullPathProvided)
         {
             try
-            {
-                DelUserFiles(new string[] { res }, null);
-                lock (Platform.IoLock)
-                {
+            {   lock (Platform.IoLock)
+                {               
+                    if (fullPathProvided || res.Contains("Save") || res.Contains("Setting"))
+                    {                   
+                        if (res.Contains("xml"))res = res.Substring(13);
+                        res = res.Replace("\\", "/");
+                        DelUserFiles0(new string[] { res }, null);
+
+                        string path = PathStorage + "/" + res;
+                        using var fileWriter = new StreamWriter(path);
+                        fileWriter.Write(content);
+                        fileWriter.Close();
+                        return;
+
+                    }
+
+                    DelUserFiles(new string[] { res }, null);
+                
                     using (IsolatedStorageFile storage = GetIsolatedStorageFile())
                     {
                         string path = res;
@@ -946,7 +1058,7 @@ namespace Platforms
         public void SaveUserFile(string res, byte[] bytes, PlatformTask action)
         {
             try
-            {
+            {            
                 DelUserFiles(new string[] { res }, null);
                 lock (Platform.IoLock)
                 {
@@ -989,25 +1101,48 @@ namespace Platforms
         {
             lock (Platform.IoLock)
             {
-                using (IsolatedStorageFile storage = GetIsolatedStorageFile())
+                using IsolatedStorageFile storage = GetIsolatedStorageFile();
+                foreach (string file in files)
                 {
-                    foreach (string file in files)
+                    if (UserFileExist(new string[] { file.NullToString().Trim() })[0])
                     {
-                        if (UserFileExist(new string[] { file.NullToString().Trim() })[0])
+                        try
                         {
-                            try
-                            {
-                                storage.DeleteFile(file.Trim());
-                            }
-                            catch (System.Exception ex)
-                            {
-                                WebTools.TakeWarnMsg("删除用户文件失败:" + file, "storage.DeleteFile:" + UserApplicationDataPath + file, ex);
-                            }
+                            storage.DeleteFile(file.Trim());
                         }
-                        if (action != null)
+                        catch (System.Exception ex)
                         {
-                            action.Start();
+                            WebTools.TakeWarnMsg("删除用户文件失败:" + file, "storage.DeleteFile:" + UserApplicationDataPath + file, ex);
                         }
+                    }
+                    if (action != null)
+                    {
+                        action.Start();
+                    }
+                }
+            }
+        }
+        public void DelUserFiles0(string[] files, PlatformTask action)
+        {
+            lock (Platform.IoLock)
+            {              
+                foreach (string file in files)
+                {
+                    if (UserFileExist(new string[] { file.NullToString().Trim() })[0])
+                    { 
+                        using var fileWriter = new Java.IO.File(PathStorage + "/" + file);
+                        try
+                        {
+                            fileWriter.Delete();
+                        }
+                        catch (System.Exception ex)
+                        {
+                            WebTools.TakeWarnMsg("删除用户文件失败:" + file, "storage.DeleteFile:" + UserApplicationDataPath + file, ex);
+                        }
+                    }
+                    if (action != null)
+                    {
+                        action.Start();
                     }
                 }
             }
@@ -1628,17 +1763,23 @@ namespace Platforms
                 {
                     ainfo = activity.ApplicationInfo;
                     pinfo = activity.PackageManager.GetPackageInfo(ainfo.PackageName, PackageInfoFlags.MetaData);
-
-                    obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName, $"main.{Platform.PackVersion}.{ainfo.PackageName}.obb");
                     //#if DEBUG
                     //                obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName + ".debug", String.Format("main.{0}.{1}.obb", expansionPackVersion, ainfo.PackageName));
                     //#else
                     //            obbPath = Path.Combine (Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName, String.Format ("main.{0}.{1}.obb", expansionPackVersion, ainfo.PackageName));
                     //#endif
+                    obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName, $"main.{Platform.PackVersion}.{ainfo.PackageName}.obb");
+
                     if (!File.Exists(obbPath))
                     {
-                        obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "zhsan", "obb", ainfo.PackageName, $"main.{Platform.PackVersion}.{ainfo.PackageName}.obb");
-                    }                   
+                        obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "zhsan", "obb", $"main.{Platform.PackVersion}.{ainfo.PackageName}.obb");
+                    }
+                    //obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "Android", "obb", ainfo.PackageName, $"shuiyou{Platform.PackVersion}.{ainfo.PackageName}.obb");
+
+                    //if (!File.Exists(obbPath))
+                    //{
+                    //    obbPath = System.IO.Path.Combine(Android.OS.Environment.ExternalStorageDirectory.AbsolutePath, "zhsan", "obb", ainfo.PackageName, $"shuiyou{Platform.PackVersion}.{ainfo.PackageName}.obb");
+                    //}
                     entries = new List<string>();
                     if (File.Exists(obbPath))
                     {
@@ -1682,7 +1823,7 @@ namespace Platforms
             lock (Platform.IoLock)
             {
                 var ze = zif.GetEntry(filePath);
-
+                if (ze == null) return null;
                 using (var stream = zif.GetInputStream(ze))
                 {
                     var mstream = new MemoryStream((int)ze.Size);
