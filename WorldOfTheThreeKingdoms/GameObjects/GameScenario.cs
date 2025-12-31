@@ -960,7 +960,7 @@ namespace GameObjects
         public void ApplyEvents()
         {
             Dictionary<Event, Architecture> events = this.EventsToApply;
-            foreach (KeyValuePair<Event, Architecture> i in events)
+            foreach (KeyValuePair<Event, Architecture> i in events.ToList())
             {
                 i.Key.DoApplyEvent(i.Value);
                 i.Key.happened = true;
@@ -3277,14 +3277,23 @@ namespace GameObjects
                     errorMsg.Add("编队ID" + military.ID + "：兵种ID" + military.KindID + "不存在");
                     continue;
                 }
-                foreach (Person p in this.Persons)
+                if (military.RecruitmentPersonID >= 0)
                 {
-                    if (p.ID == military.RecruitmentPersonID)
+                    Person person = (Person)this.Persons.GetGameObject(military.RecruitmentPersonID);
+                    if (person != null)
                     {
-                        //p.RecruitmentMilitary = military;
-                        p.RecruitMilitary(military);
+                        person.RecruitMilitary(military);
+
                     }
                 }
+                //foreach (Person p in this.Persons)
+                //{
+                //    if (p.ID == military.RecruitmentPersonID)
+                //    {
+                //        //p.RecruitmentMilitary = military;
+                //        p.RecruitMilitary(military);
+                //    }
+                //}
             }
 
             this.InitializeMilitaryData();

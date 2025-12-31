@@ -1,20 +1,21 @@
 ﻿using GameGlobal;
+using GameManager;
 using GameObjects.Animations;
+using GameObjects.Conditions;
 using GameObjects.FactionDetail;
+using GameObjects.Influences;
 using GameObjects.PersonDetail;
 using GameObjects.TroopDetail;
-using GameObjects.Influences;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Platforms;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.IO;
-using GameObjects.Conditions;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using Platforms;
 using Tools;
-using GameManager;
 
 namespace GameObjects
 {
@@ -2135,7 +2136,7 @@ namespace GameObjects
         {
             get
             {
-                foreach (Troop t in Session.Current.Scenario.Troops.GameObjects)
+                foreach (Troop t in Session.Current.Scenario.Troops.GameObjects.Cast<Troop>())
                 {
                     if (t.Persons.GameObjects.Contains(this))
                     {
@@ -2673,7 +2674,10 @@ namespace GameObjects
 
                             }
                         }
-
+                        if(this.suoshurenwu < 0)
+                        {
+                            this.suoshurenwu = this.spouse != null ? this.spouse.ID : this.BelongedFaction.ID;
+                        }
                         Person p = Session.Current.Scenario.Persons.GetGameObject(this.suoshurenwu) as Person;
 
                         if (this.Status != PersonStatus.Princess || !this.WillHateIfChongxing)
@@ -9852,28 +9856,41 @@ namespace GameObjects
 
         private static void HandleTitle(Person r, int officerType, int titleChance)
         {
-            if (GameObject.Chance(titleChance))
+            if (!GameObject.Chance(titleChance))
+                return;
+
+            var titles = Title.GetKindTitleDictionary();
+
+            foreach (var kv in titles)
             {
-                Dictionary<TitleKind, List<Title>> titles = Title.GetKindTitleDictionary();
-                foreach (KeyValuePair<TitleKind, List<Title>> kv in titles)
+                // 预检查 officerType 是否有效
+                if (officerType < 0)
+                    continue;
+
+                var validTitles = new Dictionary<Title, float>();
+
+                foreach (var t in kv.Value)
                 {
-                    Dictionary<Title, float> chances = new Dictionary<Title, float>();
-                    foreach (Title t in kv.Value)
+                    // 提前检查 officerType 是否在有效范围内
+                    if (officerType >= t.GenerationChance.Length)
+                        continue;
+
+                    if (t.CanBeChosenForGenerated(r))
                     {
-                        if (t.CanBeChosenForGenerated(r))
+                        var chance = t.GenerationChance[officerType];
+                        if (chance > 0) // 只有概率大于0才加入
                         {
-                            chances.Add(t, t.GenerationChance[(int)officerType]);
+                            validTitles.Add(t, chance);
                         }
                     }
+                }
 
-                    if (chances.Count > 0)
-                    {
-                        r.RealTitles.Add(GameObject.WeightedRandom(chances));
-                    }
+                if (validTitles.Count > 0)
+                {
+                    r.RealTitles.Add(GameObject.WeightedRandom(validTitles));
                 }
             }
         }
-
         private static void HandleStunt(Person r, int officerType)
         {
             foreach (Stunt s in Session.Current.Scenario.GameCommonData.AllStunts.Stunts.Values)

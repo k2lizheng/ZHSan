@@ -4883,6 +4883,8 @@ namespace GameObjects
             Treasure r = Treasure.createTreasure(param,isAI);
             this.ZhiBao(r);
             this.DecreaseFund(preferredType.CostFund);
+            this.BelongedFaction.YearOfficialLimit++;
+            preferredType.TypeCount++;
         }
         /*
         public int CreatePersonCost
@@ -6925,7 +6927,7 @@ namespace GameObjects
                 {
                     this.DevelopFund();
                 }
-
+                if (this.ID == this.BelongedFaction.CapitalID) this.IncreaseFund(1000);
             }
 
         }
@@ -10001,7 +10003,7 @@ namespace GameObjects
 
         public bool IsSelfFoodEnough(LinkNode node, Routeway routeway)
         {
-            //if (routeway.LastPoint != null)   //临时加上，避免跳出
+            if (routeway.LastPoint != null)   //临时加上，避免跳出
             {
                 switch (node.Kind)
                 {
@@ -11153,7 +11155,7 @@ namespace GameObjects
                     else if (this.InformationAvail())
                     {
                         Routeway routeway = this.GetRouteway(wayToTarget, true);
-                        if ((routeway != null) && ((routeway.LastPoint.BuildFundCost * (4 + ((wayToTarget.A.AreaCount >= 4) ? 2 : 0))) <= this.Fund))
+                        if ((routeway != null && routeway.LastPoint != null) && ((routeway.LastPoint.BuildFundCost * (4 + ((wayToTarget.A.AreaCount >= 4) ? 2 : 0))) <= this.Fund))
                         {
                             double foodRateBySeason = Session.Current.Scenario.Date.GetFoodRateBySeason(Session.Current.Scenario.Date.GetSeason(routeway.Length));
                             if (((this.Food * foodRateBySeason) >= (this.FoodCeiling / 3)) || this.IsSelfFoodEnoughForOffensive(wayToTarget, routeway))
@@ -15369,11 +15371,11 @@ namespace GameObjects
                 {
                     this.mayor = Session.Current.Scenario.Persons.GetGameObject(this.MayorID)as Person ;
                 }
-
-                if (this.mayor != null && this.BelongedFaction != null &&
-                    (this.mayor == this.BelongedFaction .Leader || !this.mayor.Alive || !this.mayor.Available
-                    || this.mayor.BelongedFaction != this.BelongedFaction
-                    || this.mayor.BelongedFaction == null || (this.mayor.LocationArchitecture != this && this.mayor.BelongedTroop == null )))
+                if(this.mayor.Status != PersonStatus.Normal)
+                //if (this.mayor != null && this.BelongedFaction != null &&
+                //    (this.mayor == this.BelongedFaction .Leader || !this.mayor.Alive || !this.mayor.Available
+                //    || this.mayor.BelongedFaction != this.BelongedFaction
+                //    || this.mayor.BelongedFaction == null || (this.mayor.LocationArchitecture != this && this.mayor.BelongedTroop == null )))
                 {
                     this.Mayor = null;
                 }

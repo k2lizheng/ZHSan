@@ -218,7 +218,7 @@ namespace GameObjects
                     break;
                 case 7: //7、P1武将被俘虏
                     Session.Current.Scenario.YearTable.addChallengeEntry(Session.Current.Scenario.Date, destinationPerson, sourcePerson, "被俘虜");
-                    destinationTroop.CatchCaptiveFromTroop(sourcePerson);
+                    destinationTroop.CatchCaptiveFromTroop(sourcePerson, sourceTroop);
                     sourceTroop.RefreshAfterLosePerson();
                     damage.SourceMoraleChange -= 20;
                     damage.DestinationMoraleChange += 20;
@@ -227,7 +227,7 @@ namespace GameObjects
                     break;
                 case 8: //8、P2武将被俘虏
                     Session.Current.Scenario.YearTable.addChallengeEntry(Session.Current.Scenario.Date, sourcePerson, destinationPerson, "被俘虜");
-                    sourceTroop.CatchCaptiveFromTroop(destinationPerson);
+                    sourceTroop.CatchCaptiveFromTroop(destinationPerson, destinationTroop);
                     destinationTroop.RefreshAfterLosePerson();
                     damage.SourceMoraleChange += 20;
                     damage.DestinationMoraleChange -= 20;

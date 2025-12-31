@@ -976,7 +976,7 @@ namespace GameObjects
 
         private string getSoundPath(Animation a)
         {
-            if (Setting.Current.GlobalVariables.TroopVoice)
+            if ((Setting.Current.GlobalVariables.TroopVoice)&&(Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(this.Position) && (((Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || Session.Current.Scenario.CurrentPlayer.IsFriendly(this.BelongedFaction)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(this.Position))))
             {
                 return Platform.Current.GetPersonVioce(this.Leader, a.Name);
                 //if (Directory.Exists("Content/Sound/Animation/Person/" + this.Leader.ID))
@@ -1457,7 +1457,7 @@ namespace GameObjects
             {
                 if (hasTargetTroopFlag && ((credit < 500) || (GameObject.Chance(this.Combativity) && GameObject.Chance(90))))
                 { //Label_0712:
-                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values)
+                    foreach (CombatMethod method in this.CombatMethods.CombatMethods.Values.ToArray())//ToArray()添加防止集合已修改;可能无法执行枚举操作
                     {
                         if (!this.HasCombatMethod(method.ID))
                         {
@@ -3036,7 +3036,7 @@ namespace GameObjects
                 {
                     foreach (Person person in personlist)
                     {
-                        this.CatchCaptiveFromTroop(person);
+                        this.CatchCaptiveFromTroop(person, troop);
 
                         foreach (Person q in this.Persons)
                         {
@@ -3061,9 +3061,9 @@ namespace GameObjects
             }
         }
 
-        public void CatchCaptiveFromTroop(Person person)
+        public void CatchCaptiveFromTroop(Person person, Troop troop)
         {
-            person.BelongedTroop.persons.Remove(person);
+            troop.persons.Remove(person);
             Captive captive = Captive.Create(person, this.BelongedFaction);
             if (captive != null)
             {
@@ -3862,7 +3862,7 @@ namespace GameObjects
         private int stuckedFor = 0;
         public void DayEvent()
         {
-            if (this.mingling != "Enter")
+            if (this.mingling != "Enter" && this.mingling != "Attack")
             {
                 this.mingling = "";
             }
@@ -8343,16 +8343,23 @@ namespace GameObjects
             {
                 flag = this.TryToStepForward();
             }
-            else if (this.Position != this.RealDestination)
+            else if (this.Position != this.RealDestination && !(this.TargetArchitecture != null && this.CanAttack(this.TargetArchitecture) 
+                && this.TargetArchitecture.ArchitectureArea.HasPoint(this.RealDestination)))
             {
-                flag = this.TryToStepForward();
+               flag = this.TryToStepForward();
                 // this.Destination = this.RealDestination;
             }
             else
-            {
-                this.MovabilityLeft = -1;
-                this.chongshemubiaoshujuqingling();
-
+            { 
+                if(this.TargetArchitecture != null && this.TargetArchitecture.Endurance <= 0)
+                { 
+                    flag = this.TryToStepForward(); 
+                }
+                else
+                {
+                    this.MovabilityLeft = -1;
+                    this.chongshemubiaoshujuqingling();
+                }              
             }
 
             /*if (!flag && this.MovabilityLeft < 0)
@@ -11212,6 +11219,11 @@ namespace GameObjects
 
         public bool TryToStepForward()
         {
+            //if (this.TargetArchitecture != null && this.CanAttack(this.TargetArchitecture))
+            //{
+            //    this.MovabilityLeft = -1;
+            //    return false;
+            //}
             bool path = false;
             MilitaryKind kind = this.Army.Kind;
 
@@ -13310,7 +13322,8 @@ namespace GameObjects
                 }
                 if (this.preAction != TroopPreAction.无)
                 {
-                    this.TryToPlaySound(this.Position, this.getSoundPath(Session.Current.Scenario.GameCommonData.AllTileAnimations.GetAnimation((int)this.CurrentTileAnimationKind)), false);
+                    if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(this.Position) && (((Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || Session.Current.Scenario.CurrentPlayer.IsFriendly(this.BelongedFaction)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(this.Position)))
+                        this.TryToPlaySound(this.Position, this.getSoundPath(Session.Current.Scenario.GameCommonData.AllTileAnimations.GetAnimation((int)this.CurrentTileAnimationKind)), false);
                 }
             }
         }
@@ -13569,7 +13582,8 @@ namespace GameObjects
                 }
                 if (this.CurrentTileAnimationKind != TileAnimationKind.无 && Session.Current.Scenario != null)
                 {
-                    this.TryToPlaySound(this.Position, this.getSoundPath(Session.Current.Scenario.GameCommonData.AllTileAnimations.GetAnimation((int)this.CurrentTileAnimationKind)), false);
+                    if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(this.Position) && (((Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || Session.Current.Scenario.CurrentPlayer.IsFriendly(this.BelongedFaction)) || Session.Current.Scenario.CurrentPlayer.IsPositionKnown(this.Position)))
+                        this.TryToPlaySound(this.Position, this.getSoundPath(Session.Current.Scenario.GameCommonData.AllTileAnimations.GetAnimation((int)this.CurrentTileAnimationKind)), false);
                 }
             }
         }
