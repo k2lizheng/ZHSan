@@ -1633,8 +1633,9 @@ namespace GameObjects
             this.AITechniques();
             this.AIMakeMarriage();
             this.AISelectPrince();
-            this.AIZhiBao();
+            
             this.AIZhaoXian();
+            this.AIZhiBao();
             this.AIAppointMayor();
             this.AIHouGong();
             this.AIArchitectures();
@@ -3346,7 +3347,7 @@ namespace GameObjects
             this.armyScale = this.ArmyScale; // 小写的是每天的缓存，因为被InternalSurplusRate叫很多次，不想每次都全部重新计算，大写的才是真正的值
             this.InternalSurplusRateCache = -1;
             this.visibleTroopsCache = null;
-            this.RefreshImportantPerson();
+            if (Session.Current.Scenario.IsPlayer(this)) { this.RefreshImportantPerson(); }
             this.troopSequence = -1;
         }
 
@@ -3714,13 +3715,15 @@ namespace GameObjects
         }
         private void AIZhiBao()
         {
+            if (!Setting.Current.TreasureT) return;
+            if (Session.Current.Scenario.Date.Month < 12) return;
             if (Session.GlobalVariables.ZhaoXianSuccessRate <= 0|| Session.Parameters.AITreasureChance<=0) return;
 
             if (Session.Current.Scenario.IsPlayer(this)) return;
-            if (this.leader.TreasureCount > 10) return; 
+            if (this.YearOfficialLimit > Math.Min(this.CityCount,3)) return; 
             foreach (Architecture a in this.Architectures)
             {
-                while (a.CanZhaoXian() && !a.HasEnoughPeople && this.leader.TreasureCount < 10 &&(PersonCount <= 1 || a.IsFundEnough))
+                while (!a.HasEnoughPeople && this.leader.TreasureCount < 10 &&(PersonCount <= 1 || a.IsFundEnough))
                 {
                     PersonGeneratorTypeList list = Session.Current.Scenario.GameCommonData.AllPersonGeneratorTypes;
                     Dictionary<PersonGeneratorType, float> weights = new Dictionary<PersonGeneratorType, float>();

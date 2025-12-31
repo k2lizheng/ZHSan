@@ -4765,7 +4765,20 @@ namespace GameObjects
             return false;
         }
 
+        public bool CanZhiBao()
+        {
+            if (this.BelongedFaction != null && Session.GlobalVariables.ZhaoXianSuccessRate > 0 && Setting.Current.TreasureT
+              && this.BelongedFaction.ZhaoxianFailureCount < 1 && this.BelongedFaction != null && this.BelongedFaction.Leader.Status != PersonStatus.Captive)
 
+            {
+                if (this.AvailGeneratorTypeList().Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         public PersonGeneratorTypeList AvailGeneratorTypeList()
         {
             PersonGeneratorTypeList list = new PersonGeneratorTypeList();
