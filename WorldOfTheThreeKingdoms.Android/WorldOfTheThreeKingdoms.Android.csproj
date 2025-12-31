@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />-->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -22,6 +22,8 @@
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <MonoGamePlatform>Android</MonoGamePlatform>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -46,6 +48,7 @@
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     <AndroidUseAapt2>true</AndroidUseAapt2>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,10 +58,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>Full</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
-    <EmbedAssembliesIntoApk>false</EmbedAssembliesIntoApk>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <Debugger>Xamarin</Debugger>
@@ -66,24 +69,32 @@
     <EnableLLVM>false</EnableLLVM>
     <EnableProguard>False</EnableProguard>
     <DebugSymbols>true</DebugSymbols>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidUseAapt2>false</AndroidUseAapt2>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <MandroidI18n />
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
+    <AndroidKeyStore>false</AndroidKeyStore>
+    <AndroidSigningKeyStore>D:\Users\Red LZ\AppData\Local\Xamarin\Mono for Android\Keystore\Zhsan\Zhsan.keystore</AndroidSigningKeyStore>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <AndroidSigningStorePass>zhsanzheng</AndroidSigningStorePass>
+    <AndroidStoreUncompressedFileExtensions>.dll</AndroidStoreUncompressedFileExtensions>
   </PropertyGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Icon.png" />
     <AndroidResource Include="Resources\Drawable\Splash.png" />
     <AndroidResource Include="Resources\Values\Styles.xml" />
     <AndroidResource Include="Resources\Values\Strings.xml" />
-    <None Include="GameObjects\Conditions\.editorconfig" />
+    <None Include="packages.config" />
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpZipLib.1.1.0\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Java.Interop" />
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Lidgren.Network.dll</HintPath>
@@ -106,7 +117,10 @@
     </Reference>
     <Reference Include="OpenTK-1.0" />
     <Reference Include="SharpCompress">
-      <HintPath>..\assemblies\SharpCompress.dll</HintPath>
+      <HintPath>assemblies\SharpCompress.dll</HintPath>
+    </Reference>
+    <Reference Include="spine-monogame">
+      <HintPath>..\..\yl\Release\spine-monogame.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -123,6 +137,9 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Android.Support.Compat">
+      <HintPath>..\assemblies\Xamarin.Android.Support.Compat.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\WorldOfTheThreeKingdoms\Contracts\Records.cs">
@@ -346,6 +363,1746 @@
     </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindFactory.cs">
       <Link>GameObjects\Conditions\ConditionKindFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind0.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind0.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind100.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1000.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1001.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1001.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1002.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1002.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1003.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1003.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1004.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1004.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1005.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1005.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1006.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1006.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1007.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1007.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1008.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1008.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1009.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1009.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1010.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1015.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1015.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1020.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1025.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1025.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1030.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1035.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1035.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1040.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1045.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1045.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1050.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1051.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1051.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1060.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1060.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1065.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1065.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind110.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1100.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1105.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1105.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1110.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1115.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1115.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1120.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1125.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1125.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1130.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1135.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1135.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1140.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1145.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1145.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1150.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1155.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1155.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1160.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1160.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1165.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1165.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1170.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1170.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1175.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1175.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1180.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1180.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1185.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1185.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1190.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1190.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1195.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1195.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind120.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1200.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1205.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1205.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1210.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1215.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1215.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1220.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1225.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1225.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1230.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1230.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1235.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1235.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1240.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1240.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1241.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1241.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1242.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1242.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1243.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1243.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1244.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1244.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1245.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1245.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1246.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1246.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1247.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1247.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1248.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1248.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1249.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1249.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1250.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1250.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1255.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1255.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1260.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1260.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1265.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1265.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1270.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1270.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1275.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1275.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1280.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1280.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1285.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1285.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1290.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1290.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1291.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1291.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1292.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1292.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1293.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1293.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1294.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1294.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1295.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1295.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1296.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1296.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1297.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1297.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind130.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1300.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1310.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1350.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1350.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1360.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1360.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind140.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1400.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1400.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1401.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1401.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1402.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1402.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1403.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1403.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1404.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1404.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1410.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1410.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1411.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1411.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1412.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1412.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1413.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1413.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1414.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1414.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1420.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1420.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1421.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1421.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1422.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1422.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1423.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1423.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1424.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1424.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1425.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1425.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind150.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1500.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1500.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1510.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1510.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1520.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1520.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1530.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1530.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1540.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1540.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1550.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1550.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind160.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind160.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1600.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1600.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1601.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1601.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1602.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1602.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1603.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1603.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1604.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1604.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1605.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1605.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1630.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1630.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1635.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1635.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1640.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1640.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1645.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1645.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1650.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1650.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1655.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1655.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind170.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind170.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1700.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1700.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1705.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1705.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1720.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1720.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1725.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1725.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1730.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1730.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1735.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1735.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1740.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1740.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1745.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1745.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind180.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind180.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1840.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1840.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1845.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1845.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind190.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind190.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1900.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1900.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1910.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1910.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind1920.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind1920.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind200.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2000.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2005.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2005.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2010.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2015.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2015.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2020.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2025.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2025.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2030.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2035.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2035.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2040.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2045.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2045.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind210.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2100.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2105.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2105.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2110.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2115.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2115.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2120.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2125.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2125.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2130.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2135.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2135.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2140.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2145.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2145.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2150.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2155.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2155.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2160.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2160.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2165.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2165.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind220.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2200.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2205.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2205.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2210.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2215.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2215.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2220.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2225.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2225.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2230.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2230.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2235.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2235.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2240.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2240.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2245.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2245.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2250.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2250.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2255.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2255.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2260.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2260.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2265.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2265.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2270.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2270.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2275.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2275.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2280.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2280.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2285.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2285.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind230.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind230.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2300.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2305.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2305.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2310.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2315.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2315.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2320.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2320.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2325.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2325.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2330.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2330.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2335.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2335.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2340.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2340.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2345.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2345.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2350.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2350.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2355.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2355.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2360.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2360.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2365.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2365.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2370.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2370.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2375.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2375.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind240.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind240.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2400.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2400.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2405.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2405.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2410.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2410.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2415.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2415.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2500.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2500.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2501.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2501.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2510.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2510.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2515.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2515.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2520.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2520.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2525.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2525.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2530.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2530.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2535.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2535.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2540.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2540.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2545.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2545.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2600.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2600.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2601.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2601.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2610.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2610.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2620.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2620.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2700.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2700.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2705.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2705.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2710.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2710.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2711.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2711.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2712.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2712.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2713.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2713.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2714.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2714.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2715.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2715.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2720.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2720.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2725.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2725.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2730.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2730.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2735.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2735.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2740.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2740.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2745.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2745.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2750.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2750.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2755.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2755.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2800.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2800.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2805.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2805.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2810.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2810.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2815.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2815.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2820.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2820.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2825.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2825.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2830.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2830.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2835.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2835.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2840.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2840.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2845.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2845.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2900.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2900.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2905.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2905.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2910.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2910.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2920.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2920.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind2925.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind2925.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind300.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3000.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3005.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3005.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3010.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3015.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3015.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3020.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3025.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3025.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3030.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3035.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3035.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3040.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3041.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3041.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3045.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3045.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind305.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind305.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3050.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3051.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3051.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3060.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3060.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3065.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3065.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind310.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3100.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3105.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3105.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3110.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3115.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3115.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3120.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3125.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3125.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3130.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3135.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3135.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3140.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3145.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3145.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind315.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind315.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3150.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3155.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3155.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3160.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3160.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3165.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3165.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3170.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3170.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3175.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3175.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind320.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind320.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3200.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3205.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3205.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3210.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind3215.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind3215.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind325.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind325.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind350.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind350.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind360.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind360.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind370.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind370.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind380.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind380.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind390.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind390.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind400.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind400.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4000.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4005.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4005.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4010.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4015.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4015.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4020.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4025.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4025.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4030.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4035.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4035.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4040.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4045.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4045.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4050.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4055.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4055.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4060.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4060.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4065.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4065.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4070.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4070.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4075.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4075.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4080.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4080.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4085.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4085.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4090.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4090.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4095.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4095.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind410.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind410.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4100.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4105.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4105.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4110.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4115.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4115.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4120.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4125.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4125.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4130.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4135.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4135.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4140.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4145.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4145.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind420.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind420.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4200.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4205.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4205.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4210.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4215.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4215.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4220.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4225.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4225.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind425.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind425.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind430.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind430.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4300.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4301.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4301.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4302.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4302.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4303.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4303.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4304.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4304.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4305.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4305.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4306.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4306.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4307.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4307.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4308.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4308.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4309.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4309.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4310.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4311.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4311.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4312.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4312.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4313.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4313.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4314.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4314.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4315.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4315.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4316.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4316.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4317.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4317.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4318.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4318.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4319.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4319.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4320.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4320.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4321.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4321.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4322.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4322.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4323.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4323.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4324.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4324.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4325.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4325.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind435.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind435.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind440.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind440.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind450.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind450.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4500.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4500.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4510.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4510.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4515.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4515.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4520.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4520.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4525.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4525.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4530.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4530.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4535.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4535.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4540.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4540.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4545.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4545.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind455.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind455.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4550.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4550.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4555.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4555.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4560.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4560.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4565.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4565.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4570.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4570.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4575.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4575.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4580.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4580.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4585.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4585.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind460.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind460.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4600.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4600.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4605.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4605.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4610.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4610.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4615.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4615.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4620.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4620.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4625.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4625.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4630.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4630.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4635.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4635.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4640.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4640.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4645.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4645.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind465.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind465.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4650.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4650.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4655.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4655.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4660.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4660.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4665.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4665.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4670.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4670.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4675.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4675.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4680.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4680.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4685.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4685.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4690.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4690.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4695.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4695.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4700.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4700.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4705.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4705.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4710.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4710.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4715.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4715.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4720.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4720.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4725.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4725.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4730.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4730.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4735.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4735.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4740.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4740.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4745.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4745.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4800.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4800.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4805.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4805.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4810.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4810.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4815.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4815.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4820.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4820.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4825.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4825.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4830.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4830.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4835.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4835.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4840.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4840.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4845.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4845.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4900.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4900.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4905.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4905.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4910.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4910.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4911.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4911.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4912.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4912.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4913.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4913.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4914.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4914.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4915.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4915.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4916.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4916.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4917.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4917.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4918.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4918.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4919.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4919.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4920.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4920.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4921.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4921.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4922.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4922.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4923.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4923.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4924.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4924.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4925.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4925.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4926.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4926.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4927.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4927.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4928.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4928.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind4929.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind4929.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind500.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind500.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5000.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5005.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5005.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5010.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5015.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5015.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5020.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5025.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5025.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5030.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5035.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5035.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5040.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5045.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5045.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind505.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind505.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5050.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5055.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5055.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5060.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5060.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5065.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5065.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5070.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5070.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind5075.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind5075.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind510.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind510.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind515.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind515.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind520.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind520.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind525.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind525.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind530.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind530.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind535.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind535.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind540.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind540.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind545.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind545.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind550.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind550.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind570.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind570.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind580.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind580.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind590.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind590.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind591.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind591.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind592.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind592.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind593.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind593.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind594.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind594.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind595.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind595.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind600.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind600.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind610.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind610.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind620.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind620.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind621.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind621.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind625.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind625.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind626.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind626.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind630.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind630.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind631.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind631.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind635.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind635.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind636.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind636.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind640.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind640.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind641.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind641.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind645.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind645.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind646.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind646.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind650.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind650.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind655.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind655.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind660.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind660.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind670.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind670.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind680.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind680.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind685.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind685.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind690.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind690.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind700.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind700.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind750.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind750.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind760.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind760.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind800.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind800.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind801.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind801.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind802.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind802.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind803.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind803.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind804.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind804.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind805.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind805.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind806.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind806.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind807.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind807.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind808.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind808.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind809.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind809.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind810.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind810.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind811.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind811.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind812.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind812.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind814.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind814.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind815.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind815.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind816.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind816.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind817.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind817.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind818.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind818.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind819.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind819.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind820.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind820.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind830.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind830.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind840.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind840.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind850.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind850.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind855.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind855.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind860.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind860.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind865.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind865.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind870.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind870.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind875.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind875.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind880.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind880.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind885.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind885.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind890.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind890.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind895.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind895.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind900.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind900.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind901.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind901.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind902.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind902.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind910.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind910.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind911.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind911.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind912.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind912.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind913.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind913.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind914.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind914.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind915.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind915.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind916.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind916.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind917.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind917.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind918.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind918.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind919.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind919.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind920.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind920.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind921.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind921.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind922.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind922.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind923.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind923.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind924.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind924.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind925.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind925.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind930.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind930.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind940.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind940.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind950.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind950.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind951.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind951.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind952.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind952.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind953.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind953.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind954.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind954.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind955.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind955.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind956.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind956.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind957.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind957.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind958.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind958.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind959.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind959.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind965.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind965.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind970.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind970.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind971.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind971.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind975.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind975.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind980.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind980.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind990.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind990.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind996.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind996.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind997.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind997.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind998.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind998.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindPack\ConditionKind999.cs">
+      <Link>GameObjects\Conditions\ConditionKindPack\ConditionKind999.cs</Link>
     </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\Conditions\ConditionKindTable.cs">
       <Link>GameObjects\Conditions\ConditionKindTable.cs</Link>
@@ -2615,6 +4372,9 @@
     <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\SelectingLayer.cs">
       <Link>MapLayers\SelectingLayer.cs</Link>
     </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\SpineLayer.cs">
+      <Link>MapLayers\SpineLayer.cs</Link>
+    </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\TileAnimationLayer.cs">
       <Link>MapLayers\TileAnimationLayer.cs</Link>
     </Compile>
@@ -2866,586 +4626,6 @@
     <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect825.cs" />
     <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect826.cs" />
     <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect827.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind0.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind100.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1000.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1001.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1002.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1003.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1004.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1005.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1006.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1007.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1008.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1009.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1010.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1015.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1020.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1025.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1030.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1035.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1040.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1045.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1050.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1051.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1060.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1065.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind110.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1100.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1105.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1110.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1115.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1120.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1125.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1130.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1135.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1140.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1145.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1150.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1155.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1160.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1165.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1170.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1175.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1180.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1185.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1190.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1195.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind120.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1200.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1205.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1210.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1215.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1220.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1225.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1230.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1235.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1240.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1241.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1242.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1243.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1244.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1245.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1246.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1247.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1248.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1249.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1250.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1255.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1260.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1265.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1270.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1275.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1280.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1285.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1290.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1291.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1292.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1293.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1294.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1295.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1296.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1297.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind130.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1300.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1310.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1350.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1360.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind140.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1400.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1401.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1402.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1403.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1404.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1410.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1411.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1412.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1413.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1414.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1420.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1421.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1422.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1423.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1424.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1425.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind150.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1500.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1510.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1520.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1530.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1540.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1550.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind160.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1600.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1601.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1602.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1603.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1604.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1605.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1630.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1635.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1640.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1645.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1650.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1655.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind170.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1700.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1705.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1720.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1725.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1730.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1735.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1740.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1745.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind180.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1840.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1845.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind190.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1900.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1910.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind1920.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind200.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2000.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2005.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2010.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2015.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2020.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2025.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2030.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2035.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2040.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2045.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind210.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2100.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2105.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2110.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2115.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2120.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2125.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2130.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2135.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2140.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2145.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2150.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2155.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2160.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2165.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind220.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2200.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2205.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2210.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2215.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2220.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2225.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2230.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2235.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2240.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2245.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2250.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2255.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2260.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2265.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2270.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2275.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2280.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2285.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind230.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2300.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2305.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2310.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2315.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2320.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2325.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2330.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2335.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2340.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2345.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2350.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2355.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2360.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2365.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2370.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2375.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind240.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2400.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2405.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2410.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2415.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2500.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2501.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2510.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2515.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2520.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2525.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2530.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2535.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2540.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2545.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2600.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2601.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2610.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2620.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2700.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2705.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2710.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2711.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2712.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2713.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2714.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2715.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2720.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2725.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2730.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2735.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2740.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2745.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2750.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2755.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2800.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2805.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2810.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2815.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2820.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2825.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2830.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2835.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2840.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2845.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2900.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2905.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2910.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2920.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind2925.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind300.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3000.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3005.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3010.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3015.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3020.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3025.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3030.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3035.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3040.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3041.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3045.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind305.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3050.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3051.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3060.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3065.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind310.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3100.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3105.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3110.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3115.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3120.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3125.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3130.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3135.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3140.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3145.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind315.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3150.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3155.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3160.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3165.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3170.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3175.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind320.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3200.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3205.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3210.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind3215.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind325.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind350.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind360.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind370.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind380.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind390.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind400.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4000.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4005.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4010.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4015.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4020.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4025.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4030.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4035.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4040.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4045.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4050.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4055.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4060.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4065.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4070.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4075.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4080.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4085.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4090.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4095.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind410.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4100.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4105.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4110.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4115.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4120.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4125.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4130.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4135.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4140.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4145.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind420.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4200.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4205.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4210.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4215.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4220.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4225.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind425.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind430.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4300.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4301.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4302.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4303.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4304.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4305.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4306.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4307.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4308.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4309.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4310.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4311.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4312.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4313.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4314.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4315.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4316.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4317.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4318.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4319.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4320.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4321.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4322.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4323.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4324.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4325.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind435.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind440.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind450.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4500.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4510.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4515.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4520.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4525.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4530.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4535.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4540.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4545.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind455.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4550.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4555.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4560.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4565.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4570.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4575.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4580.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4585.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind460.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4600.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4605.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4610.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4615.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4620.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4625.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4630.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4635.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4640.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4645.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind465.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4650.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4655.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4660.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4665.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4670.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4675.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4680.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4685.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4690.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4695.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4700.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4705.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4710.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4715.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4720.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4725.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4730.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4735.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4740.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4745.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4800.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4805.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4810.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4815.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4820.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4825.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4830.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4835.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4840.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4845.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4900.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4905.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4910.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4911.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4912.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4913.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4914.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4915.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4916.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4917.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4918.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4919.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4920.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4921.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4922.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4923.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4924.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4925.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4926.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4927.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4928.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind4929.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind500.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5000.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5005.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5010.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5015.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5020.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5025.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5030.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5035.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5040.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5045.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind505.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5050.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5055.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5060.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5065.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5070.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind5075.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind510.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind515.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind520.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind525.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind530.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind535.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind540.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind545.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind550.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind570.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind580.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind590.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind591.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind592.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind593.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind594.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind595.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind600.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind610.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind620.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind621.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind625.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind626.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind630.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind631.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind635.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind636.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind640.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind641.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind645.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind646.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind650.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind655.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind660.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind670.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind680.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind685.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind690.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind700.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind750.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind760.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind800.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind801.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind802.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind803.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind804.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind805.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind806.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind807.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind808.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind809.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind810.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind811.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind812.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind814.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind815.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind816.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind817.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind818.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind819.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind820.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind830.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind840.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind850.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind855.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind860.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind865.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind870.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind875.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind880.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind885.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind890.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind895.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind900.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind901.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind902.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind910.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind911.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind912.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind913.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind914.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind915.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind916.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind917.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind918.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind919.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind920.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind921.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind922.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind923.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind924.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind925.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind930.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind940.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind950.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind951.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind952.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind953.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind954.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind955.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind956.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind957.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind958.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind959.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind965.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind970.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind971.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind975.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind980.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind990.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind996.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind997.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind998.cs" />
-    <Compile Include="GameObjects\Conditions\ConditionKindPack\ConditionKind999.cs" />
     <Compile Include="GamePanels\CheckBox.cs" />
     <Compile Include="GamePanels\Scrollbar\Frame.cs" />
     <Compile Include="GamePanels\Scrollbar\Scrollbar.cs" />
@@ -3454,9 +4634,91 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="assemblies\Java.Interop.dll" />
+    <Content Include="assemblies\Lidgren.Network.dll" />
+    <Content Include="assemblies\MersenneTwister.dll" />
+    <Content Include="assemblies\Mono.Android.dll" />
+    <Content Include="assemblies\Mono.Security.dll" />
+    <Content Include="assemblies\MonoGame.Framework.dll" />
+    <Content Include="assemblies\MonoGame.Framework.Net.dll" />
+    <Content Include="assemblies\mscorlib.dll" />
+    <Content Include="assemblies\Newtonsoft.Json.dll" />
+    <Content Include="assemblies\SharpCompress.dll" />
+    <Content Include="assemblies\System.Core.dll" />
+    <Content Include="assemblies\System.dll" />
+    <Content Include="assemblies\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="assemblies\System.Runtime.Serialization.dll" />
+    <Content Include="assemblies\System.ServiceModel.Internals.dll" />
+    <Content Include="assemblies\System.Xml.dll" />
+    <Content Include="assemblies\WorldOfTheThreeKingdoms.Android.dll" />
+    <AndroidAsset Include="Content\Music\Start\Original-Start.mp3" />
+    <AndroidAsset Include="Content\Music\Attack\Original-Attack.mp3" />
+    <AndroidAsset Include="Content\Music\Autumn\Original-Autumn.mp3" />
+    <AndroidAsset Include="Content\Music\Battle\Original-Battle.mp3" />
+    <AndroidAsset Include="Content\Music\Defend\Original-Defend.mp3" />
+    <AndroidAsset Include="Content\Music\Spring\Original-Spring.mp3" />
+    <AndroidAsset Include="Content\Music\Summer\Original-Summer.mp3" />
+    <AndroidAsset Include="Content\Music\Winter\Original-Winter.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Attack\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Attack\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Battle\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Battle\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Defend\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Defend\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\5.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\5.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\5.mp3" />
+    <AndroidAsset Include="Content\Data\GameParameters.xml" />
+    <AndroidAsset Include="Content\Data\GlobalVariables.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Asstes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\assemblies\MonoGame.Framework.dll" />
+    <Analyzer Include="..\assemblies\MonoGame.Framework.Net.dll" />
+    <Analyzer Include="assemblies\Mono.Android.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />-->
+  <Import Project="..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Support.Annotations.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Annotations.targets'))" />
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Arch.Core.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Core.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Arch.Core.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Core.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Arch.Lifecycle.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Arch.Lifecycle.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Arch.Lifecycle.Runtime.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Runtime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Arch.Lifecycle.Runtime.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Runtime.targets'))" />
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Support.Collections.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Collections.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Support.Collections.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Collections.targets'))" />
+    <Error Condition="!Exists('..\packages\Xamarin.Android.Support.VersionedParcelable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.VersionedParcelable.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Support.VersionedParcelable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.VersionedParcelable.targets'))" />
+  </Target>
+  <Import Project="..\packages\Xamarin.Android.Arch.Core.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Core.Common.targets" Condition="Exists('..\packages\Xamarin.Android.Arch.Core.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Core.Common.targets')" />
+  <Import Project="..\packages\Xamarin.Android.Arch.Lifecycle.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Common.targets" Condition="Exists('..\packages\Xamarin.Android.Arch.Lifecycle.Common.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Common.targets')" />
+  <Import Project="..\packages\Xamarin.Android.Arch.Lifecycle.Runtime.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Runtime.targets" Condition="Exists('..\packages\Xamarin.Android.Arch.Lifecycle.Runtime.1.1.1.3\build\monoandroid90\Xamarin.Android.Arch.Lifecycle.Runtime.targets')" />
+  <Import Project="..\packages\Xamarin.Android.Support.Collections.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Collections.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Collections.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.Collections.targets')" />
+  <Import Project="..\packages\Xamarin.Android.Support.VersionedParcelable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.VersionedParcelable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.VersionedParcelable.28.0.0.3\build\monoandroid90\Xamarin.Android.Support.VersionedParcelable.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

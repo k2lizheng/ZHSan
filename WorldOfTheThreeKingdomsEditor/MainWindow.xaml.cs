@@ -56,7 +56,7 @@ namespace WorldOfTheThreeKingdomsEditor
         {
             Setting.Init(false);
             InitializeComponent();
-            Platforms.Platform.Current.editing = false;
+            //Platforms.Platform.Current.editing = false;
             CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
             Title = "中华三国志剧本编辑器 -当前MOD-" + Setting.Current.MODRuntime + " 如需更换MOD，请打开游戏切换退出；CommonData.json已经打开";
             scen = new GameScenario();

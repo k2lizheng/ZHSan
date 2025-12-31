@@ -308,3 +308,7 @@ Output/
 References/Win/steam_appid.txt
 
 MODs
+/assemblies1
+/bak
+/WorldOfTheThreeKingdoms.Android/Content
+*.bak
