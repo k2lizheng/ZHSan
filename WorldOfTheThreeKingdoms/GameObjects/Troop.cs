@@ -14370,20 +14370,42 @@ namespace GameObjects
 
         public float InfluenceKindValue(int id)
         {
-            float result = 0;
-            foreach (Influence i in Session.Current.Scenario.GameCommonData.AllInfluences.Influences.Values)
+            //float result = 0;
+            //foreach (Influence i in Session.Current.Scenario.GameCommonData.AllInfluences.Influences.Values)
+            //{
+            //    if (i.Kind.ID == id)
+            //    {
+            //        foreach (ApplyingTroop j in i.appliedTroop)
+            //        {
+            //            if (j.troop == this)
+            //            {
+            //                result += i.Value;
+            //            }
+            //        }
+            //    }
+            //}
+            //return result;
+            float result = 0f;
+
+            // 缓存引用，避免重复访问
+            var allInfluences = Session.Current.Scenario.GameCommonData.AllInfluences.Influences;
+
+            // 遍历所有影响
+            foreach (var kvp in allInfluences)
             {
-                if (i.Kind.ID == id)
+                var i = kvp.Value;
+
+                // 检查影响类型ID是否匹配
+                if (i.Kind.ID != id) continue;
+
+                // 使用TryGetValue快速查找当前部队的记录
+                if (i.appliedTroop.TryGetValue(this, out var applyingTroopSet))
                 {
-                    foreach (ApplyingTroop j in i.appliedTroop)
-                    {
-                        if (j.troop == this)
-                        {
-                            result += i.Value;
-                        }
-                    }
+                    // 累加影响值：每个ApplyingTroop计数一次
+                    result += i.Value * applyingTroopSet.Count;
                 }
             }
+
             return result;
         }
         public bool DrawSelected = false;

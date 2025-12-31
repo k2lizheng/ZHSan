@@ -1,9 +1,10 @@
 ﻿using GameObjects;
-using System;
-using System.Runtime.InteropServices;
-using Microsoft.Xna.Framework;
-using System.Runtime.Serialization;
 using GameObjects.Influences.InfluenceKindPack;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 
 namespace GameObjects.Influences
 {
@@ -564,17 +565,41 @@ namespace GameObjects.Influences
 
         public void ApplyInfluenceKind(Troop troop, Influence i, Applier applier, int applierID)
         {
-            if (this.Type == InfluenceType.战斗 || this.Type == InfluenceType.建筑战斗)
+            //if (this.Type == InfluenceType.战斗 || this.Type == InfluenceType.建筑战斗)
+            //{
+            //    if (i.appliedTroop.Add(new ApplyingTroop(troop, applier, applierID)) || (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721)              
+            //    {
+            //        troop.InfluencesApplying.Add(i);
+            //        ApplyInfluenceKind(troop);
+            //        if ( (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721)
+            //        {
+            //            troop.InfluencesApplying.Remove(i);                      
+            //        }
+            //    }
+            //}
+            // 类型检查
+            if (this.Type != InfluenceType.战斗 && this.Type != InfluenceType.建筑战斗)
+                return;
+
+            // 获取或创建该部队的ApplyingTroop集合
+            if (!i.appliedTroop.TryGetValue(troop, out var applyingTroopSet))
             {
-                if (i.appliedTroop.Add(new ApplyingTroop(troop, applier, applierID)) || (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721)              
-                {
-                    troop.InfluencesApplying.Add(i);
-                    ApplyInfluenceKind(troop);
-                    if ( (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721)
-                    {
-                        troop.InfluencesApplying.Remove(i);                      
-                    }
-                }
+                applyingTroopSet = new HashSet<ApplyingTroop>();
+                i.appliedTroop[troop] = applyingTroopSet;
+            }
+
+            // 创建新的ApplyingTroop（如果不存在）
+            var newApplyingTroop = new ApplyingTroop(troop, applier, applierID);
+            bool added = applyingTroopSet.Add(newApplyingTroop);
+
+            // 特殊影响ID检查
+            bool specialInfluence = (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721;
+
+            // 如果添加成功或是特殊影响
+            if (added || specialInfluence)
+            {
+                troop.InfluencesApplying.Add(i);
+                ApplyInfluenceKind(troop);
             }
         }
 
@@ -700,13 +725,65 @@ namespace GameObjects.Influences
 
         public void PurifyInfluenceKind(Troop troop, Influence i, Applier applier, int applierID)
         {
-            if (this.Type == InfluenceType.战斗 || this.Type == InfluenceType.建筑战斗)
+            //if (this.Type == InfluenceType.战斗 || this.Type == InfluenceType.建筑战斗)
+            //{
+            //    if (i.appliedTroop.Remove(new ApplyingTroop(troop, applier, applierID)))
+            //    {
+            //        troop.InfluencesApplying.Remove(i);
+            //        ApplyingTroop item = new ApplyingTroop(troop, Applier.Skill, 45);
+            //        if (i.appliedTroop.Remove(item))
+            //        {
+            //            i.appliedTroop.Add(item);
+            //            return;
+            //        }
+            //        troop.InfluencesApplying.Remove(i);
+            //        PurifyInfluenceKind(troop);
+            //    }
+            //}
+            // 类型检查
+            if (this.Type != InfluenceType.战斗 && this.Type != InfluenceType.建筑战斗)
+                return;
+
+            // 获取该部队的HashSet
+            if (!i.appliedTroop.TryGetValue(troop, out var applyingTroopSet))
+                return; // 该部队没有对应的ApplyingTroop记录
+
+            // 在HashSet中查找匹配的ApplyingTroop对象
+            ApplyingTroop toRemove = null;
+
+            // 方法1：使用foreach查找（简单直接）
+            foreach (var applyingTroop in applyingTroopSet)
             {
-                if (i.appliedTroop.Remove(new ApplyingTroop(troop, applier, applierID)))
+                if (applyingTroop.applierID == applierID &&
+                    (applier == null || applyingTroop.applier == applier))
                 {
-                    troop.InfluencesApplying.Remove(i);
-                    PurifyInfluenceKind(troop);
+                    toRemove = applyingTroop;
+                    break;
                 }
+            }
+
+            // 方法2：使用LINQ（简洁但可能有性能开销）
+            // var toRemove = applyingTroopSet.FirstOrDefault(at => 
+            //     at.applierID == applierID && (applier == null || at.applier == applier));
+
+            // 如果找到匹配项，从HashSet中移除
+            bool removed = false;
+            if (toRemove != null)
+            {
+                removed = applyingTroopSet.Remove(toRemove);
+            }
+
+            // 如果HashSet为空，从外层字典中移除该部队的记录
+            if (applyingTroopSet.Count == 0)
+            {
+                i.appliedTroop.Remove(troop);
+                troop.InfluencesApplying.Remove(i);
+            }
+
+            // 如果成功移除，调用PurifyInfluenceKind
+            if (removed)
+            {
+                PurifyInfluenceKind(troop);
             }
         }
 

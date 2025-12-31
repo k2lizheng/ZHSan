@@ -29,15 +29,17 @@ namespace GameObjects.Influences
         public HashSet<ApplyingPerson> appliedPerson = new HashSet<ApplyingPerson>();
         
         public HashSet<ApplyingFaction> appliedFaction = new HashSet<ApplyingFaction>();
-        
-        public HashSet<ApplyingTroop> appliedTroop = new HashSet<ApplyingTroop>();
+
+        //public HashSet<ApplyingTroop> appliedTroop = new HashSet<ApplyingTroop>();
+        public Dictionary<Troop, HashSet<ApplyingTroop>> appliedTroop = new Dictionary<Troop, HashSet<ApplyingTroop>>();
 
         public void Init()
         {
             appliedArch = new HashSet<ApplyingArchitecture>();
             appliedPerson = new HashSet<ApplyingPerson>();
             appliedFaction = new HashSet<ApplyingFaction>();
-            appliedTroop = new HashSet<ApplyingTroop>();
+            appliedTroop = new Dictionary<Troop, HashSet<ApplyingTroop>>();
+            //appliedTroop = new HashSet<ApplyingTroop>();
         }
         
         public void ApplyInfluence(Architecture architecture, Applier applier, int applierID)
@@ -174,7 +176,8 @@ namespace GameObjects.Influences
 
         public void TroopDestroyed(Troop troop)
         {
-            appliedTroop.RemoveWhere((x) => { return x.troop == troop; });
+            appliedTroop.Remove(troop);
+            //appliedTroop.RemoveWhere((x) => { return x.troop == troop; });
         }
 
         public void PurifyInfluence(Troop troop, Applier applier, int applierID)
