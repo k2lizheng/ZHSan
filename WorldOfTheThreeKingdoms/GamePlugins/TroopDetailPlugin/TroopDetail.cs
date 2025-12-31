@@ -420,6 +420,8 @@ namespace TroopDetailPlugin
 				}
 			}
 			this.OtherPersonText.ResortTexts();
+			this.CombatMethodText.AddText("影响条数 ：" + troop.InfluencesApplying.Count, this.CombatMethodText.TitleColor);
+			this.CombatMethodText.AddNewLine();
 			this.CombatMethodText.AddText("部队战法", this.CombatMethodText.TitleColor);
 			this.CombatMethodText.AddNewLine();
 			personCount = troop.CombatMethods.Count;

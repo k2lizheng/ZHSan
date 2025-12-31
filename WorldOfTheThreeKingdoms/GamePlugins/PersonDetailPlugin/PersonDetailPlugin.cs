@@ -175,7 +175,7 @@ namespace PersonDetailPlugin
             this.personDetail.MoreMessageText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);
 
             this.personDetail.TreasureTextClient = StaticMethods.LoadRectangleFromXMLNode(node);
-            this.personDetail.TreasureText.ClientWidth = this.personDetail.MoreMessageClient.Width;
+            this.personDetail.TreasureText.ClientWidth = this.personDetail.MoreMessageClient.Width + 200;
             this.personDetail.TreasureText.ClientHeight = this.personDetail.MoreMessageClient.Height;
             this.personDetail.TreasureText.RowMargin = int.Parse(node.Attributes.GetNamedItem("RowMargin").Value);
             this.personDetail.TreasureText.TitleColor = StaticMethods.LoadColor(node.Attributes.GetNamedItem("TitleColor").Value);

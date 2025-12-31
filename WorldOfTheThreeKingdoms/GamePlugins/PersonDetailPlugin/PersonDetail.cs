@@ -258,11 +258,11 @@
             }
             if (StaticMethods.PointInRectangle(position, this.TreasureBGClientDisplayPosition) && this.ShowingPerson.PictureIndex > Convert.ToInt32(this.ShowingPerson.PictureIndex))
             {              
-                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex*100 - 1)/100; this.ShowingPerson.PictureIndexString = null;
+                this.ShowingPerson.PictureIndex = (float)Math.Round((this.ShowingPerson.PictureIndex * 100 - 1) / 100,2); this.ShowingPerson.PictureIndexString = null;
             }
             if (StaticMethods.PointInRectangle(position, this.TitleBGClientDisplayPosition))
             {
-                this.ShowingPerson.PictureIndex = (this.ShowingPerson.PictureIndex * 100 + 1) / 100; this.ShowingPerson.PictureIndexString = null;
+                this.ShowingPerson.PictureIndex = (float)Math.Round((this.ShowingPerson.PictureIndex * 100 + 1) / 100, 2); this.ShowingPerson.PictureIndexString = null;
             }
             if ((this.Switch_MoreMessage == "off") && StaticMethods.PointInRectangle(position, this.MoreMessageBGDisplayPosition))
             {
@@ -369,6 +369,7 @@
             }
             if (StaticMethods.PointInRectangle(position, this.PersonBGClientDisplayPosition) && this.Switch_PersonBG == "off")
             {
+                //CacheManager.NewWindows(); //FairyGUI
                 this.Switch_PersonBG = "on";
                 ThePersonSound = Platform.Current.GetPersonVioce(IDN, "");
                 //p = person;              
@@ -1104,7 +1105,7 @@
             IDN = person;
             if (!Session.LargeContextMenu) {
                 ThePersonSound = Platform.Current.GetPersonVioce(IDN, "");
-                if (this.ThePersonSound.Length > 0 && Switch3 == "on")
+                if (this.ThePersonSound.EndsWith(".wav") && Switch3 == "on")
                 {
                     this.screen.PlayNormalSound(this.ThePersonSound);
                 }

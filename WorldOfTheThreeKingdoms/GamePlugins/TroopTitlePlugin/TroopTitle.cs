@@ -228,7 +228,7 @@ namespace TroopTitlePlugin
         internal void DrawTroop(Troop troop, bool playerControlling)
         {
             //*jokosany在第二远地图上显示部队将领名字
-            if (Session.Current.Scenario.ScenarioMap.TileWidth < 70 && Session.Current.Scenario.ScenarioMap.TileWidth > 35)
+            if (Session.Current.Scenario.ScenarioMap.TileWidth < 50 && Session.Current.Scenario.ScenarioMap.TileWidth > 35)
             {
                 Color white = Color.White;
                 this.DisplayOffset = Session.MainGame.mainGameScreen.GetPointByPosition(troop.Position);
@@ -254,7 +254,7 @@ namespace TroopTitlePlugin
 
             }
             //*jokosany
-            if (Session.Current.Scenario.ScenarioMap.TileWidth >= 70)
+            if (Session.Current.Scenario.ScenarioMap.TileWidth >= 50)
             {
                 Color white = Color.White;
                 this.DisplayOffset = Session.MainGame.mainGameScreen.GetPointByPosition(troop.Position);
@@ -461,10 +461,10 @@ namespace TroopTitlePlugin
                             CacheManager.Draw(this.TheFoodShortage1Texture, this.TheFoodIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
                         }
                     }
-                    if (troop.CurrentStunt != null)
-                    {
-                        CacheManager.Draw(this.TheStunt1Texture, this.TheStuntIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
-                    }
+                    //if (troop.CurrentStunt != null)
+                    //{
+                    //    CacheManager.Draw(this.TheStunt1Texture, this.TheStuntIconDisplayPosition, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0.463f);
+                    //}
                     if (FactionName1Kind == "1")
                     {
                         this.FactionName1Text.Text = troop.Leader.SurName;
@@ -487,7 +487,11 @@ namespace TroopTitlePlugin
                     this.FactionName1Text.Draw(white, 0.462f);
                     this.TroopName1Text.Draw(0.462f);
                     this.Thebingli1Text.Draw(0.462f);
-                    this.Speed1Text.Draw(0.462f);
+                    if (Session.GlobalVariables.MilitaryKindSpeedValid)
+                    {
+                        this.Speed1Text.Draw(0.462f);
+                    }
+                    
                 }
 
                 if (UIKind == "New1")
@@ -841,7 +845,11 @@ namespace TroopTitlePlugin
         {
             get
             {
-                if (UIKind == "New2")
+                if (UIKind == "New0")
+                {
+                    return new Rectangle(this.DisplayOffset.X + this.ThePortrait1Position.X -5, this.DisplayOffset.Y + this.ThePortrait1Position.Y -5, this.ThePortrait1Position.Width + 6, this.ThePortrait1Position.Height + 6);//32-40
+                }
+                else if (UIKind == "New2")
                 {
                     return new Rectangle(this.DisplayOffset.X + this.ThePortrait2Position.X, this.DisplayOffset.Y + this.ThePortrait2Position.Y, this.ThePortrait2Position.Width, this.ThePortrait2Position.Height);
                 }
@@ -917,7 +925,11 @@ namespace TroopTitlePlugin
         {
             get
             {
-                if (UIKind == "New2")
+                if (UIKind == "New0")
+                {
+                    return new Rectangle(this.DisplayOffset.X + this.TheTroopKind1Position.X - 3, this.DisplayOffset.Y + this.TheTroopKind1Position.Y, this.TheTroopKind1Position.Width - 5, this.TheTroopKind1Position.Height - 5);
+                }
+                else if (UIKind == "New2")
                 {
                     return new Rectangle(this.DisplayOffset.X + this.TheTroopKind2Position.X, this.DisplayOffset.Y + this.TheTroopKind2Position.Y, this.TheTroopKind2Position.Width, this.TheTroopKind2Position.Height);
                 }
@@ -929,7 +941,11 @@ namespace TroopTitlePlugin
         }
         private Rectangle TheshiqiDisplayPosition(Troop troop)
         {
-            if (UIKind == "New2")
+            if (UIKind == "New0")
+            {
+                return new Rectangle(this.DisplayOffset.X + this.Theshiqi1Position.X, this.DisplayOffset.Y + this.Theshiqi1Position.Y + this.Theshiqi1Position.Height - (troop.Army.Morale * this.Theshiqi1Position.Height / troop.Army.MoraleCeiling), this.Theshiqi1Position.Width, troop.Army.Morale * this.Theshiqi1Position.Height / troop.Army.MoraleCeiling);
+            }
+             else if (UIKind == "New2")
             {
                 return new Rectangle(this.DisplayOffset.X + this.Theshiqi2Position.X, this.DisplayOffset.Y + this.Theshiqi2Position.Y, troop.Army.Morale * this.Theshiqi2Position.Width / troop.Army.MoraleCeiling, this.Theshiqi2Position.Height);
             }
@@ -940,7 +956,11 @@ namespace TroopTitlePlugin
         }
         private Rectangle ThezhanyiDisplayPosition(Troop troop)
         {
-            if (UIKind == "New2")
+            if (UIKind == "New0")
+            {
+                return new Rectangle(this.DisplayOffset.X + this.Thezhanyi1Position.X, this.DisplayOffset.Y + this.Thezhanyi1Position.Y + this.Thezhanyi1Position.Height - (troop.Army.Combativity * this.Thezhanyi1Position.Height / troop.Army.CombativityCeiling), this.Thezhanyi1Position.Width, troop.Army.Combativity * this.Thezhanyi1Position.Height / troop.Army.CombativityCeiling);
+            }
+             else if (UIKind == "New2")
             {
                 return new Rectangle(this.DisplayOffset.X + this.Thezhanyi2Position.X, this.DisplayOffset.Y + this.Thezhanyi2Position.Y, troop.Army.Combativity * this.Thezhanyi2Position.Width / troop.Army.CombativityCeiling, this.Thezhanyi2Position.Height);
             }
@@ -977,7 +997,11 @@ namespace TroopTitlePlugin
         {
             get
             {
-                if (UIKind == "New2")
+                if (UIKind == "New0")
+                {
+                    return new Rectangle(this.DisplayOffset.X + this.TheActionIcon1Position.X + 3, this.DisplayOffset.Y + this.TheActionIcon1Position.Y - 5, this.TheActionIcon1Position.Width, this.TheActionIcon1Position.Height);
+                }
+                else if (UIKind == "New2")
                 {
                     return new Rectangle(this.DisplayOffset.X + this.TheActionIcon2Position.X, this.DisplayOffset.Y + this.TheActionIcon2Position.Y, this.TheActionIcon2Position.Width, this.TheActionIcon2Position.Height);
                 }
@@ -1005,7 +1029,11 @@ namespace TroopTitlePlugin
         {
             get
             {
-                if (UIKind == "New2")
+                if (UIKind == "New0")
+                {
+                    return new Rectangle(this.DisplayOffset.X + this.TheNoControlIcon1Position.X, this.DisplayOffset.Y + this.TheNoControlIcon1Position.Y, this.TheNoControlIcon1Position.Width, this.TheNoControlIcon1Position.Height);
+                }
+                else if (UIKind == "New2")
                 {
                     return new Rectangle(this.DisplayOffset.X + this.TheNoControlIcon2Position.X, this.DisplayOffset.Y + this.TheNoControlIcon2Position.Y, this.TheNoControlIcon2Position.Width, this.TheNoControlIcon2Position.Height);
                 }

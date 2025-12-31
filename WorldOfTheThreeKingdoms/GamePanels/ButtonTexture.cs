@@ -82,7 +82,11 @@ namespace GamePanels
                     }
                     else if (Enable)
                     {
-                        return (!Selected && !MouseOver ? TextureRecs.Recs[0] : (TextureRecs.Recs.Length > 1 ? TextureRecs.Recs[1] : TextureRecs.Recs[0]));
+                        if(!Platform.IsMobilePlatForm)
+                            return (!Selected && !MouseOver ? TextureRecs.Recs[0] : (TextureRecs.Recs.Length > 1 ? TextureRecs.Recs[1] : TextureRecs.Recs[0]));
+                        else
+                            return (!Selected ? TextureRecs.Recs[0] : (TextureRecs.Recs.Length > 1 ? TextureRecs.Recs[1] : TextureRecs.Recs[0]));
+
                     }
                     else
                     {
