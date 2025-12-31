@@ -610,8 +610,32 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
 
                             var tileNums2 = GetCurrentViewMapTileNums2();
 
-                            var maps = tileNums2.Select(num => this.MapTiles[num % 30, num / 30]).Where(ma => ma != null && ma.TileTexture == null).ToArray();
+                            int mapsN = 30;
+                            if (Setting.Current.MODRuntime == "Shanshui") 
+                            {
+                                mapsN = 12;
+                                // 修复：过滤掉无效的索引（大于107的）
+                                tileNums2 = tileNums2.Where(num => num >= 0 && num <= 107).ToArray();
+                                // 修复：添加边界检查
+                                //var maps = validTileNums
+                                //    .Where(num => {
+                                //        int x = num % mapsN;
+                                //        int y = num / mapsN;
 
+                                //        // 检查数组边界
+                                //        if (x < 0 || y < 0) return false;
+
+                                //        // 获取数组实际维度
+                                //        int arrayWidth = this.MapTiles.GetLength(0);
+                                //        int arrayHeight = this.MapTiles.GetLength(1);
+
+                                //        return x < arrayWidth && y < arrayHeight;
+                                //    })
+                                //    .Select(num => this.MapTiles[num % mapsN, num / mapsN])
+                                //    .Where(ma => ma != null && ma.TileTexture == null)
+                                //    .ToArray();
+                            }
+                            var maps = tileNums2.Select(num => this.MapTiles[num % mapsN, num / mapsN]).Where(ma => ma != null && ma.TileTexture == null).ToArray();
                             if (maps != null && maps.Length > 0)
                             {
                                 mapTile = maps.FirstOrDefault();
