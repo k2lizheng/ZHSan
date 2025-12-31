@@ -13,7 +13,7 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override void ApplyInfluenceKind(Troop troop)
         {
-            troop.MultipleOfArmyExperience = this.multiple;
+            troop.MultipleOfArmyExperience += this.multiple;
         }
 
         public override void InitializeParameter(string parameter)
@@ -29,7 +29,11 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override void PurifyInfluenceKind(Troop troop)
         {
-            troop.MultipleOfArmyExperience = 1;
+            troop.MultipleOfArmyExperience -= this.multiple;
+            //if (troop.MultipleOfArmyExperience < 0)
+            //{
+            //    troop.MultipleOfArmyExperience = 1;
+            //}
         }
 
     }

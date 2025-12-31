@@ -12,10 +12,12 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override void ApplyInfluenceKind(Troop troop)
         {
-            if (troop != null && troop.RateOfMovability < this.rate)
+            if (troop != null) // && troop.RateOfMovability < this.rate) //数据里10%是1.1
             {
-                troop.RateOfMovability = this.rate;
+                //troop.RateOfMovability = this.rate;
+                troop.RateOfMovability += this.rate - 1;
             }
+            
         }
 
         public override void InitializeParameter(string parameter)
@@ -33,7 +35,7 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
         {
             if (troop != null)
             {
-                troop.RateOfMovability = 1f;
+                troop.RateOfMovability -= (this.rate - 1);
             }
         }
     }
