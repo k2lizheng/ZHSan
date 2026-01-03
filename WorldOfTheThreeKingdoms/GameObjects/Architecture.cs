@@ -3239,12 +3239,12 @@ namespace GameObjects
                             && ((siege && current.Type == MilitaryType.器械) || (!siege && current.Type != MilitaryType.器械))
                             && current.CreateAvail(this))
                         {
-                            list2.Add(current);
+                            if (!list2.HasGameObject(current)) { list2.Add(current); }
                             list.Add(current, weight);
                         }
                         if (current.CreateAvail(this))
                         {
-                            allMilitaries2.Add(current);
+                            if (!allMilitaries2.HasGameObject(current)) { allMilitaries2.Add(current); }
                             allMilitaries.Add(current, weight);
                         }
                         /*if ((((this.ValueWater == (current.Type == MilitaryType.水军)) || (!water && GameObject.Chance(20))) && current.CreateAvail(this)) && (current.ID != 29))

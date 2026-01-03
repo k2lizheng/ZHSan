@@ -3120,10 +3120,10 @@ namespace GameObjects
 
                 // this.AllChildren.Add(person, person.NumberOfChildren);
 
-                if (person.Available && person.Alive)
-                {
-                    this.AvailablePersons.Add(person);  //已出场武将
-                }
+                //if (person.Available && person.Alive)
+                //{
+                //    this.AvailablePersons.Add(person);  //已出场武将
+                //}
             }
             
             foreach (Person p in this.Persons)

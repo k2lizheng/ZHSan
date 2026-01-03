@@ -1966,9 +1966,9 @@ namespace GameObjects
 
                 if (this.WorkKind != ArchitectureWorkKind.无) this.WorkKind = ArchitectureWorkKind.无;
 
-                this.RecruitmentMilitary.ID = -1;
+                if (this.RecruitmentMilitary != null) this.RecruitmentMilitary.ID = -1;
 
-               // throw new Exception("try to kill person onway");
+                // throw new Exception("try to kill person onway");
             }
 
             if (this.Spouse != null && this.Spouse.Spouse != null)
