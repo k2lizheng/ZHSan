@@ -822,7 +822,7 @@ namespace GameObjects
                             Session.MainGame.mainGameScreen.xianshishijiantupian(person, person.LocationArchitecture.Name, TextMessageKind.PersonJoin, "PersonJoin", "", "", f.Name, false);
                         }
                     }
-                    this.AvailablePersons.Add(person);
+                    if (!this.AvailablePersons.HasGameObject(person)) this.AvailablePersons.Add(person);
                     if (joinToPerson.BelongedFactionWithPrincess != null) { 
                         Session.MainGame.mainGameScreen.haizizhangdachengren(joinToPerson, person, false);
                     }

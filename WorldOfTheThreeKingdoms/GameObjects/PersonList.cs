@@ -1,22 +1,53 @@
-﻿using GameObjects.PersonDetail;
+﻿using GameManager;
 using GameObjects.Influences;
+using GameObjects.PersonDetail;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
-using GameManager;
-using GameObjects.FactionDetail;
+using System.Threading.Tasks;
 
 namespace GameObjects
 {
     [DataContract]
     public class PersonList : GameObjectList
     {
+        // 构造函数
+        public PersonList()
+        {
+            // 初始化特定于PersonList的内容
+        }
         public void Add(Person person)
         {
             base.Add(person);
         }
-
+        public void AddRange(IEnumerable<Person> persons)
+        {
+            foreach (var person in persons)
+            {
+                Add(person);
+            }
+        }
+        public Person GetPerson(int id)
+        {
+            return base.GetGameObject(id) as Person;
+        }
+        public List<Person> GetPersons(IEnumerable<int> ids)
+        {
+            var result = new List<Person>();
+            foreach (int id in ids)
+            {
+                var person = GetPerson(id);
+                if (person != null)
+                {
+                    result.Add(person);
+                }
+            }
+            return result;
+        }
         public void AddPersonWithEvent(Person person, bool add = true)
         {
+            if (person == null) return;
             if (add)
             {
                 base.Add(person);
@@ -60,39 +91,227 @@ namespace GameObjects
 
         public void PurifyInfluences()
         {
-            foreach (Person person in base.GameObjects)
+            //foreach (Person person in base.GameObjects)
+            //{
+            //    if (!Session.Current.Scenario.Preparing)
+            //    {
+            //        foreach (Title t in person.Titles)
+            //        {
+            //            t.Influences.PurifyInfluence(person, Applier.Title, t.ID, false);
+            //        }
+            //        foreach (Skill s in person.Skills.GetSkillList())
+            //        {
+            //            s.Influences.PurifyInfluence(person, Applier.Skill, s.ID, false);
+            //        }
+            //        foreach (Stunt s in person.Stunts.GetStuntList())
+            //        {
+            //            s.Influences.PurifyInfluence(person, Applier.Stunt, 0, false);
+            //        }
+            //        person.PurifyAllTreasures(false);
+            //    }
+            //}
+            bool isPreparing = Session.Current?.Scenario?.Preparing ?? false;
+            if (isPreparing) return;
+
+            // 使用for循环，避免foreach的枚举器开销
+            for (int i = 0; i < base.Count; i++)
             {
-                if (!Session.Current.Scenario.Preparing)
+                Person person = base[i] as Person;
+                if (person == null) continue;
+
+                // 优化Title处理
+                var titles = person.Titles;
+                for (int j = 0; j < titles.Count; j++)
                 {
-                    foreach (Title t in person.Titles)
-                    {
-                        t.Influences.PurifyInfluence(person, Applier.Title, t.ID, false);
-                    }
-                    foreach (Skill s in person.Skills.GetSkillList())
-                    {
-                        s.Influences.PurifyInfluence(person, Applier.Skill, s.ID, false);
-                    }
-                    foreach (Stunt s in person.Stunts.GetStuntList())
-                    {
-                        s.Influences.PurifyInfluence(person, Applier.Stunt, 0, false);
-                    }                  
-                    person.PurifyAllTreasures(false);
+                    var title = titles[j] as Title;
+                    title.Influences?.PurifyInfluence(person, Applier.Title, title.ID, false);
                 }
+
+                // 优化Skill处理
+                var skills = person.Skills?.GetSkillList();
+                if (skills != null)
+                {
+                    for (int j = 0; j < skills.Count; j++)
+                    {
+                        var skill = skills[j] as Skill;
+                        skill.Influences?.PurifyInfluence(person, Applier.Skill, skill.ID, false);
+                    }
+                }
+
+                // 优化Stunt处理
+                var stunts = person.Stunts?.GetStuntList();
+                if (stunts != null)
+                {
+                    for (int j = 0; j < stunts.Count; j++)
+                    {
+                        var stunt = stunts[j] as Stunt;
+                        stunt.Influences?.PurifyInfluence(person, Applier.Stunt, 0, false);
+                    }
+                }
+
+                person.PurifyAllTreasures(false);
             }
         }
 
         public void ApplyInfluences()
-        {
-          
-            //this.PurifyInfluences();
-            foreach (Person person in base.GameObjects)
+        {           
+            // 使用并行处理（如果线程安全）
+            if (base.GameObjects.Count > 100)
             {
-                person.ApplyTitles(false);
-                person.ApplySkills(false);
-                person.ApplyStunts();
-                person.ApplyAllTreasures(false);
+                Parallel.ForEach(base.GameObjects.OfType<Person>(), person =>
+                {
+                    person.ApplyTitles(false);
+                    person.ApplySkills(false);
+                    person.ApplyStunts();
+                    person.ApplyAllTreasures(false);
+                });
+            }
+            else
+            {
+                foreach (Person person in base.GameObjects)
+                {
+                    person.ApplyTitles(false);
+                    person.ApplySkills(false);
+                    person.ApplyStunts();
+                    person.ApplyAllTreasures(false);
+                }
+            }
+
+        }
+        // 条件筛选（返回PersonList）
+        public PersonList Where(Func<Person, bool> predicate)
+        {
+            PersonList result = new PersonList();
+            for (int i = 0; i < base.Count; i++)
+            {
+                if (base[i] is Person person && predicate(person))
+                {
+                    result.Add(person);
+                }
+            }
+            return result;
+        }
+        // 第一个满足条件的Person
+        public Person FirstOrDefault(Func<Person, bool> predicate = null)
+        {
+            if (predicate == null)
+            {
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person person)
+                    {
+                        return person;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person person && predicate(person))
+                    {
+                        return person;
+                    }
+                }
+            }
+            return null;
+        }
+        // 检查是否存在满足条件的Person
+        public bool Any(Func<Person, bool> predicate = null)
+        {
+            if (predicate == null)
+            {
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person person && predicate(person))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // 统计满足条件的Person数量
+        public int CountByPredicate(Func<Person, bool> predicate = null)
+        {
+            if (predicate == null)
+            {
+                // 统计所有Person数量
+                int count = 0;
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person)
+                    {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            else
+            {
+                int count = 0;
+                for (int i = 0; i < base.Count; i++)
+                {
+                    if (base[i] is Person person && predicate(person))
+                    {
+                        count++;
+                    }
+                }
+                return count;
             }
         }
+
+        // 对每个Person执行操作
+        public void ForEach(Action<Person> action)
+        {
+            for (int i = 0; i < base.Count; i++)
+            {
+                if (base[i] is Person person)
+                {
+                    action(person);
+                }
+            }
+        }
+        
+        // 通用方法：获取某项属性最大的人物
+        public Person GetMaxBy(Func<Person, int> selector)
+        {
+            Person maxPerson = null;
+            int maxValue = int.MinValue;
+
+            for (int i = 0; i < base.Count; i++)
+            {
+                Person person = base[i] as Person;
+                if (person != null)
+                {
+                    int value = selector(person);
+                    if (value > maxValue)
+                    {
+                        maxValue = value;
+                        maxPerson = person;
+                    }
+                }
+            }
+
+            return maxPerson;
+        }
+        // 使用通用方法重写原有方法
+        //public Person GetMaxStrengthPerson() => GetMaxBy(p => p.Strength);
+        //public Person GetMaxMeritPerson() => GetMaxBy(p => p.Merit);
+        //public Person GetMaxUntiredMeritPerson() => GetMaxBy(p => p.UntiredMerit);
+        //public Person GetMaxControversyAbilityPerson() => GetMaxBy(p => p.ControversyAbility); 
+
         public Person GetMaxCommandPerson()
         {
             int command = -1;
@@ -183,11 +402,21 @@ namespace GameObjects
             return person;
         }
 
+        /// <summary>
+        /// 人物授予宝物事件
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="t"></param>
         private void person_OnBeAwardedTreasure(Person person, Treasure t)
         {
             Session.MainGame.mainGameScreen.PersonBeAwardedTreasure(person, t);
         }
 
+        /// <summary>
+        /// 人物没收宝物事件
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="t"></param>
         private void person_OnBeConfiscatedTreasure(Person person, Treasure t)
         {
             Session.MainGame.mainGameScreen.PersonBeConfiscatedTreasure(person, t);

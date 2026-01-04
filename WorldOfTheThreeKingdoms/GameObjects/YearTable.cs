@@ -77,7 +77,7 @@ namespace GameObjects
             {
                 if (i != null)
                 {
-                    r.Add(i);
+                    r.Add(i, true);
                 }
             }
             return r;

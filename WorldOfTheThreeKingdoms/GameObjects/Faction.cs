@@ -1101,7 +1101,7 @@ namespace GameObjects
 
                             GameObjectList simulatSuoshu = p.suoshurenwuList.GetList();
                             simulatSuoshu.Add(p);
-                            simulatSuoshu.AddRange(q.suoshurenwuList.GetList());
+                            //simulatSuoshu.AddRange(q.suoshurenwuList.GetList());
                             simulatSuoshu.Add(q);
 
                             Person hater = WillHateLeaderDueToAffair(p, q, simulatSuoshu, false);

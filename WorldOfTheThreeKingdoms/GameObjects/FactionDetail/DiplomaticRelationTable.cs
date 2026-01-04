@@ -93,7 +93,7 @@ namespace GameObjects.FactionDetail
             GameObjectList list = new GameObjectList();
             foreach (DiplomaticRelation relation in this.DiplomaticRelations.Values)
             {
-                list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction1String));
+                list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction1String), true);
             }
             return list;
         }
@@ -105,11 +105,11 @@ namespace GameObjects.FactionDetail
             {
                 if (relation.RelationFaction1ID == factionID)
                 {
-                    list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction2String));
+                    list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction2String), true);
                 }
                 else if (relation.RelationFaction2ID == factionID)
                 {
-                    list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction1String));
+                    list.Add(new DiplomaticRelationDisplay(relation, relation.RelationFaction1String), true);
                 }
             }
             return list;
@@ -122,7 +122,7 @@ namespace GameObjects.FactionDetail
             {
                 if ((relation.RelationFaction1ID == factionID) || (relation.RelationFaction2ID == factionID))
                 {
-                    list.Add(relation);
+                    list.Add(relation, true);
                 }
             }
             return list;

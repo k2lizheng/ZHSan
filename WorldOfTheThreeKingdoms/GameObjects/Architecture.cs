@@ -3239,12 +3239,12 @@ namespace GameObjects
                             && ((siege && current.Type == MilitaryType.器械) || (!siege && current.Type != MilitaryType.器械))
                             && current.CreateAvail(this))
                         {
-                            if (!list2.HasGameObject(current)) { list2.Add(current); }
+                            list2.Add(current, true);
                             list.Add(current, weight);
                         }
                         if (current.CreateAvail(this))
                         {
-                            if (!allMilitaries2.HasGameObject(current)) { allMilitaries2.Add(current); }
+                            allMilitaries2.Add(current, true); 
                             allMilitaries.Add(current, weight);
                         }
                         /*if ((((this.ValueWater == (current.Type == MilitaryType.水军)) || (!water && GameObject.Chance(20))) && current.CreateAvail(this)) && (current.ID != 29))
@@ -3276,7 +3276,7 @@ namespace GameObjects
                             && ((siege && current.Type == MilitaryType.器械) || (!siege && current.Type != MilitaryType.器械))
                             && current.CreateAvail(this))
                         {
-                            list2.Add(current);
+                            list2.Add(current, true);
                             if (list.ContainsKey(current))
                             {
                                 list[current] *= weight;
@@ -3288,7 +3288,7 @@ namespace GameObjects
                         }
                         if (current.CreateAvail(this))
                         {
-                            allMilitaries2.Add(current);
+                            allMilitaries2.Add(current, true);
                             if (allMilitaries.ContainsKey(current))
                             {
                                 allMilitaries[current] *= weight;
@@ -5592,8 +5592,7 @@ namespace GameObjects
                 Session.Current.Scenario.Routeways.AddRoutewayWithEvent(routeway);
                 this.BelongedFaction.AddRouteway(routeway);
                 routeway.StartArchitecture = this;
-                this.Routeways.Add(routeway);
-                Session.Current.Scenario.Routeways.Add(routeway);
+                this.Routeways.Add(routeway);               
                 routeway.Extend(p);
                 ArchitectureList routewayArchitecturesByPosition = Session.Current.Scenario.GetRoutewayArchitecturesByPosition(routeway, p);
                 if (routewayArchitecturesByPosition.Count > 0)
@@ -5630,6 +5629,7 @@ namespace GameObjects
             }
             routeway.StartArchitecture = this;
             this.Routeways.Add(routeway);
+            Session.Current.Scenario.Routeways.Add(routeway);
             GameArea routewayStartPoints = this.GetRoutewayStartPoints();
             int num = 0;
             for (num2 = 0; num2 < pointlist.Count; num2++)
@@ -6341,7 +6341,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.FollowedLeader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position, (int)(military.FollowedLeader.ID)));
                 }
             }
             else if (military.Leader != null && military.LeaderExperience >= 10 && (military.Leader.Strength >= 80 || military.Leader.Command >= 80 || military.Leader.HasLeaderValidTitle)
@@ -6350,7 +6350,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.Leader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position, (int)(military.Leader.ID)));
                 }
             }
             else
@@ -6366,16 +6366,16 @@ namespace GameObjects
                     {
                         if (person.HasMilitaryKindTitle(military.Kind))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString())));
                         }
                         else if (person.HasMilitaryTypeTitle(military.Kind.Type))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString())));
                         }
                         else if ((this.BelongedFaction.AvailableMilitaryKinds.GetMilitaryKindList().GameObjects.Contains(military.Kind) && military.Kind.RecruitLimit > 10) ||
                             person.FightingForce >= Session.Parameters.AIUniqueTroopFightingForceThreshold || (this.Endurance < 30 && !offensive))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString())));
                         }
                     }
                 }
@@ -15373,7 +15373,7 @@ namespace GameObjects
                 {
                     this.mayor = Session.Current.Scenario.Persons.GetGameObject(this.MayorID)as Person ;
                 }
-                if(this.mayor.Status != PersonStatus.Normal)
+                if(this.mayor.Status != PersonStatus.Normal && this.mayor.LocationArchitecture != this)
                 //if (this.mayor != null && this.BelongedFaction != null &&
                 //    (this.mayor == this.BelongedFaction .Leader || !this.mayor.Alive || !this.mayor.Available
                 //    || this.mayor.BelongedFaction != this.BelongedFaction
