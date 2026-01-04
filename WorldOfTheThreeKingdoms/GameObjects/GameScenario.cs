@@ -1636,20 +1636,22 @@ namespace GameObjects
                     {
                         ProcessTroopAI(obj as Troop);
                     }
-                    return;
+                    
                 }
+                else
+                { 
+                    // 并行执行
+                    // 创建一个同步锁对象，用于保护共享资源的访问
+                    //object syncLock = new object();
 
-                // 并行执行
-                // 创建一个同步锁对象，用于保护共享资源的访问
-                //object syncLock = new object();
-
-                // 使用并行循环
-                Parallel.For(0, troopCount, i =>
-                {
-                    var troop = troops[i] as Troop;
-                    //ProcessTroopAIWithLock(troop, syncLock);
-                    ProcessTroopAIWithLock(troop);
-                });
+                    // 使用并行循环
+                    Parallel.For(0, troopCount, i =>
+                    {
+                        var troop = troops[i] as Troop;
+                        //ProcessTroopAIWithLock(troop, syncLock);
+                        ProcessTroopAIWithLock(troop);
+                    });
+                }
 
             }
             catch (ArgumentException ex)

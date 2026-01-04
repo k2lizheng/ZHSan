@@ -5075,7 +5075,8 @@ namespace GameObjects
                 }
                 foreach (Military military in this.Militaries)
                 {
-                    faction.AddMilitary(military);
+                    //faction.AddMilitary(military);
+                    military.BelongedFaction = this.BelongedFaction;
                 }
                 foreach (Routeway routeway in this.Routeways)
                 {

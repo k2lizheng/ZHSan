@@ -160,6 +160,7 @@ namespace GameObjects
             }
             architecture.AddMilitary(military);
             //architecture.BelongedFaction.AddMilitary(military);//势力编队get会获取建筑中的，此会重复添加
+            military.BelongedFaction = architecture.BelongedFaction;
             Session.Current.Scenario.Militaries.AddMilitary(military);
             architecture.DecreaseFund((int) (kind.CreateCost * kind.GetRateOfNewMilitary(architecture)));
             if (kind.IsTransport)
