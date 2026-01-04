@@ -5593,6 +5593,7 @@ namespace GameObjects
                 this.BelongedFaction.AddRouteway(routeway);
                 routeway.StartArchitecture = this;
                 this.Routeways.Add(routeway);
+                Session.Current.Scenario.Routeways.Add(routeway);
                 routeway.Extend(p);
                 ArchitectureList routewayArchitecturesByPosition = Session.Current.Scenario.GetRoutewayArchitecturesByPosition(routeway, p);
                 if (routewayArchitecturesByPosition.Count > 0)
