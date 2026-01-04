@@ -1579,10 +1579,6 @@
     <Compile Include="GameScreens\MGSStartLoad.cs" />
     <Compile Include="GameScreens\ScreenManager.cs" />
     <Compile Include="GameManager\TiShiText.cs" />
-    <Compile Include="MapLayers\BagScene.cs" />
-    <Compile Include="MapLayers\BagWindow.cs" />
-    <Compile Include="MapLayers\MyGLoader.cs" />
-    <Compile Include="MapLayers\SpineLayer.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="GameGlobal\ArchitectureWorkKind.cs" />

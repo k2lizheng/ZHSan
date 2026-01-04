@@ -19,7 +19,7 @@
     <AndroidSupportedAbis>armeabi-v7a%3bx86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>.m4a</AndroidStoreUncompressedFileExtensions>
     <MandroidI18n />
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <MonoGamePlatform>Android</MonoGamePlatform>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
@@ -62,7 +62,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
+    <BundleAssemblies>false</BundleAssemblies>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <Debugger>Xamarin</Debugger>
     <AotAssemblies>true</AotAssemblies>
@@ -74,13 +74,13 @@
     <MandroidI18n />
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <AndroidSupportedAbis>
-    </AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;x86_64;arm64-v8a</AndroidSupportedAbis>
     <AndroidKeyStore>false</AndroidKeyStore>
     <AndroidSigningKeyStore>D:\Users\Red LZ\AppData\Local\Xamarin\Mono for Android\Keystore\Zhsan\Zhsan.keystore</AndroidSigningKeyStore>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <AndroidSigningStorePass>zhsanzheng</AndroidSigningStorePass>
     <AndroidStoreUncompressedFileExtensions>.dll</AndroidStoreUncompressedFileExtensions>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Icon.png" />
@@ -91,8 +91,8 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.1.0.145, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.1.1.0\lib\netstandard2.0\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.4.2.13, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.4.2\lib\netstandard2.1\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Java.Interop" />
     <Reference Include="Lidgren.Network, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
@@ -115,12 +115,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\assemblies\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK-1.0" />
     <Reference Include="SharpCompress">
       <HintPath>assemblies\SharpCompress.dll</HintPath>
-    </Reference>
-    <Reference Include="spine-monogame">
-      <HintPath>..\..\yl\Release\spine-monogame.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -315,6 +311,369 @@
     </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindFactory.cs">
       <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect0.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect0.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect10.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect10.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect100.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1000.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1010.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1020.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1030.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1040.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1050.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1060.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1060.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1070.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1070.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1080.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1080.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1090.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1090.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect110.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1100.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1110.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1120.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1130.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1140.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1150.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect120.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1200.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1210.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1220.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1230.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1230.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1240.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1240.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1250.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1250.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect130.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1300.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1310.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect140.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect140.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1400.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1400.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect15.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect15.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect150.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect150.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect160.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect160.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect170.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect170.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect20.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect20.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect200.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2000.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2010.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2010.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2020.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2020.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2030.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2030.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2040.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2040.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2050.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2050.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect210.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect210.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2100.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2100.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect211.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect211.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2110.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2110.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect212.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect212.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2120.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2120.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect213.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect213.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2130.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2130.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2131.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2131.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect214.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect214.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect215.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect215.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect216.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect216.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect217.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect217.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect220.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect220.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2200.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2200.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect221.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect221.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect222.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect222.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect223.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect223.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect224.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect224.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect225.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect225.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect226.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect226.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect227.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect227.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect230.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect230.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2300.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect235.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect235.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect240.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect240.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect25.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect25.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect250.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect250.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect251.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect251.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect270.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect270.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect275.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect275.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect280.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect280.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect290.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect290.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect30.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect30.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect300.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect300.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect305.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect305.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect310.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect310.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect315.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect315.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect320.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect320.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect325.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect325.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect330.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect330.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect35.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect35.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect350.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect350.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect355.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect355.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect40.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect40.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect400.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect400.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect4000.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect4000.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect410.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect410.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect420.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect420.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect430.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect430.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect440.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect440.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect45.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect45.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect450.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect450.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect460.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect460.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect465.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect465.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect466.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect466.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect470.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect470.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect480.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect480.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect5.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect5.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect50.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect50.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect500.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect500.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect510.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect510.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect60.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect60.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect600.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect600.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect650.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect650.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect70.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect70.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect700.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect700.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect800.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect800.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect810.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect810.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect820.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect820.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect821.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect821.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect822.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect822.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect823.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect823.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect824.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect824.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect825.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect825.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect826.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect826.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect827.cs">
+      <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect827.cs</Link>
     </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\GameObjects\ArchitectureDetail\EventEffect\EventEffectKindTable.cs">
       <Link>GameObjects\ArchitectureDetail\EventEffect\EventEffectKindTable.cs</Link>
@@ -4372,9 +4731,6 @@
     <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\SelectingLayer.cs">
       <Link>MapLayers\SelectingLayer.cs</Link>
     </Compile>
-    <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\SpineLayer.cs">
-      <Link>MapLayers\SpineLayer.cs</Link>
-    </Compile>
     <Compile Include="..\WorldOfTheThreeKingdoms\MapLayers\TileAnimationLayer.cs">
       <Link>MapLayers\TileAnimationLayer.cs</Link>
     </Compile>
@@ -4505,127 +4861,6 @@
       <Link>Tools\WordTools.cs</Link>
     </Compile>
     <Compile Include="Activity1.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect0.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect10.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect100.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1000.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1010.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1020.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1030.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1040.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1050.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1060.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1070.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1080.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1090.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect110.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1100.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1110.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1120.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1130.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1140.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1150.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect120.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1200.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1210.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1220.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1230.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1240.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1250.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect130.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1300.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1310.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect140.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect1400.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect15.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect150.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect160.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect170.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect20.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect200.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2000.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2010.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2020.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2030.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2040.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2050.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect210.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2100.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect211.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2110.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect212.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2120.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect213.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2130.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2131.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect214.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect215.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect216.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect217.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect220.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2200.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect221.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect222.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect223.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect224.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect225.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect226.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect227.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect230.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect2300.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect235.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect240.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect25.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect250.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect251.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect270.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect275.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect280.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect290.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect30.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect300.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect305.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect310.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect315.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect320.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect325.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect330.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect35.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect350.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect355.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect40.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect400.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect4000.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect410.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect420.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect430.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect440.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect45.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect450.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect460.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect465.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect466.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect470.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect480.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect5.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect50.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect500.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect510.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect60.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect600.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect650.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect70.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect700.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect800.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect810.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect820.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect821.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect822.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect823.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect824.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect825.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect826.cs" />
-    <Compile Include="GameObjects\ArchitectureDetail\EventEffect\EventEffectKindPack\EventEffect827.cs" />
     <Compile Include="GamePanels\CheckBox.cs" />
     <Compile Include="GamePanels\Scrollbar\Frame.cs" />
     <Compile Include="GamePanels\Scrollbar\Scrollbar.cs" />
@@ -4652,45 +4887,6 @@
     <Content Include="assemblies\System.ServiceModel.Internals.dll" />
     <Content Include="assemblies\System.Xml.dll" />
     <Content Include="assemblies\WorldOfTheThreeKingdoms.Android.dll" />
-    <AndroidAsset Include="Content\Music\Start\Original-Start.mp3" />
-    <AndroidAsset Include="Content\Music\Attack\Original-Attack.mp3" />
-    <AndroidAsset Include="Content\Music\Autumn\Original-Autumn.mp3" />
-    <AndroidAsset Include="Content\Music\Battle\Original-Battle.mp3" />
-    <AndroidAsset Include="Content\Music\Defend\Original-Defend.mp3" />
-    <AndroidAsset Include="Content\Music\Spring\Original-Spring.mp3" />
-    <AndroidAsset Include="Content\Music\Summer\Original-Summer.mp3" />
-    <AndroidAsset Include="Content\Music\Winter\Original-Winter.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Attack\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Attack\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\3.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\4.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Battle\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Battle\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Defend\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Defend\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Spring\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Spring\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Spring\3.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Spring\4.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Spring\5.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Start\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Start\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Start\3.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Start\4.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Summer\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Summer\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Summer\3.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Summer\4.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Summer\5.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Winter\1.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Winter\2.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Winter\3.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Winter\4.mp3" />
-    <AndroidAsset Include="MODs\Shanshui\Music\Winter\5.mp3" />
-    <AndroidAsset Include="Content\Data\GameParameters.xml" />
-    <AndroidAsset Include="Content\Data\GlobalVariables.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Asstes\" />
