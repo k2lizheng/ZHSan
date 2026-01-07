@@ -379,7 +379,7 @@ namespace GameObjects
         public float MultipleOfStratagemTechniquePoint = 1;
         public bool NeverBeIntoChaos;
         public bool NeverBeIntoChaosWhileWaylay;
-        public bool NoAccidentalInjury;
+        public int NoAccidentalInjury = 0;
         public bool NoCounterAttack;
         public bool NotAfraidOfFire;
 
@@ -13902,7 +13902,7 @@ namespace GameObjects
         {
             get
             {
-                return (this.BaseNoAccidentalInjury || this.NoAccidentalInjury);
+                return (this.BaseNoAccidentalInjury || this.NoAccidentalInjury > 0);
             }
         }
 

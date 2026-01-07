@@ -11,16 +11,18 @@ using System.Runtime.Serialization;namespace GameObjects.Influences.InfluenceKin
 
         public override void ApplyInfluenceKind(Troop troop)
         {
-            if (troop.BaseNoAccidentalInjury)
-            {
-                troop.NoAccidentalInjury = true;
-            }
+            //if (troop.BaseNoAccidentalInjury)
+            //{
+            //    troop.NoAccidentalInjury = true;
+            //}
             troop.BaseNoAccidentalInjury = true;
+            troop.NoAccidentalInjury += 1;
         }
 
         public override void PurifyInfluenceKind(Troop troop)
         {
             troop.BaseNoAccidentalInjury = false;
+            troop.NoAccidentalInjury -= 1;
         }
     }
 }
