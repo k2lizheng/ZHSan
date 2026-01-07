@@ -132,6 +132,10 @@ namespace GameObjects
             this.RoutewayPathBuilder = new RoutewayPathFinder();
             this.RoutewayPathBuilder.OnGetCost += new RoutewayPathFinder.GetCost(this.RoutewayPathBuilder_OnGetCost);
             this.RoutewayPathBuilder.OnGetPenalizedCost += new RoutewayPathFinder.GetPenalizedCost(this.RoutewayPathBuilder_OnGetPenalizedCost);
+            // 显式初始化，确保不为null
+            _allMilitaries = new HashSet<Military>();
+            _militariesByKind = new Dictionary<int, List<Military>>();
+            _cachedMilitaries = new MilitaryList();
         }
 
         [DataMember]
@@ -720,20 +724,7 @@ namespace GameObjects
             this.Legions.Add(legion);
             legion.BelongedFaction = this;
         }
-
-        public void AddMilitary(Military military)
-        {
-            this.Militaries.AddMilitary(military);
-           /* if (this.militaryKindCounts.ContainsKey(military.RealMilitaryKind))
-            {
-                this.militaryKindCounts[military.Kind]++;
-            }
-            else
-            {
-                this.militaryKindCounts[military.Kind] = 1;
-            }*/
-            military.BelongedFaction = this;
-        }
+       
 
         public void AddPositionInformation(Point position, InformationLevel level)
         {
@@ -4295,7 +4286,7 @@ namespace GameObjects
         }
         */
          
-        public bool IsMilitaryKindOverLimit(int id)
+        public bool IsMilitaryKindOverLimitold(int id)
         {
             int count = 0;
             foreach (Military military in this.Militaries)
@@ -4886,11 +4877,22 @@ namespace GameObjects
 
         public void RemoveMilitary(Military military)
         {
-            this.Militaries.Remove(military);
+            //this.Militaries.Remove(military);
             /*if (this.militaryKindCounts.ContainsKey(military.Kind))
             {
                 this.militaryKindCounts[military.Kind]--;
             }*/
+            if (_allMilitaries.Remove(military))
+            {
+                // 2. 索引
+                ReindexMilitary(military);
+
+                // 3. 设置所属势力
+                //military.BelongedFaction = null;
+
+                // 4. 标记缓存脏
+                MarkCacheDirty();
+            }
             military.BelongedFaction = null;
         }
 
@@ -6812,63 +6814,105 @@ namespace GameObjects
         }
         [DataMember]
         public string MilitariesString { get; set; }
+        // 缓存相关字段
+        private MilitaryList _cachedMilitaries;
+        private bool _isMilitariesDirty = true;
 
+        // 主集合 - 存储所有军事单位
+        private HashSet<Military> _allMilitaries = new HashSet<Military>();
+
+        // 按类型索引的集合
+        private Dictionary<int, List<Military>> _militariesByKind = new Dictionary<int, List<Military>>();
+
+        // 优化后的 Militaries 属性
         public MilitaryList Militaries
         {
             get
             {
-                MilitaryList list = new MilitaryList();
-                /*
-                foreach (Military military in Session.Current.Scenario.Militaries)
+                if (_isMilitariesDirty || _cachedMilitaries == null)
                 {
-                    if (military.BelongedArchitecture != null && military.BelongedArchitecture.BelongedFaction == this)
-                    {
-                        Militaries.Add(military);
-                    }
-
-                }*/
-                if (this.Architectures != null)
-                {
-                    foreach (Architecture a in this.Architectures)
-                    {
-                        foreach (Military military in a.Militaries)
-                        {
-                            list.Add(military);
-                        }
-                    }
+                    RebuildMilitariesCache();
                 }
-
-                if (this.TransferingMilitaries != null)
-                {
-                    foreach (Military military in this.TransferingMilitaries)
-                    {
-                        list.Add(military);
-                    }
-                }
-
-                if (this.Troops != null)
-                {
-                    foreach (Troop troop in this.Troops)
-                    {
-                        if (troop.Army != null)
-                        {
-                            if (troop.Army.ShelledMilitary == null)
-                            {
-                                list.Add(troop.Army);
-                            }
-                            else
-                            {
-                                list.Add(troop.Army.ShelledMilitary);
-                            }
-                        }
-                    }
-                }
-
-                return list;
+                return _cachedMilitaries;
 
             }
         }
+        // 重建缓存
+        private void RebuildMilitariesCache()
+        {
+            _cachedMilitaries = new MilitaryList();
+            foreach (var military in _allMilitaries)
+            {
+                _cachedMilitaries.Add(military);
+            }
+            _isMilitariesDirty = false;
+        }
 
+        // 标记缓存脏
+        private void MarkCacheDirty()
+        {
+            _isMilitariesDirty = true;
+        }
+
+        // 重新索引
+        private void ReindexMilitary(Military military)
+        {
+            int kindId = military.RealKindID;
+            if (!_militariesByKind.TryGetValue(kindId, out var list))
+            {
+                list = new List<Military>();
+                _militariesByKind[kindId] = list;
+            }
+            list.Add(military);
+        }
+        public void AddMilitary(Military military)
+        {
+            // this.Militaries.AddMilitary(military);
+            /* if (this.militaryKindCounts.ContainsKey(military.RealMilitaryKind))
+             {
+                 this.militaryKindCounts[military.Kind]++;
+             }
+             else
+             {
+                 this.militaryKindCounts[military.Kind] = 1;
+             }*/
+            military.BelongedFaction = this;
+            // 1. 添加到主集合
+            if (_allMilitaries.Add(military))
+            {
+                // 2. 添加到索引
+                ReindexMilitary(military);
+
+                // 3. 设置所属势力
+                //military.BelongedFaction = this;
+
+                // 4. 标记缓存脏
+                MarkCacheDirty();
+            }
+        }
+        // 查询特定种类的军事单位数量（高效版本）
+        public int GetMilitaryCountByKind(int kindId)
+        {
+            if (_militariesByKind.TryGetValue(kindId, out var list))
+            {
+                return list.Count;
+            }
+            return 0;
+        }
+
+        // 检查军事单位种类是否超过限制（高效版本）
+        public bool IsMilitaryKindOverLimit(int id)
+        {
+            if (id <= 0) return false;
+
+            MilitaryKind mk = Session.Current.Scenario.GameCommonData.AllMilitaryKinds.GetMilitaryKind(id);
+            if (mk == null || mk.RecruitLimit <= 0)
+            {
+                return false;
+            }
+
+            return GetMilitaryCountByKind(id) >= mk.RecruitLimit;
+        }
         [DataMember]
         public int MilitaryCount
         {
