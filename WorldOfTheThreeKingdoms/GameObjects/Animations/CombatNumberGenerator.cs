@@ -37,9 +37,11 @@ namespace GameObjects.Animations
             {
                 if (this.texture == null)
                 {
-                    this.texture = CacheManager.GetTempTexture(this.TextureFileName);
-                    this.DigitWidth = 144 / 12;  // this.texture.Width / 12;
-                    this.DigitHeight = (200 / Enum.GetValues(typeof(CombatNumberKind)).Length) / 2;   //this.texture.Height
+                    this.texture = CacheManager.GetTempTextureWithWH(this.TextureFileName);
+                    //this.DigitWidth = 144 / 12;
+                    this.DigitWidth = this.texture.Width / 12;
+                    //this.DigitHeight = (200 / Enum.GetValues(typeof(CombatNumberKind)).Length) / 2;                   
+                    this.DigitHeight = (this.texture.Height / Enum.GetValues(typeof(CombatNumberKind)).Length) / 2;
                 }
                 return this.texture;
             }
