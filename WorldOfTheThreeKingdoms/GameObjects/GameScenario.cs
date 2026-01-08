@@ -4728,23 +4728,43 @@ namespace GameObjects
             ClearPersonStatusCache();
             ClearPersonWorkCache();
 
-            this.Architectures.GameObjects = this.Architectures.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Architectures.GameObjects = this.Architectures.GameObjects.OrderBy(x => x.ID).ToList();
             this.AllBiographies.Biographys = this.AllBiographies.Biographys.OrderBy(x => x.Value.ID).ToDictionary(x => x.Key, y => y.Value);
-            this.Captives.GameObjects = this.Captives.GameObjects.OrderBy(x => x.ID).ToList();
-            this.AllEvents.GameObjects = this.AllEvents.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Facilities.GameObjects = this.Facilities.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Factions.GameObjects = this.Factions.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Informations.GameObjects = this.Informations.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Legions.GameObjects = this.Legions.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Militaries.GameObjects = this.Militaries.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Persons.GameObjects = this.Persons.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Routeways.GameObjects = this.Routeways.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Sections.GameObjects = this.Sections.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Treasures.GameObjects = this.Treasures.GameObjects.OrderBy(x => x.ID).ToList();
-            this.Troops.GameObjects = this.Troops.GameObjects.OrderBy(x => x.ID).ToList();
-            this.TroopEvents.GameObjects = this.TroopEvents.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Captives.GameObjects = this.Captives.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.AllEvents.GameObjects = this.AllEvents.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Facilities.GameObjects = this.Facilities.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Factions.GameObjects = this.Factions.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Informations.GameObjects = this.Informations.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Legions.GameObjects = this.Legions.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Militaries.GameObjects = this.Militaries.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Persons.GameObjects = this.Persons.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Routeways.GameObjects = this.Routeways.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Sections.GameObjects = this.Sections.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Treasures.GameObjects = this.Treasures.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.Troops.GameObjects = this.Troops.GameObjects.OrderBy(x => x.ID).ToList();
+            //this.TroopEvents.GameObjects = this.TroopEvents.GameObjects.OrderBy(x => x.ID).ToList();
             this.DiplomaticRelations.DiplomaticRelations = this.DiplomaticRelations.DiplomaticRelations.OrderBy(x => x.Value.RelationFaction1ID).ToDictionary(x => x.Key, y => y.Value);
-            if(editing)
+            // 原代码：创建新列表，内存开销大
+            // this.Architectures.GameObjects = this.Architectures.GameObjects.OrderBy(x => x.ID).ToList();
+
+            // 优化方案1：使用内置Sort方法（原地排序，无额外内存分配）
+            //this.Architectures.Sort(Comparer<GameObject>.Create((a, b) => a.ID.CompareTo(b.ID)));
+            this.Architectures.SortByID();
+            this.Captives.SortByID();
+            this.AllEvents.SortByID();
+            this.Facilities.SortByID();
+            this.Factions.SortByID();
+            this.Informations.SortByID();
+            this.Legions.SortByID();
+            this.Militaries.SortByID();
+            this.Persons.SortByID();
+            this.Routeways.SortByID();
+            this.Sections.SortByID();
+            this.Treasures.SortByID();
+            this.Troops.SortByID();
+            this.TroopEvents.SortByID();
+
+            if (editing)
             {
                 this.FatherIds = this.FatherIds.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);
                 this.MotherIds = this.MotherIds.OrderBy(x => x.Key).ToDictionary(x => x.Key, y => y.Value);

@@ -794,7 +794,30 @@ namespace GameObjects
 
         public void StableSort(IComparer<GameObject> comparer)
         {
-            this.gameObjects = this.gameObjects.OrderBy<GameObject, GameObject>(x => x, comparer).ToList<GameObject>();
+            //if (immutable)
+            //    throw new InvalidOperationException("Cannot sort an immutable list");
+
+            if (comparer == null)
+                throw new ArgumentNullException(nameof(comparer));
+
+            if (Count < 2) return;
+
+            // 优化1：使用 ToList() 而不是 ToList<GameObject>()
+            this.gameObjects = this.gameObjects.OrderBy(x => x, comparer).ToList();
+
+            //this.gameObjects = this.gameObjects.OrderBy<GameObject, GameObject>(x => x, comparer).ToList<GameObject>();
+            //RebuildIdIndex(); // 因为创建了新列表，需要重建索引
+        }
+        public void SortByID()
+        {
+            if (immutable)
+                throw new Exception("Trying to sort an immutable list");
+
+            if (Count < 2) return;
+
+            // 直接对内部列表排序
+            gameObjects.Sort((a, b) => a.ID.CompareTo(b.ID));
+            // 注意：不需要重建idIndex，因为字典不受顺序影响
         }
 
         public override string ToString()
@@ -810,32 +833,7 @@ namespace GameObjects
             }
         }
 
-        public GameObject this[int index]
-        {
-            get
-            {
-                return this.gameObjects[index];
-            }
-            set
-            {
-                //this.gameObjects[index] = value;
-                if (immutable && index < gameObjects.Count)
-                    throw new Exception("Trying to modify an immutable list");
-
-                gameObjects[index] = value;
-                //if (index < gameObjects.Count)
-                //{
-                //    // 更新索引
-                //    RemoveFromIdIndex(gameObjects[index]);
-                //    gameObjects[index] = value;
-                //    AddToIdIndex(value);
-                //}
-                //else
-                //{
-                //    throw new IndexOutOfRangeException();
-                //}
-            }
-        }
+       
         // 批量操作
         public void ForEach(Action<GameObject> action)
         {
