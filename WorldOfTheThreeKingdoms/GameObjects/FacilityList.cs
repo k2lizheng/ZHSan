@@ -8,7 +8,7 @@ namespace GameObjects
     {
         public void AddFacility(Facility facility)
         {
-            base.GameObjects.Add(facility);
+            Add(facility);
         }
 
         public void DecreaseEndurance(int decrement)

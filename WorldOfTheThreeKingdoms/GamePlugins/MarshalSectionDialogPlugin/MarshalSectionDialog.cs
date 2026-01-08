@@ -418,6 +418,7 @@ namespace MarshalSectionDialogPlugin
                 this.EditingSection.OrientationSection = section.OrientationSection;
                 this.EditingSection.OrientationState = section.OrientationState;
                 this.EditingSection.OrientationArchitecture = section.OrientationArchitecture;
+                Session.Current.Scenario.Sections.Add(EditingFaction);
                 this.RefreshOKButton();
                 this.RefreshOrientationButton();
                 this.RefreshLabelTextsDisplay();
