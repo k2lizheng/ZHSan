@@ -47,8 +47,10 @@
     <MandroidI18n />
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
-    <AndroidUseAapt2>true</AndroidUseAapt2>
+    <AndroidUseAapt2>false</AndroidUseAapt2>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <PlatformTarget>x64</PlatformTarget>
+    <AndroidSupportedAbis>armeabi-v7a;x86_64;arm64-v8a</AndroidSupportedAbis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

@@ -1665,9 +1665,6 @@
     <Compile Include="Tools\WordTools.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FairyGUI.Windows">
-      <HintPath>..\..\Proj\FairyGUI-monogame-master\FairyGUI\bin\Debug\FairyGUI.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="MersenneTwister, Version=1.0.6146.4688, Culture=neutral, PublicKeyToken=9c84633ec57842f3, processorArchitecture=MSIL">
       <HintPath>..\packages\MersenneTwister.1.0.5\lib\portable-net45+netcore45+win8+wp8\MersenneTwister.dll</HintPath>
     </Reference>
@@ -1690,10 +1687,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Win\SharpDX.MediaFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="spine-monogame, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\yl\Release\spine-monogame.dll</HintPath>
-    </Reference>
     <Reference Include="Steamworks.NET, Version=12.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Win\Steamworks.NET.dll</HintPath>
@@ -1711,7 +1704,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
