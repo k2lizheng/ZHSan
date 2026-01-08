@@ -7608,17 +7608,59 @@ namespace GameObjects
             return this.ChangeCapitalArchitectureList;
         }
 
-        public void GetClosestArchitectures()
+        public void GetClosestArchitectures() //广度优先搜索（BFS）两层遍历
         {
+            if (this.ClosestArchitectures != null && this.ClosestArchitectures.Count == 0) return;
+
             this.ClosestArchitectures = new ArchitectureList();
-            foreach (Architecture architecture in Session.Current.Scenario.Architectures)
+            var seenIds = new HashSet<int> { this.ID }; // 排除自身
+
+            // 使用队列进行BFS两层遍历
+            var queue = new Queue<Architecture>();
+            // 第一层：直接链接
+            AddToQueueAndList(this.AILandLinks, queue, seenIds);
+
+            if (this.AIWaterLinks.Count > 0)
             {
-                if (architecture != this)
+                AddToQueueAndList(this.AIWaterLinks, queue, seenIds);
+            }
+            // 链接（广度优先）
+            int currentLevelCount = queue.Count;
+            int level = 1;
+            const int MAX_LEVEL = 2; // 只到第二层
+
+            while (queue.Count > 0 && level < MAX_LEVEL)
+            {
+                for (int i = 0; i < currentLevelCount; i++)
+                {
+                    var architecture = queue.Dequeue();
+
+                    AddToQueueAndList(architecture.AILandLinks, queue, seenIds);
+
+                    if (architecture.AIWaterLinks.Count > 0)
+                    {
+                        AddToQueueAndList(architecture.AIWaterLinks, queue, seenIds);
+                    }
+                }
+
+                level++;
+                currentLevelCount = queue.Count;
+            }
+        }
+
+        private void AddToQueueAndList(GameObjectList gameObjects, Queue<Architecture> queue, HashSet<int> seenIds)
+        {
+            foreach (var obj in gameObjects)
+            {
+                var architecture = obj as Architecture;
+                if (architecture == null) continue;
+
+                if (seenIds.Add(architecture.ID))
                 {
                     this.ClosestArchitectures.Add(architecture);
+                    queue.Enqueue(architecture);
                 }
             }
-            this.QuickSortArchitecturesDistance(this.ClosestArchitectures, 0, this.ClosestArchitectures.Count - 1);
         }
 
         public ArchitectureList GetClosestArchitectures(int count, double maxDistance)
@@ -7626,6 +7668,10 @@ namespace GameObjects
             if (this.ClosestArchitectures == null)
             {
                 this.GetClosestArchitectures();
+            }
+            if (this.ClosestArchitectures.Count == 0)
+            {
+                this.ClosestArchitectures = this.AILandLinks;
             }
             ArchitectureList list = new ArchitectureList();
             if (count > this.ClosestArchitectures.Count)
@@ -11516,18 +11562,91 @@ namespace GameObjects
 
         private void QuickSortArchitecturesDistance(ArchitectureList List, int begin, int end)
         {
+            //if (begin < end)
+            //{
+            //    int num = this.QuickSortPartitionArchitecturesDistance(List, begin, end);
+            //    if (begin < (num - 1))
+            //    {
+            //        this.QuickSortArchitecturesDistance(List, begin, num - 1);
+            //    }
+            //    if ((num + 1) < end)
+            //    {
+            //        this.QuickSortArchitecturesDistance(List, num + 1, end);
+            //    }
+            //}
+            if (begin >= end) return;
+
+            // 预先计算所有距离并缓存
+            int[] distances = new int[List.Count];
+            for (int i = begin; i <= end; i++)
+            {
+                distances[i] = Session.Current.Scenario.GetSimpleDistance(
+                    (List[i] as Architecture).Position,
+                    this.Position
+                );
+            }
+
+            QuickSortArchitecturesDistanceWithCache(List, distances, begin, end);
+        }
+        private void QuickSortArchitecturesDistanceWithCache(ArchitectureList list, int[] distances, int begin, int end)
+        {
             if (begin < end)
             {
-                int num = this.QuickSortPartitionArchitecturesDistance(List, begin, end);
-                if (begin < (num - 1))
+                int pivotIndex = PartitionWithCache(list, distances, begin, end);
+
+                // 使用尾递归优化
+                if (pivotIndex - 1 - begin < end - (pivotIndex + 1))
                 {
-                    this.QuickSortArchitecturesDistance(List, begin, num - 1);
+                    QuickSortArchitecturesDistanceWithCache(list, distances, begin, pivotIndex - 1);
+                    QuickSortArchitecturesDistanceWithCache(list, distances, pivotIndex + 1, end);
                 }
-                if ((num + 1) < end)
+                else
                 {
-                    this.QuickSortArchitecturesDistance(List, num + 1, end);
+                    QuickSortArchitecturesDistanceWithCache(list, distances, pivotIndex + 1, end);
+                    QuickSortArchitecturesDistanceWithCache(list, distances, begin, pivotIndex - 1);
                 }
             }
+        }
+
+        private int PartitionWithCache(ArchitectureList list, int[] distances, int begin, int end)
+        {
+            // 三数取中法选择枢轴，避免最坏情况
+            int mid = begin + (end - begin) / 2;
+            if (distances[mid] < distances[begin])
+                SwapWithDistance(list, distances, begin, mid);
+            if (distances[end] < distances[begin])
+                SwapWithDistance(list, distances, begin, end);
+            if (distances[mid] < distances[end])
+                SwapWithDistance(list, distances, mid, end);
+
+            int pivotDistance = distances[end];
+            int i = begin - 1;
+
+            for (int j = begin; j < end; j++)
+            {
+                if (distances[j] <= pivotDistance)
+                {
+                    i++;
+                    if (i != j)
+                        SwapWithDistance(list, distances, i, j);
+                }
+            }
+
+            SwapWithDistance(list, distances, i + 1, end);
+            return i + 1;
+        }
+
+        private void SwapWithDistance(ArchitectureList list, int[] distances, int i, int j)
+        {
+            // 交换列表元素
+            GameObject temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+
+            // 同时交换距离缓存
+            int tempDist = distances[i];
+            distances[i] = distances[j];
+            distances[j] = tempDist;
         }
 
         private int QuickSortPartitionArchitecturesDistance(ArchitectureList List, int begin, int end)
