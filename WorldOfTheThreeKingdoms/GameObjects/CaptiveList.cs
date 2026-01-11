@@ -9,7 +9,7 @@ namespace GameObjects
     {
         public void AddCaptiveWithEvent(Captive captive)
         {
-            //base.Add(captive);
+            base.Add(captive);
             captive.OnPlayerRelease += new Captive.PlayerRelease(this.captive_OnPlayerRelease);
             captive.OnRelease += new Captive.Release(this.captive_OnRelease);
             captive.OnSelfRelease += new Captive.SelfRelease(this.captive_OnSelfRelease);

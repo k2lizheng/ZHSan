@@ -280,6 +280,7 @@ namespace GameObjects
 
             emptyPersonList = new PersonList();
             emptyCaptiveList = new CaptiveList();
+            Captives = new CaptiveList();
 
             pathCache = new Dictionary<PathCacheKey, List<Point>>();
 
@@ -595,25 +596,27 @@ namespace GameObjects
         [DataMember]
         public CaptiveList captiveData = new CaptiveList();
 
-        public CaptiveList Captives
-        {
-            get
-            {
-                CaptiveList result = new CaptiveList();
-                foreach (Person i in this.Persons)
-                {
-                    if (i.Status == PersonStatus.Captive)
-                    {
-                        if (i.BelongedCaptive == null)
-                        {
-                            continue;
-                        }
-                        result.Add(i.BelongedCaptive);
-                    }
-                }
-                return result;
-            }
-        }
+        public CaptiveList Captives = new CaptiveList();
+
+        //public CaptiveList Captives
+        //{
+        //    get
+        //    {
+        //        CaptiveList result = new CaptiveList();
+        //        foreach (Person i in this.Persons)
+        //        {
+        //            if (i.Status == PersonStatus.Captive)
+        //            {
+        //                if (i.BelongedCaptive == null)
+        //                {
+        //                    continue;
+        //                }
+        //                result.Add(i.BelongedCaptive);
+        //            }
+        //        }
+        //        return result;
+        //    }
+        //}
 
         public PersonList AvailablePersons
         {
@@ -3363,6 +3366,7 @@ namespace GameObjects
                         captive.CaptivePerson.SetBelongedCaptive(captive, PersonStatus.Captive);
 
                         captive.CaptivePerson.Status = PersonStatus.Captive;
+                        this.Captives.Add(captive);
                     }
 
                 }
