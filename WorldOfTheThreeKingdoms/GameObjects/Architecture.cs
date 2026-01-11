@@ -15492,11 +15492,11 @@ namespace GameObjects
                 {
                     this.mayor = Session.Current.Scenario.Persons.GetGameObject(this.MayorID)as Person ;
                 }
-                if(this.mayor.Status != PersonStatus.Normal && this.mayor.LocationArchitecture != this)
-                //if (this.mayor != null && this.BelongedFaction != null &&
-                //    (this.mayor == this.BelongedFaction .Leader || !this.mayor.Alive || !this.mayor.Available
-                //    || this.mayor.BelongedFaction != this.BelongedFaction
-                //    || this.mayor.BelongedFaction == null || (this.mayor.LocationArchitecture != this && this.mayor.BelongedTroop == null )))
+                //if(this.mayor.Status != PersonStatus.Normal && this.mayor.LocationArchitecture != this)
+                if (this.mayor != null && this.BelongedFaction != null &&
+                    (this.mayor == this.BelongedFaction.Leader || !this.mayor.Alive || !this.mayor.Available
+                    || this.mayor.BelongedFaction != this.BelongedFaction
+                    || this.mayor.BelongedFaction == null || (this.mayor.LocationArchitecture != this && this.mayor.LocationTroop == null )))
                 {
                     this.Mayor = null;
                 }
