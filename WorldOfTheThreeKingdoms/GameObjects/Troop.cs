@@ -691,7 +691,7 @@ namespace GameObjects
             InfluenceList list = new InfluenceList();
             foreach (Influence i in this.InfluencesApplying)
             {
-                list.Add(i);
+                list.Add(i, true);
             }
             return list;
         }

@@ -1,6 +1,7 @@
 ﻿using GameManager;
 using GameObjects;
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace GameObjects
@@ -50,10 +51,11 @@ namespace GameObjects
                 {
                     factions = new FactionList();
                     string[] ids = FactionsString.Split(' ');
+                    HashSet<int> processedIds = new HashSet<int>();
                     foreach (string id in ids)
                     {
                         int iid;
-                        if (int.TryParse(id, out iid))
+                        if (int.TryParse(id, out iid) && processedIds.Add(iid))
                         {
                             factions.Add(Session.Current.Scenario.Factions.GetGameObject(iid));
                         }
@@ -71,7 +73,7 @@ namespace GameObjects
         {
             get
             {
-                if (factions.Count < 1) return "";
+                if (factions.Count < 1 || factions[0] == null) return "";
                 return factions[0].Name;
             }
         }
@@ -80,7 +82,7 @@ namespace GameObjects
         {
             get
             {
-                if (factions.Count < 2) return "";
+                if (factions.Count < 2 || factions[0] == null) return "";
                 return factions[1].Name;
             }
         }

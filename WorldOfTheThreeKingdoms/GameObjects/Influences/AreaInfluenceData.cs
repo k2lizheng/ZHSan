@@ -146,7 +146,7 @@ namespace GameObjects.Influences
                 case AreaInfluenceKind.hostileTirednessIncrease:
                     if (!this.Owner.IsFriendly(troop.BelongedFaction))
                     {
-                        troop.TirednessIncreaseChanceInViewArea += this.Offset;
+                        troop.TirednessIncreaseChanceByViewArea += this.Offset;
                     }
                     break;
 
@@ -285,7 +285,7 @@ namespace GameObjects.Influences
                 case AreaInfluenceKind.friendlyTirednessDecrease:
                     if (this.Owner.IsFriendly(troop.BelongedFaction))
                     {
-                        troop.TirednessDecreaseChanceByViewArea -= this.Offset;//0329修改by为in
+                        troop.TirednessDecreaseChanceByViewArea -= this.Offset;
                     }
                     break;
 
@@ -320,7 +320,7 @@ namespace GameObjects.Influences
                 case AreaInfluenceKind.hostileTirednessIncrease:
                     if (!this.Owner.IsFriendly(troop.BelongedFaction))
                     {
-                        troop.TirednessIncreaseChanceByViewArea -= this.Offset;//0329修改by为in
+                        troop.TirednessIncreaseChanceByViewArea -= this.Offset;
                     }
                     break;
 

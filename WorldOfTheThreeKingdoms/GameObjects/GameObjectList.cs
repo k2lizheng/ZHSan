@@ -589,7 +589,7 @@ namespace GameObjects
             {
                 foreach (GameObject obj2 in this.gameObjects)
                 {
-                    if (obj2.ID == ID)
+                    if (obj2 !=null && obj2.ID == ID)
                     {
                         return true;
                     }
