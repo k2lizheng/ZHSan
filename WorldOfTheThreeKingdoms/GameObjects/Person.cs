@@ -495,16 +495,19 @@ namespace GameObjects
         }
 
         public void SetBelongedCaptive(Captive c, PersonStatus newState)
-        {
-            this.belongedCaptive = c;
+        {            
             if (c == null)
             {
+                Session.Current.Scenario.Captives.Remove(this.belongedCaptive);
+                this.belongedCaptive = c;
                 this.Status = newState;
             }
             else
             {
+                this.belongedCaptive = c;
                 this.Status = PersonStatus.Captive;
-            }
+                Session.Current.Scenario.Captives.Add(this.belongedCaptive);
+            }           
         }
 
         private float oldInjuraRate = 1.0f;
@@ -5624,7 +5627,7 @@ namespace GameObjects
         {
             get
             {
-                return WillLoseLoyalty || (this.BelongedCaptive.LocationArchitecture.captiveLoyaltyFall.Count > 0);
+                return WillLoseLoyalty || (this.BelongedCaptive != null && this.BelongedCaptive.LocationArchitecture.captiveLoyaltyFall.Count > 0);
             }
         }
 
@@ -5649,7 +5652,7 @@ namespace GameObjects
             }
             else
             {
-                if (this.LocationArchitecture != null)
+                if (this.BelongedCaptive.LocationArchitecture != null)
                 {
                     foreach (KeyValuePair<int, int> i in this.BelongedCaptive.LocationArchitecture.captiveLoyaltyFall)
                     {

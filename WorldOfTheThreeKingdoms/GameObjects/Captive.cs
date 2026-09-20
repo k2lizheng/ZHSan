@@ -109,13 +109,13 @@ namespace GameObjects
         {
             get
             {
-                if (this.CaptivePerson.LocationArchitecture != null)
-                {
-                    return this.CaptivePerson.LocationArchitecture.BelongedFaction;
-                }
-                else if (this.CaptivePerson.LocationTroop != null)
+                if (this.CaptivePerson.LocationTroop != null)
                 {
                     return this.CaptivePerson.LocationTroop.BelongedFaction;
+                }               
+                else if (this.CaptivePerson.LocationArchitecture != null)
+                {
+                    return this.CaptivePerson.LocationArchitecture.BelongedFaction;
                 }
                 else
                 {
@@ -129,7 +129,11 @@ namespace GameObjects
         {
             get
             {
-                return this.CaptivePerson.LocationArchitecture;
+                if (this.CaptivePerson.LocationTroop != null)
+                {
+                    return this.CaptivePerson.LocationTroop.Leader.LocationArchitecture;
+                }
+                else return this.CaptivePerson.LocationArchitecture;
             }
         }
 
@@ -189,7 +193,7 @@ namespace GameObjects
                         else
                         {
                             //this.RansomArriveDays = (int) (Session.Current.Scenario.GetDistance(this.RansomArchitecture.ArchitectureArea, this.BelongedFaction.Capital.ArchitectureArea) / 5.0);
-                            this.RansomArriveDays = (int)(Session.Current.Scenario.GetDistance(this.RansomArchitecture.ArchitectureArea, this.BelongedFaction.Capital.ArchitectureArea) / 5.0) * Session.Parameters.DayInTurn;
+                            if(this.RansomArchitecture != null) this.RansomArriveDays = (int)(Session.Current.Scenario.GetDistance(this.RansomArchitecture.ArchitectureArea, this.BelongedFaction.Capital.ArchitectureArea) / 5.0) * Session.Parameters.DayInTurn;
                             if (this.RansomArriveDays <= 0)
                             {
                                 this.RansomArriveDays = 1;
@@ -207,12 +211,13 @@ namespace GameObjects
 
         private void DoRelease()
         {
-            Point position = this.CaptivePerson.Position;
+            Point position = this.CaptivePerson.Position;            
             if (this.CaptivePerson.BelongedFaction != null && this.CaptivePerson.BelongedFaction.Capital != null)
             {
                 Faction f = this.CaptivePerson.BelongedFaction;
                 this.CaptivePerson.LocationArchitecture = f.Capital;
-                this.CaptivePerson.Status = GameObjects.PersonDetail.PersonStatus.Normal;
+                //this.CaptivePerson.Status = GameObjects.PersonDetail.PersonStatus.Normal;
+                this.CaptivePerson.SetBelongedCaptive(null, GameObjects.PersonDetail.PersonStatus.Normal);
                 this.CaptivePerson.MoveToArchitecture(f.Capital, position, true);
             }
             
