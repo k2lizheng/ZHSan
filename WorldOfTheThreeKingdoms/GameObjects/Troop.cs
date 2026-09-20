@@ -116,8 +116,9 @@ namespace GameObjects
 
             targetTroop = (Troop) Session.Current.Scenario.Troops.GetGameObject(targetTroopID);
             targetArchitecture = (Architecture)Session.Current.Scenario.Architectures.GetGameObject(targetArchitectureID);
-        }
-
+                       
+        }       
+        private int[] _terrainAdaptabilityArray;// 添加预计算数组
         private int[] weizhixulie = { 0, 1, -1, 2, -2, 3, -3, 4 };
         private int weizhijishu = 0;
         private int yuanmubiaofangxiang = 0;
@@ -6666,6 +6667,12 @@ namespace GameObjects
 
         public int GetTerrainAdaptability(TerrainKind terrain)
         {
+            if(_terrainAdaptabilityArray == null) InitializeTerrainAdaptability();
+            int index = (int)terrain;
+            return index >= 0 && index < _terrainAdaptabilityArray.Length
+                ? _terrainAdaptabilityArray[index]
+                : 0xdac;
+            /*
             switch (terrain)
             {
                 case TerrainKind.无:
@@ -6702,6 +6709,7 @@ namespace GameObjects
                     return this.CliffAdaptability;
             }
             return 0xdac;
+            */
         }
 
         private int GetTerrainCredit(Point position)
@@ -7859,9 +7867,32 @@ namespace GameObjects
                 }
             }
             Session.Current.Scenario.MapTileData[this.Position.X, this.Position.Y].TileTroop = this;
-            this.RefreshAllData();
+            this.RefreshAllData();            
         }
+        public void InitializeTerrainAdaptability()
+        {
+            int maxTerrainKind = Enum.GetValues(typeof(TerrainKind)).Length;
+            _terrainAdaptabilityArray = new int[maxTerrainKind];
 
+            // 填充默认值（不可通过）
+            for (int i = 0; i < maxTerrainKind; i++)
+            {
+                _terrainAdaptabilityArray[i] = 0xdac;
+            }
+
+            // 设置具体值
+            _terrainAdaptabilityArray[(int)TerrainKind.无] = 0xdac;
+            _terrainAdaptabilityArray[(int)TerrainKind.平原] = this.PlainAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.草原] = this.GrasslandAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.森林] = this.ForrestAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.湿地] = this.MarshAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.山地] = this.MountainAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.水域] = this.WaterAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.峻岭] = this.RidgeAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.荒地] = this.WastelandAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.沙漠] = this.DesertAdaptability;
+            _terrainAdaptabilityArray[(int)TerrainKind.栈道] = this.CliffAdaptability;
+        }
         private void InitializeContactArea()
         {
             foreach (Point point in this.ContactArea.Area)
