@@ -250,6 +250,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             }
             Session.Current.Scenario.Date.SetSeason();
             //this.thisGame.jiazaitishi.jiazaijindu.Value = 90;
+            this.shangciCundangShijian = Session.Current.Scenario.DaySince;
         }
 
         private void JumpToFaction()
@@ -371,8 +372,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             {
                 mainMapLayer.StopThreads();
                 Session.StartScenario(sce, true);
-                CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
-                GameScenario.ProcessCommonData(CommonData.Current);
+                //CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
+                //GameScenario.ProcessCommonData(CommonData.Current);
             }
         }
 
