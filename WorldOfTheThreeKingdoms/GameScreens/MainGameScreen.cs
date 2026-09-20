@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using GameFreeText;
 using GameGlobal;
+using GameManager;
 using GameObjects;
 using GameObjects.FactionDetail;
 using GameObjects.PersonDetail;
@@ -14,13 +9,19 @@ using GameObjects.TroopDetail;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platforms;
 using PluginInterface;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using WorldOfTheThreeKingdoms.GameLogic;
 using WorldOfTheThreeKingdoms.GameScreens;
 using WorldOfTheThreeKingdoms.GameScreens.ScreenLayers;
 using WorldOfTheThreeKingdoms.Resources;
-using Platforms;
-using GameManager;
 
 //using GameObjects.PersonDetail.PersonMessages;
 
@@ -1722,7 +1723,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             this.Plugins.OptionDialogPlugin.ShowOptionDialog(ShowPosition.Center);
         }
 
-        public void SaveGameToDisk(string LoadedFileName)
+        public void SaveGameToDisk(string LoadedFileName) //async Task
         {
             Session.Current.Scenario.EnableLoadAndSave = false;
 
@@ -1750,7 +1751,10 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 saveMap = saveMap || this.mapEdited;
 
                 Session.Current.Scenario.SaveGameScenario(LoadedFileName, saveMap, saveMap, true);
-
+                //await Task.Run(() =>
+                //{
+                //    Session.Current.Scenario.SaveGameScenario(LoadedFileName, saveMap, saveMap, true);
+                //});
                 this.mainMapLayer.freeTilesMemory();
             }
             finally

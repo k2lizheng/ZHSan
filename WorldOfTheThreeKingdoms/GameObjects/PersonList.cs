@@ -156,18 +156,18 @@ namespace GameObjects
         public void ApplyInfluences()
         {           
             // 使用并行处理（如果线程安全）
-            if (base.GameObjects.Count > 100)
-            {
-                Parallel.ForEach(base.GameObjects.OfType<Person>(), person =>
-                {
-                    person.ApplyTitles(false);
-                    person.ApplySkills(false);
-                    person.ApplyStunts();
-                    person.ApplyAllTreasures(false);
-                });
-            }
-            else
-            {
+            //if (base.GameObjects.Count > 100)
+            //{
+            //    Parallel.ForEach(base.GameObjects.OfType<Person>(), person =>
+            //    {
+            //        person.ApplyTitles(false);
+            //        person.ApplySkills(false);
+            //        person.ApplyStunts();
+            //        person.ApplyAllTreasures(false);
+            //    });
+            //}
+            //else
+            //{
                 foreach (Person person in base.GameObjects)
                 {
                     person.ApplyTitles(false);
@@ -175,7 +175,7 @@ namespace GameObjects
                     person.ApplyStunts();
                     person.ApplyAllTreasures(false);
                 }
-            }
+            //}
 
         }
         // 条件筛选（返回PersonList）

@@ -1368,20 +1368,23 @@ namespace GameObjects
             }
             //this.GameProgressCaution.Text = "运行势力";
             //this.OngoingBattleDayEvent();
-
-            foreach (Faction faction in this.Factions.GetRandomList())
+            var factions = this.Factions.GetRandomList();
+            foreach (Faction faction in factions)
             {
                 faction.DayEvent();
             }
-            foreach (Architecture architecture in this.Architectures.GetRandomList())
+            var architectures = this.Architectures.GetRandomList();
+            foreach (Architecture architecture in architectures)
             {
                 architecture.DayEvent();
             }
-            foreach (Routeway routeway in this.Routeways.GetRandomList())
+            var routeways = this.Routeways.GetRandomList();
+            foreach (Routeway routeway in routeways)
             {
                 routeway.DayEvent();
             }
-            foreach (Legion legion in this.Legions.GetRandomList())
+            var legions = this.Legions.GetRandomList();
+            foreach (Legion legion in legions)
             {
                 legion.DayEvent();
                 if (legion.Troops.Count == 0)
@@ -1391,7 +1394,8 @@ namespace GameObjects
                 }
             }
             //this.GameProgressCaution.Text = "运行军队";
-            foreach (Troop troop in this.Troops.GetRandomList())
+            var troops = this.Troops.GetRandomList();
+            foreach (Troop troop in troops)
             {
                 if (troop.BelongedFaction == null)
                 {
@@ -1415,9 +1419,6 @@ namespace GameObjects
             foreach (Person person in availablePersons)
             {
                 person.PreDayEvent();
-            }
-            foreach (Person person in this.AvailablePersons.GetRandomList())
-            {
                 person.DayEvent();
             }
             this.AdjustGlobalPersonRelation();
@@ -1636,122 +1637,31 @@ namespace GameObjects
         {
             this.Factions.SetControlling(false);
 
-            // 只对计算密集型部分并行化，确保线程安全
-            var troops = this.Troops.GetList();
-
-            // 检查 troops 是否为空或没有元素
-            if (troops == null || troops.Count == 0)
-                return;
-
-            // 使用安全的分区并行处理，避免 Partitioner.Create 参数异常
-            try
+            foreach (Troop troop in this.Troops.GetList())
             {
-                // 使用线程安全的执行方式
-                int troopCount = troops.Count;
-
-                // 如果部队数量很少，顺序执行
-                if (troopCount < 5)
+                if (troop.BelongedFaction == null || troop.BelongedLegion == null || !troop.BelongedLegion.Troops.HasGameObject(troop))
                 {
-                    foreach (var obj in troops)
-                    {
-                        ProcessTroopAI(obj as Troop);
-                    }
-                    
-                }
-                else
-                { 
-                    // 并行执行
-                    // 创建一个同步锁对象，用于保护共享资源的访问
-                    //object syncLock = new object();
-
-                    // 使用并行循环
-                    Parallel.For(0, troopCount, i =>
-                    {
-                        var troop = troops[i] as Troop;
-                        //ProcessTroopAIWithLock(troop, syncLock);
-                        ProcessTroopAIWithLock(troop);
-                    });
-                }
-
-            }
-            catch (ArgumentException ex)
-            {
-                // 如果 Partitioner.Create 失败，回退到顺序执行
-                Console.WriteLine($"并行处理失败，回退到顺序执行: {ex.Message}");
-
-                foreach (var obj in troops)
-                {
-                    var troop = obj as Troop;
-                    if (troop == null)
-                        continue;
-
-                    if (troop.BelongedFaction == null || troop.BelongedLegion == null ||
-                        !troop.BelongedLegion.Troops.HasGameObject(troop))
-                    {
-                        troop.AI();
-                    }
+                    troop.AI();
                 }
             }
-
             this.Troops.BuildQueue();
-            //foreach (Architecture architecture in this.Architectures.GetList())
-            //{
-            //    architecture.HireFinished = false;
-            //    architecture.HasManualHire = false;
-            //    architecture.TodayPersonArriveNote = false;
 
-            //}
-            //Architecture操作通常是独立的，可以直接并行
-            var architectures = this.Architectures.GetList().Cast<Architecture>(); ;
-            Parallel.ForEach(architectures, architecture =>
+            foreach (Architecture architecture in this.Architectures.GetList())
             {
-                // 确认这些属性是否只被当前线程访问
                 architecture.HireFinished = false;
                 architecture.HasManualHire = false;
                 architecture.TodayPersonArriveNote = false;
-            });
-        }
-        // 处理部队AI的方法（带锁保护）
-        private void ProcessTroopAIWithLock(Troop troop) // ,object syncLock
-        {
-            if (troop == null)
-                return;
 
-            // 判断是否需要执行AI
-            bool shouldExecuteAI = false;
-
-            // 检查条件，这部分可能需要同步
-            if (troop.BelongedFaction == null || troop.BelongedLegion == null)
-            {
-                shouldExecuteAI = true;
             }
-            else
-            {
-                // 对共享资源的访问加锁
-                //lock (syncLock)
-                //{
-                shouldExecuteAI = !troop.BelongedLegion.Troops.HasGameObject(troop);
-                //}
-            }
-
-            // 执行AI（假设AI本身是线程安全的）
-            if (shouldExecuteAI)
-            {
-                troop.AI();
-            }
-        }
-
-        // 简单的处理部队AI的方法
-        private void ProcessTroopAI(Troop troop)
-        {
-            if (troop == null)
-                return;
-
-            if (troop.BelongedFaction == null || troop.BelongedLegion == null ||
-                !troop.BelongedLegion.Troops.HasGameObject(troop))
-            {
-                troop.AI();
-            }
+            //Architecture操作通常是独立的，可以直接并行
+            //var architectures = this.Architectures.GetList().Cast<Architecture>(); ;
+            //Parallel.ForEach(architectures, architecture =>
+            //{
+            //    // 确认这些属性是否只被当前线程访问
+            //    architecture.HireFinished = false;
+            //    architecture.HasManualHire = false;
+            //    architecture.TodayPersonArriveNote = false;
+            //});
         }
         public void FireDayEvent()
         {
@@ -2595,7 +2505,7 @@ namespace GameObjects
                 if (captive.RansomArchitectureID >= 0)
                 {
                     captive.RansomArchitecture = this.Architectures.GetGameObject(captive.RansomArchitectureID) as Architecture;
-                }
+                }               
             }
         }
 
