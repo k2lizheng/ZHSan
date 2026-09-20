@@ -571,11 +571,11 @@ namespace GameManager
         public static void StartScenario(Scenario scenario, bool save)
         {
             //再加载commondata防止切换mod红字
-            if (!save)
-            {
-                CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
-                GameScenario.ProcessCommonData(CommonData.Current);
-            }
+            //if (!save)
+            //{
+            //    CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
+            //    GameScenario.ProcessCommonData(CommonData.Current);
+            //}
 
             var players = scenario.Players.Split(',').RemoveNullOrEmpty().Select(id => int.Parse(id)).NullToEmptyList();
 

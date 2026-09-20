@@ -48,7 +48,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
     {
         private static int h = 0;
 
-        public MOD[] MODs = null;
+        public List<MOD> mods = new List<MOD>();
 
         public static MainMenuScreen Current = null;
 
@@ -208,7 +208,11 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 MenuType = MenuType.Start;
             }
             Platform.Current.SaveUserFile("startRead.txt", currentStartVersion.ToString());
+            // 不存在其他mod时，默认原版
+            var originalMod = new MOD { ID = "", Name = "原版", Desc = "", Mode = "" };
+            mods.Add(originalMod);
 
+            // 存在其他mod时，添加其他mod
             List<string> dires = new List<string>();
 
             if (Platform.PlatFormType == PlatFormType.Android)
@@ -239,12 +243,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
             //None
             if (dires.Count > 0)
-            {
-                MODs = new MOD[]
-                {
-                        new MOD() { ID = "", Name = "原版", Desc = "", Mode = "" }
-                };
-
+            {               
                 foreach (var dir in dires)
                 {
                     var mod = new MOD();
@@ -276,14 +275,14 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                         }
                     }
 
-                    MODs = MODs.Union(new MOD[] { mod }).NullToEmptyArray();
+                    mods.Add(mod);
                 }
             }
 
-            MOD currentMod = MODs.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD));
+            MOD currentMod = mods.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD));
             if (currentMod == null)
             {
-                currentMod = MODs[0];
+                currentMod = mods.FirstOrDefault();
                 Setting.Current.MOD = currentMod.ID;
             }
 
@@ -459,8 +458,8 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                 else
                 {
                     Session.StartScenario(CurrentScenario, true);
-                    CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
-                    GameScenario.ProcessCommonData(CommonData.Current);
+                    //CommonData.Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
+                    //GameScenario.ProcessCommonData(CommonData.Current);
                 }
             };
             btSaveList.Add(btOne);
@@ -2099,43 +2098,37 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             };
             btSettingList.Add(btOne);
 
-            if (MODs == null)
+            // 遍历mods渲染游戏设置的mod选择&事件
+            for (int i = 0; i < mods.Count; i++)
             {
+                var mod = mods[i];
 
-            }
-            else
-            {
-                for (int i = 0; i < MODs.Length; i++)
+                btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(375 + 120 * i, 120))
                 {
-                    var mod = MODs[i];
+                    ID = "MOD" + mod.ID
+                };
 
-                    btOne = new ButtonTexture(@"Content\Textures\Resources\Start\CheckBox", "CheckBox", new Vector2(400 + 160 * i, 120))
+                btOne.OnButtonPress += (sender, e) =>
+                {
+                    btSettingList.Where(bt0 => !String.IsNullOrEmpty(bt0.ID) && bt0.ID.StartsWith("MOD")).ForEach(bt1 => { bt1.Selected = false; });
+
+                    var bt = (ButtonTexture)sender;
+
+                    bt.Selected = true;
+
+                    string id = bt.ID.Replace("MOD", "");
+
+                    if (Setting.Current.MOD != id)
                     {
-                        ID = "MOD" + mod.ID
-                    };
-                    btOne.OnButtonPress += (sender, e) =>
-                    {
-                        btSettingList.Where(bt0 => !String.IsNullOrEmpty(bt0.ID) && bt0.ID.StartsWith("MOD")).ForEach(bt1 => { bt1.Selected = false; });
+                        Setting.Current.MOD = id;
 
-                        var bt = (ButtonTexture)sender;
+                        CacheManager.Clear(CacheType.Live);
 
-                        bt.Selected = true;
-
-                        string id = bt.ID.Replace("MOD", "");
-
-                        if (Setting.Current.MOD == id)
-                        {
-
-                        }
-                        else
-                        {
-                            Setting.Current.MOD = id;
-
-                            CacheManager.Clear(CacheType.Live);
-                        }
-                    };
-                    btSettingList.Add(btOne);
-                }
+                        // 重载CommonData，不同mod的CommonData不一致，例如建筑类型表
+                        CommonData.Init();
+                    }
+                };
+                btSettingList.Add(btOne);
             }
 
             nstMusic = new NumericSetTextureF(0, 100, 100, null, new Vector2(420, 330), true)
@@ -3406,16 +3399,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             btOne = btSettingList.FirstOrDefault(bt => bt.ID == "TreasureT");
             btOne.Selected = Setting.Current.TreasureT;
 
-            if (MODs != null)
+            for (int i = 0; i < mods.Count; i++)
             {
-                for (int i = 0; i < MODs.Length; i++)
-                {
-                    var mod = MODs[i];
+                var mod = mods[i];
 
-                    btOne = btSettingList.FirstOrDefault(bt => bt.ID == "MOD" + mod.ID);
+                btOne = btSettingList.FirstOrDefault(bt => bt.ID == "MOD" + mod.ID);
 
-                    btOne.Selected = mod.ID == Setting.Current.MOD.NullToString();
-                }
+                btOne.Selected = mod.ID == Setting.Current.MOD.NullToString();
             }
 
             nstAutoSaveTime.NowNumber = Setting.Current.GlobalVariables.AutoSaveFrequency;
@@ -4369,7 +4359,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
             float alpha = menuTypeElapsed <= 0.5f ? menuTypeElapsed * 2 : 1f;
 
             //CacheManager.DrawAvatar(@"Content\Textures\Resources\Start\Start.jpg", Vector2.Zero, Color.White, 1f);
-            MOD currentMod = MODs.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD));
+            MOD currentMod = mods.FirstOrDefault(x => x.ID.Equals(Setting.Current.MOD));
             if (!currentMod.hasAnimatedStart)
             {
                 CacheManager.Draw(@"Content\Textures\Resources\Start\Start.jpg", new Rectangle(0, 0, 1280, 720), Color.White);
@@ -4961,20 +4951,13 @@ namespace WorldOfTheThreeKingdoms.GameScreens
 
                 int left = 50 + 620 + 55;
 
-                if (MODs == null)
+                CacheManager.DrawString(Session.Current.Font, "MOD:", new Vector2(250, 120), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
+
+                for (int i = 0; i < mods.Count; i++)
                 {
+                    var mod = mods[i];
 
-                }
-                else
-                {
-                    CacheManager.DrawString(Session.Current.Font, "MOD:", new Vector2(250, 120), Color.White * alpha);
-
-                    for (int i = 0; i < MODs.Length; i++)
-                    {
-                        var mod = MODs[i];
-
-                        CacheManager.DrawString(Session.Current.Font, mod.Name, new Vector2(250 + 200 + 160 * i, 120), Color.White * alpha);
-                    }
+                    CacheManager.DrawString(Session.Current.Font, mod.Name, new Vector2(250 + 160 + 120 * i, 120), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);
                 }
 
                 CacheManager.DrawString(Session.Current.Font, "语言：", new Vector2(250, 188), Color.White * alpha, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 1f);

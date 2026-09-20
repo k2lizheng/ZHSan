@@ -13,6 +13,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Runtime.Serialization;
+using Platforms;
+using System;
 
 namespace GameObjects
 {
@@ -175,8 +177,27 @@ namespace GameObjects
             this.AllPersonGeneratorTypes.Clear();
             this.AllTrainPolicies.Clear();
         }
+        /// <summary>
+        /// CommonData初始化
+        /// </summary>
+        public static void Init()
+        {
+            new PlatformTask(() =>
+            {
+                try
+                {
+                    Current = Tools.SimpleSerializer.DeserializeJsonFile<CommonData>(@"Content\Data\Common\CommonData.json", false, false);
 
+                    GameScenario.ProcessCommonData(Current);
+
+                    CurrentReady = true;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("CommonData初始化失敗:" + ex);
+                }
+            }).Start();
+        }
     }
-    
 }
 
