@@ -281,6 +281,7 @@ namespace GameObjects
             emptyPersonList = new PersonList();
             emptyCaptiveList = new CaptiveList();
             Captives = new CaptiveList();
+            AvailablePersons = new PersonList();
 
             pathCache = new Dictionary<PathCacheKey, List<Point>>();
 
@@ -596,7 +597,7 @@ namespace GameObjects
         [DataMember]
         public CaptiveList captiveData = new CaptiveList();
 
-        public CaptiveList Captives = new CaptiveList();
+        public CaptiveList Captives { get; set; }
 
         //public CaptiveList Captives
         //{
@@ -618,21 +619,23 @@ namespace GameObjects
         //    }
         //}
 
-        public PersonList AvailablePersons
-        {
-            get
-            {
-                PersonList result = new PersonList();
-                foreach (Person i in this.Persons)
-                {
-                    if (i.Status != PersonStatus.None && i.Alive && i.Available)
-                    {
-                        result.Add(i);
-                    }
-                }
-                return result;
-            }
-        }
+        public PersonList AvailablePersons { get; set; }
+
+        //public PersonList AvailablePersons
+        //{
+        //    get
+        //    {
+        //        PersonList result = new PersonList();
+        //        foreach (Person i in this.Persons)
+        //        {
+        //            if (i.Status != PersonStatus.None && i.Alive && i.Available)
+        //            {
+        //                result.Add(i);
+        //            }
+        //        }
+        //        return result;
+        //    }
+        //}
 
         public PersonList DeadPersons
         {
@@ -825,7 +828,7 @@ namespace GameObjects
                             Session.MainGame.mainGameScreen.xianshishijiantupian(person, person.LocationArchitecture.Name, TextMessageKind.PersonJoin, "PersonJoin", "", "", f.Name, false);
                         }
                     }
-                    if (!this.AvailablePersons.HasGameObject(person)) this.AvailablePersons.Add(person);
+                    //this.AvailablePersons.Add(person);
                     if (joinToPerson.BelongedFactionWithPrincess != null) { 
                         Session.MainGame.mainGameScreen.haizizhangdachengren(joinToPerson, person, false);
                     }
@@ -1335,7 +1338,16 @@ namespace GameObjects
             this.ClearPersonWorkCache();*/
 
             //clearupRepeatedOfficers();
-
+            var availablePersons = this.AvailablePersons.GetList();
+            foreach (Person person in availablePersons)
+            {
+                person.UpdateDailyFactors();
+            }
+            // 并行更新重置缓存的五维带经验能力
+            //Parallel.ForEach(availablePersons.Cast<Person>(), person =>
+            //{
+            //    person.UpdateDailyFactors();
+            //});
             this.Troops.FinalizeQueue();
             this.Factions.BuildQueue(false);
 
@@ -1395,7 +1407,12 @@ namespace GameObjects
 
 
             //this.GameProgressCaution.Text = "运行人物";
-            foreach (Person person in this.AvailablePersons.GetList())
+            //foreach (Person person in this.AvailablePersons.GetList())
+            //{
+            //    person.PreDayEvent();
+            //}
+            availablePersons = this.AvailablePersons.GetRandomList();
+            foreach (Person person in availablePersons)
             {
                 person.PreDayEvent();
             }
@@ -2569,7 +2586,7 @@ namespace GameObjects
 
         private void InitializeCaptiveData()
         {
-            foreach (Captive captive in this.Captives)
+            foreach (Captive captive in this.Captives.GetList())
             {
                 if (captive.CaptiveFactionID >= 0)
                 {
@@ -3125,10 +3142,13 @@ namespace GameObjects
 
                 // this.AllChildren.Add(person, person.NumberOfChildren);
 
-                //if (person.Available && person.Alive)
-                //{
-                //    this.AvailablePersons.Add(person);  //已出场武将
-                //}
+                if (person.Available && person.Alive)
+                {
+                    this.AvailablePersons.Add(person);  //已出场武将
+                    person.LocationArchitecture = person.LocationArchitecture
+                        ?? (Session.Current.Scenario.Architectures.GetGameObject(person.AvailableLocation) as Architecture
+                        ?? this.Architectures.GetRandomObject() as Architecture);
+                }
             }
             
             foreach (Person p in this.Persons)
@@ -3365,8 +3385,8 @@ namespace GameObjects
                     {
                         captive.CaptivePerson.SetBelongedCaptive(captive, PersonStatus.Captive);
 
-                        captive.CaptivePerson.Status = PersonStatus.Captive;
-                        this.Captives.Add(captive);
+                        //captive.CaptivePerson.Status = PersonStatus.Captive;
+                        //this.Captives.Add(captive);
                     }
 
                 }
@@ -4959,8 +4979,13 @@ namespace GameObjects
                 military.ShelledMilitaryID = (military.ShelledMilitary != null) ? military.ShelledMilitary.ID : -1;
             }
 
-            foreach (Captive captive in this.Captives)
+            foreach (Captive captive in this.Captives.GetList())
             {
+                //if (captive.CaptivePerson.Status != PersonStatus.Captive)
+                //{
+                //    this.Captives.Remove(captive);
+                //    continue; 
+                //}
                 captive.CaptivePersonID = (captive.CaptivePerson != null) ? captive.CaptivePerson.ID : -1;
                 captive.CaptiveFactionID = (captive.CaptiveFaction != null) ? captive.CaptiveFaction.ID : -1;
                 captive.RansomArchitectureID = (captive.RansomArchitecture != null) ? captive.RansomArchitecture.ID : -1;

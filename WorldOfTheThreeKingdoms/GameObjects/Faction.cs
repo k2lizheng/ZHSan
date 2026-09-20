@@ -349,11 +349,13 @@ namespace GameObjects
                 foreach (Troop t in Troops)
                 {
                     foreach (Person p in t.Persons)
-                        result.Add(p);
+                    { 
+                        if(!result.HasGameObject(p.ID)) result.Add(p);
+                    }                        
                 }
                 foreach (Captive c in Session.Current.Scenario.Captives)
                 {
-                    if (c.CaptiveFaction == this)
+                    if (c.CaptiveFaction == this && !result.HasGameObject(c.CaptivePerson.ID))
                     {
                         result.Add(c.CaptivePerson);
                     }
@@ -2551,7 +2553,10 @@ namespace GameObjects
                             int ransom = captive.Ransom;
                             if (GameObject.Random(ransom) > GameObject.Random(0x7d0))
                             {
-                                foreach (Architecture architecture in captive.BelongedFaction.Capital.GetClosestArchitectures(Session.Current.Scenario.Architectures.Count - 1))
+                                //foreach (Architecture architecture in captive.BelongedFaction.Capital.GetClosestArchitectures(Session.Current.Scenario.Architectures.Count - 1))
+                                ArchitectureList list = captive.CaptiveFaction.Capital.GetClosestArchitectures(Session.Current.Scenario.Architectures.Count - 1);
+                                list.Add(captive.CaptiveFaction.Capital);
+                                foreach (Architecture architecture in list)
                                 {
                                     if ((architecture.BelongedFaction != this) || ((architecture.PlanArchitecture != null) || !(architecture.IsFundEnough || !architecture.HasHostileTroopsInView())))
                                     {

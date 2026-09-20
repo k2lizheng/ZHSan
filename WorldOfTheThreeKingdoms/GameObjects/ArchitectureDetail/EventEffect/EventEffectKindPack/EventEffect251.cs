@@ -23,6 +23,7 @@ namespace GameObjects.ArchitectureDetail.EventEffect
                 }
                 //person.Status = GameObjects.PersonDetail.PersonStatus.Normal;
                 person.LocationArchitecture=f.Capital;
+                Session.Current.Scenario.AvailablePersons.Add(person);
                 person.ChangeFaction(f);
             }
            
