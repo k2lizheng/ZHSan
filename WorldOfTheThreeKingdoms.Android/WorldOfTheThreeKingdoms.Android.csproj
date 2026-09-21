@@ -16,7 +16,7 @@
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidSupportedAbis>armeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v8a,armeabi-v7a,x86_64,x86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions>.m4a</AndroidStoreUncompressedFileExtensions>
     <MandroidI18n />
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
@@ -38,7 +38,7 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <Debugger>.Net (Xamarin)</Debugger>
+    <Debugger>Xamarin</Debugger>
     <AotAssemblies>true</AotAssemblies>
     <EnableLLVM>false</EnableLLVM>
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
@@ -4889,9 +4889,46 @@
     <Content Include="assemblies\System.ServiceModel.Internals.dll" />
     <Content Include="assemblies\System.Xml.dll" />
     <Content Include="assemblies\WorldOfTheThreeKingdoms.Android.dll" />
+    <AndroidAsset Include="Content\Music\Start\Original-Start.mp3" />
+    <AndroidAsset Include="Content\Music\Attack\Original-Attack.mp3" />
+    <AndroidAsset Include="Content\Music\Autumn\Original-Autumn.mp3" />
+    <AndroidAsset Include="Content\Music\Battle\Original-Battle.mp3" />
+    <AndroidAsset Include="Content\Music\Defend\Original-Defend.mp3" />
+    <AndroidAsset Include="Content\Music\Spring\Original-Spring.mp3" />
+    <AndroidAsset Include="Content\Music\Summer\Original-Summer.mp3" />
+    <AndroidAsset Include="Content\Music\Winter\Original-Winter.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Attack\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Attack\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Autumn\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Battle\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Battle\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Defend\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Defend\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Spring\5.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Start\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Summer\5.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\1.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\2.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\3.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\4.mp3" />
+    <AndroidAsset Include="MODs\Shanshui\Music\Winter\5.mp3" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Asstes\" />
+    <Folder Include="Asstes\Content\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\assemblies\MonoGame.Framework.dll" />

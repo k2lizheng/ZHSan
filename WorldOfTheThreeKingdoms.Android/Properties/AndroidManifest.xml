@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Zhsan.zheng" android:installLocation="preferExternal" android:versionCode="1460" android:versionName="1.4.6.0">
-	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Zhsan.zheng" android:installLocation="preferExternal" android:versionCode="1461" android:versionName="1.4.6.1">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<application android:label="中华三国志by正线程并行版" android:icon="@drawable/Icon"></application>
+	<application android:label="中华三国志by正" android:icon="@drawable/Icon"></application>
 </manifest>
