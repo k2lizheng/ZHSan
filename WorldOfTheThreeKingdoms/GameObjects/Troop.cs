@@ -3682,7 +3682,7 @@ namespace GameObjects
             return troop;
         }
 
-        public static Troop CreateSimulateTroop(GameObjectList persons, Military military, Point startPosition, long ID)
+        public static Troop CreateSimulateTroop(GameObjectList persons, Military military, Point startPosition, int ID)
         {
             Troop troop = new Troop();
             troop.Simulating = true;
@@ -3708,7 +3708,7 @@ namespace GameObjects
             military.Leader = troop.BackupArmyLeader;
             military.LeaderExperience = troop.BackupArmyLeaderExperience;
             military.LeaderID = troop.BackupArmyLeaderID;
-            troop.ID = unchecked((int)ID);
+            troop.ID = ID;
             return troop;
         }
 
@@ -6009,7 +6009,7 @@ namespace GameObjects
             foreach (Point point in sourceArea.Area)
             {
                 GameObjectList originalPersons = this.Persons.GetList();
-                Troop troop = CreateSimulateTroop(this.Candidates, this.Army, point, this.ID);
+                Troop troop = CreateSimulateTroop(this.Candidates, this.Army, point, this.Army.ID);
                 int fightingForce = troop.FightingForce;
                 troop.Destroy(true, false);
                 if (fightingForce > num)
