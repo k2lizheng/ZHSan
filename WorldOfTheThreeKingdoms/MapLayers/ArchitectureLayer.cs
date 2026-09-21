@@ -19,7 +19,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
     public class ArchitectureLayer
     {
         //private ArchitectureList Architectures;
-        
+
         static Point currentFrame = new Point(0, 0);
         int timeSinceLastFrame = 0;
         int millisecondsPerFrame = 180;
@@ -123,7 +123,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
                             }
                         } //end      if (point == architecture.ArchitectureArea.TopLeft && point.Y>0)
 
-                        if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(architecture.Position)&&(Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || (Session.Current.Scenario.CurrentPlayer != null && Session.Current.Scenario.CurrentPlayer.IsArchitectureKnown(architecture)))
+                        if (Session.MainGame.mainGameScreen.mainMapLayer.TileInScreen(architecture.Position) && (Session.GlobalVariables.SkyEye || Session.Current.Scenario.NoCurrentPlayer) || (Session.Current.Scenario.CurrentPlayer != null && Session.Current.Scenario.CurrentPlayer.IsArchitectureKnown(architecture)))
                         {
                             //if (!architecture.IncrementNumberList.IsEmpty)
                             //{
@@ -213,19 +213,19 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             else
             {
                 int y, y1, y2;
-                if (point1.Y  < point2.Y )
+                if (point1.Y < point2.Y)
                 {
-                    y1 = point1.Y ;
-                    y2 = point2.Y ;
+                    y1 = point1.Y;
+                    y2 = point2.Y;
                 }
                 else
                 {
-                    y1 = point2.Y ;
-                    y2 = point1.Y ;
+                    y1 = point2.Y;
+                    y2 = point1.Y;
                 }
                 for (y = y1; y < y2; y += 2)
                 {
-                    Rectangle rectangle = new Rectangle((y - point1.Y) * (point2.X - point1.X) / (point2.Y - point1.Y) + point1.X , y, 3, 3);
+                    Rectangle rectangle = new Rectangle((y - point1.Y) * (point2.X - point1.X) / (point2.Y - point1.Y) + point1.X, y, 3, 3);
 
                     this.drawLinkLinePoint(linkType, rectangle);
                 }
@@ -241,12 +241,12 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             }
             else if (linkType == 1)
             {
-                CacheManager.Draw(Session.MainGame.mainGameScreen.Textures.WaterConnect , rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.7999f);
+                CacheManager.Draw(Session.MainGame.mainGameScreen.Textures.WaterConnect, rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.7999f);
 
             }
             else if (linkType == 2)
             {
-                CacheManager.Draw(Session.MainGame.mainGameScreen.Textures.SingleConnect , rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.7999f);
+                CacheManager.Draw(Session.MainGame.mainGameScreen.Textures.SingleConnect, rectangle, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0.7999f);
             }
         }
 
@@ -258,7 +258,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens.ScreenLayers
             {
                 return tupian;
             }
-
+            if (Setting.Current.MOD.Contains("Shanshui") && (architecture.KindId == 2 || architecture.ID == 0 || architecture.ID == 105)) return null;
             if (architecture.Kind.ID == 2)
             {
                 if (architecture.JianzhuGuimo == 1)
