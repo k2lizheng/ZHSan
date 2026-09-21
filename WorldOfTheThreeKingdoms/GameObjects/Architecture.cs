@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Runtime.Serialization;
 using GameManager;
+using System.Diagnostics;
 
 namespace GameObjects
 {
@@ -6359,7 +6360,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.FollowedLeader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position, int.Parse(military.ID.ToString() + military.FollowedLeader.ID.ToString().PadLeft(5, '0'))));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position));
                 }
             }
             else if (military.Leader != null && military.LeaderExperience >= 10 && (military.Leader.Strength >= 80 || military.Leader.Command >= 80 || military.Leader.HasLeaderValidTitle)
@@ -6368,7 +6369,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.Leader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position, int.Parse(military.ID.ToString() + military.Leader.ID.ToString().PadLeft(5, '0'))));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position));
                 }
             }
             else
@@ -6384,16 +6385,16 @@ namespace GameObjects
                     {
                         if (person.HasMilitaryKindTitle(military.Kind))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
                         }
                         else if (person.HasMilitaryTypeTitle(military.Kind.Type))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
                         }
                         else if ((this.BelongedFaction.AvailableMilitaryKinds.GetMilitaryKindList().GameObjects.Contains(military.Kind) && military.Kind.RecruitLimit > 10) ||
                             person.FightingForce >= Session.Parameters.AIUniqueTroopFightingForceThreshold || (this.Endurance < 30 && !offensive))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position));
                         }
                     }
                 }
