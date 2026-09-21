@@ -151,7 +151,7 @@ namespace GameObjects.MapDetail
             return openDictionary.ContainsKey(position);
         }
 
-        private int MakeSquare(RoutewaySquare currentSquare, Point position, Point end)
+        private int MakeSquareOld(RoutewaySquare currentSquare, Point position, Point end)
         {
             float consumptionRate = 0f;
             int costByPosition = this.GetCostByPosition(position, out consumptionRate);
@@ -185,7 +185,55 @@ namespace GameObjects.MapDetail
             }
             return costByPosition;
         }
+        private const int BLOCKED_COST = 0x3e8;   // 1000
+        private const int COST_MULTIPLIER = 5;
+        private const int MAP_WIDTH = 400;
+        private const int MAP_WIDTH_SQ = 160000;  // 400 * 400
 
+        private int MakeSquare(RoutewaySquare currentSquare, Point position, Point end)
+        {
+            float consumptionRate = 0f;
+            int costByPosition = this.GetCostByPosition(position, out consumptionRate);
+
+            // 提前返回：不可通行 或 已在 closeList
+            if (costByPosition >= BLOCKED_COST || this.IsInCloseList(position))
+            {
+                return costByPosition;
+            }
+
+            int newG = currentSquare.RealG + COST_MULTIPLIER * costByPosition;
+            RoutewaySquare oldSquare = this.GetSquareFromOpenList(position);
+
+            if (oldSquare == null)
+            {
+                // 新节点：直接插入
+                this.InsertToOpenList(currentSquare, position, end, newG, consumptionRate);
+            }
+            else if (newG < oldSquare.RealG)
+            {
+                // 找到更优路径：先移除旧的，再插入新的
+                openDictionary.Remove(position);
+                openList.Remove(oldSquare.F * MAP_WIDTH_SQ
+                              + (oldSquare.Position.X * MAP_WIDTH + oldSquare.Position.Y));
+                this.InsertToOpenList(currentSquare, position, end, newG, consumptionRate);
+            }
+            // 否则：旧路径更优，什么都不做
+
+            return costByPosition;
+        }
+
+        private void InsertToOpenList(RoutewaySquare parent, Point position, Point end,
+                                      int realG, float consumptionRate)
+        {
+            RoutewaySquare square = new RoutewaySquare();
+            square.Parent = parent;
+            square.Position = position;
+            square.PenalizedCost = this.GetPenalizedCostByPosition(position);
+            square.H = distance(position, end);
+            square.RealG = realG;
+            square.ConsumptionRate = parent.ConsumptionRate + consumptionRate;
+            this.AddToOpenList(square);
+        }
         private RoutewaySquare RemoveFromOpenList()
         {
             if (openDictionary.Count <= 0)
