@@ -11312,7 +11312,11 @@ namespace GameObjects
                             Troop troop2 = Session.Current.Scenario.GetTroopByPosition(nextPosition);
                             if (troop2 == null)          //穿越友军
                             {
+                                // 直接移动到空位
+                                this.MovabilityLeft = movabilityLeft;
+                                this.FirstIndex = firstTierPathIndex;
                                 this.StepNotFinished = false;
+                                this.Position = nextPosition;   // 会触发 setter，更新地图注册等
                                 return path;
                             }
 
@@ -11397,50 +11401,34 @@ namespace GameObjects
 
             if (stuckedFor >= 5)
             {
-                int x = this.RealDestination.X - this.Position.X;
-                int y = this.RealDestination.Y - this.Position.Y;
-                if (x >= 0 && y > 0)
+                int dx = this.RealDestination.X - this.Position.X;
+                int dy = this.RealDestination.Y - this.Position.Y;
+
+                if (dx == 0 && dy == 0)
                 {
-                    if (GameObject.Chance((int) ((double) x / y * 100.0)) )
-                    {
-                        this.Position = new Point(this.Position.X + 1, this.Position.Y);
-                    } 
-                    else 
-                    {
-                        this.Position = new Point(this.Position.X, this.Position.Y + 1);
-                    }
+                    // 已到达
                 }
-                else if (x >= 0 && y < 0)
+                else if (dx == 0)
                 {
-                    if (GameObject.Chance((int)((double)x / Math.Abs(y) * 100.0)))
-                    {
-                        this.Position = new Point(this.Position.X + 1, this.Position.Y);
-                    }
-                    else
-                    {
-                        this.Position = new Point(this.Position.X, this.Position.Y - 1);
-                    }
+                    this.Position = new Point(this.Position.X, this.Position.Y + Math.Sign(dy));
                 }
-                else if (x < 0 && y >= 0)
+                else if (dy == 0)
                 {
-                    if (GameObject.Chance((int)((double)y / Math.Abs(x) * 100.0)))
-                    {
-                        this.Position = new Point(this.Position.X, this.Position.Y + 1);
-                    }
-                    else
-                    {
-                        this.Position = new Point(this.Position.X - 1, this.Position.Y);
-                    }
+                    this.Position = new Point(this.Position.X + Math.Sign(dx), this.Position.Y);
                 }
                 else
                 {
-                    if (GameObject.Chance((int)((double)Math.Abs(y) / Math.Abs(x) * 100.0)))
+                    int absDx = Math.Abs(dx);
+                    int absDy = Math.Abs(dy);
+                    int total = absDx + absDy;
+                    int chanceX = (int)((double)absDx / total * 100.0);
+                    if (GameObject.Chance(chanceX))
                     {
-                        this.Position = new Point(this.Position.X, this.Position.Y - 1);
+                        this.Position = new Point(this.Position.X + Math.Sign(dx), this.Position.Y);
                     }
                     else
                     {
-                        this.Position = new Point(this.Position.X - 1, this.Position.Y);
+                        this.Position = new Point(this.Position.X, this.Position.Y + Math.Sign(dy));
                     }
                 }
             }
@@ -13318,7 +13306,9 @@ namespace GameObjects
                             }
                             else
                             {
-                                this.StepNotFinished = false;
+                                // 加固：如果注册失败，再尝试重新注册一次，避免状态不同步
+                                Session.Current.Scenario.SetMapTileTroop(this);
+                                this.StepNotFinished = Session.Current.Scenario.GetTroopByPosition(this.position) == this;
                             }
                             if (this.FirstTierPath != null && runAnimation)
                             {
