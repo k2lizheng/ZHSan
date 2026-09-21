@@ -479,8 +479,17 @@ namespace GameObjects
         public ArchitectureList AIBattlingArchitectures { get; set; }
         [DataMember]
         public int MayorOnDutyDays {get;set;}
-
-       // public OngoingBattle Battle { get; set; }
+        public float CommandTrainingFacilityRate { get; set; }
+        public float StrengthTrainingFacilityRate { get; set; }
+        public float IntelligenceTrainingFacilityRate { get; set; }
+        public float PoliticsTrainingFacilityRate { get; set; }
+        public float GlamourTrainingFacilityRate { get; set; }
+        public float InfantryTrainingFacilityRate { get; set; }
+        public float CavalryTrainingFacilityRate { get; set; }
+        public float BowmanTrainingFacilityRate { get; set; }
+        public float NavalTrainingFacilityRate { get; set; }
+        public float SiegeTrainingFacilityRate { get; set; }
+        // public OngoingBattle Battle { get; set; }
 
         private String oldFactionName = "";
         [DataMember]
@@ -3932,7 +3941,16 @@ namespace GameObjects
                 {
                     if (this.FacilityEnabled || facility.MaintenanceCost <= 0)
                     {
-                        facility.Influences.ApplyInfluence(this, Applier.Facility, facility.ID);
+                        try
+                        {
+                            facility.Influences.ApplyInfluence(this, Applier.Facility, facility.ID);
+                        }
+                        catch (Exception)
+                        {
+#if DEBUG
+                            Debug.WriteLine($"警告: 设施- ID:{facility.ID} 不存在");
+#endif
+                        }
                     }
                 }
             }

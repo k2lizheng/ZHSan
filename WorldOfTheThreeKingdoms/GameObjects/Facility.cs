@@ -139,6 +139,7 @@ namespace GameObjects
                 if (this.kind == null)
                 {
                     this.kind = Session.Current.Scenario.GameCommonData.AllFacilityKinds.GetFacilityKind(this.kindID);
+                    if(this.kind == null) this.kind = Session.Current.Scenario.GameCommonData.AllFacilityKinds.GetFacilityKind(0);
                 }
                 return this.kind;
             }
@@ -177,6 +178,7 @@ namespace GameObjects
         {
             get
             {
+                if (this.kind == null) return 0;
                 return this.Kind.MaintenanceCost;
             }
         }
