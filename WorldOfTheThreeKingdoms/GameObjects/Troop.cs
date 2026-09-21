@@ -13245,6 +13245,7 @@ namespace GameObjects
             {
                 if (!this.Destroyed)
                 {
+                    //Point oldPosition = this.position;   // 保存旧位置
                     this.PreviousPosition = this.position;
                     this.position = value;
 
@@ -13257,8 +13258,11 @@ namespace GameObjects
                         if(this.army!=null)
                         {
                             bool runAnimation = Session.Current.Scenario.IsKnownToAnyPlayer(this)&& Session.MainGame.mainGameScreen.TileInScreen(this.position);
+                            
+                            // 关键修复：oldInWater 用旧位置，newInWater 用新位置
+                            bool oldInWater = this.Army.bushiShuijunBingqieChuyuShuiyu(this.PreviousPosition);
+                            //bool oldInWater = this.Army.bushiShuijunBingqieChuyuShuiyu(this.position);
 
-                            bool oldInWater = this.Army.bushiShuijunBingqieChuyuShuiyu(this.position);
                             bool newInWater = this.Army.bushiShuijunBingqieChuyuShuiyu(value);
                             bool changeArmyKind = oldInWater != newInWater;
 
