@@ -1,21 +1,23 @@
 ﻿using GameGlobal;
+using GameManager;
 using GameObjects.Animations;
 using GameObjects.ArchitectureDetail;
+using GameObjects.Conditions;
 using GameObjects.FactionDetail;
 using GameObjects.Influences;
 using GameObjects.MapDetail;
 using GameObjects.PersonDetail;
 using GameObjects.TroopDetail;
-using GameObjects.Conditions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Runtime.Serialization;
-using GameManager;
+using System.Text;
 
 namespace GameObjects
 {
@@ -5647,7 +5649,6 @@ namespace GameObjects
                 routeway.BelongedFaction = this.BelongedFaction;
             }           
             this.Routeways.Add(routeway);
-            Session.Current.Scenario.Routeways.Add(routeway);
             GameArea routewayStartPoints = this.GetRoutewayStartPoints();
             int num = 0;
             for (num2 = 0; num2 < pointlist.Count; num2++)
@@ -6359,7 +6360,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.FollowedLeader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position, int.Parse(military.ID.ToString() + military.FollowedLeader.ID.ToString().PadLeft(5, '0'))));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.FollowedLeader, from.Persons  , true), military, from.Position, long.Parse(military.ID.ToString() + military.FollowedLeader.ID.ToString().PadLeft(5, '0'))));
                 }
             }
             else if (military.Leader != null && military.LeaderExperience >= 10 && (military.Leader.Strength >= 80 || military.Leader.Command >= 80 || military.Leader.HasLeaderValidTitle)
@@ -6368,7 +6369,7 @@ namespace GameObjects
             {
                 if (isPersonAllowedIntoTroop(military.Leader, military, offensive))
                 {
-                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position, int.Parse(military.ID.ToString() + military.Leader.ID.ToString().PadLeft(5, '0'))));
+                    result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(military.Leader, from.Persons , true), military, from.Position, long.Parse(military.ID.ToString() + military.Leader.ID.ToString().PadLeft(5, '0'))));
                 }
             }
             else
@@ -6384,16 +6385,16 @@ namespace GameObjects
                     {
                         if (person.HasMilitaryKindTitle(military.Kind))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, long.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
                         }
                         else if (person.HasMilitaryTypeTitle(military.Kind.Type))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, long.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
                         }
                         else if ((this.BelongedFaction.AvailableMilitaryKinds.GetMilitaryKindList().GameObjects.Contains(military.Kind) && military.Kind.RecruitLimit > 10) ||
                             person.FightingForce >= Session.Parameters.AIUniqueTroopFightingForceThreshold || (this.Endurance < 30 && !offensive))
                         {
-                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, int.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
+                            result.Add(Troop.CreateSimulateTroop(this.AISelectPersonIntoTroop_inner(person, from.Persons , false), military, from.Position, long.Parse(military.ID.ToString() + person.ID.ToString().PadLeft(5, '0'))));
                         }
                     }
                 }
@@ -8762,7 +8763,7 @@ namespace GameObjects
                 {
                     if (display.Relation >= Session.GlobalVariables.FriendlyDiplomacyThreshold && (display.LinkedFaction1 != null) && (display.LinkedFaction2 != null))
                     {
-                        this.ResetDiplomaticRelationList.Add(display);
+                        this.ResetDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -8778,7 +8779,7 @@ namespace GameObjects
                 {
                     if ((display.LinkedFaction1 != null) && (display.LinkedFaction2 != null))
                     {
-                        this.EnhanceDiplomaticRelationList.Add(display);
+                        this.EnhanceDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -8794,7 +8795,7 @@ namespace GameObjects
                 {
                     if ((display.Relation < Session.GlobalVariables.FriendlyDiplomacyThreshold && display.Relation >= Session.GlobalVariables.FriendlyDiplomacyThreshold * 0.9) && ((display.LinkedFaction1 != null) && (display.LinkedFaction2 != null)))
                     {
-                        this.AllyDiplomaticRelationList.Add(display);
+                        this.AllyDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -8810,7 +8811,7 @@ namespace GameObjects
                 {
                     if (((display.LinkedFaction1 != null) && (display.LinkedFaction2 != null)) && display.Truce < 1)
                     {
-                        this.TruceDiplomaticRelationList.Add(display);
+                        this.TruceDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -8827,7 +8828,7 @@ namespace GameObjects
                     if (display.Relation < Session.GlobalVariables.FriendlyDiplomacyThreshold && (display.LinkedFaction1 != null) && (display.LinkedFaction2 != null)
                           && (this.BelongedFaction.AdjecentFactionList.GameObjects.Contains(display.LinkedFaction2) || this.BelongedFaction.AdjecentFactionList.GameObjects.Contains(display.LinkedFaction1)))
                     {
-                        this.QuanXiangDiplomaticRelationList.Add(display);
+                        this.QuanXiangDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -8870,7 +8871,7 @@ namespace GameObjects
                 {
                     if (display.Relation < Session.GlobalVariables.FriendlyDiplomacyThreshold && (display.LinkedFaction1 != null) && (display.LinkedFaction2 != null))
                     {
-                        this.DenounceDiplomaticRelationList.Add(display);
+                        this.DenounceDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -12198,7 +12199,7 @@ namespace GameObjects
                 {
                     if (display.LinkedFaction1 != null && display.LinkedFaction2 != null)
                     {
-                        this.GeDiDiplomaticRelationList.Add(display);
+                        this.GeDiDiplomaticRelationList.Add(display, true);
                     }
                 }
             }
@@ -15724,7 +15725,7 @@ namespace GameObjects
                 }
             }
             return person;
-        }
-
+        }      
+     
     }
 }
