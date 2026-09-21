@@ -4898,7 +4898,7 @@ namespace GameObjects
         {
             bool isAI = !Session.Current.Scenario.IsPlayer(this.BelongedFaction);
             PersonGenerateParam param = new PersonGenerateParam(this, this.BelongedFaction.Leader, true, preferredType, isAI);
-            Treasure r = Treasure.createTreasure(param,isAI);
+            Treasure r = Treasure.CreateTreasure(param,isAI);
             this.ZhiBao(r);
             this.DecreaseFund(preferredType.CostFund);
             this.BelongedFaction.YearOfficialLimit++;
