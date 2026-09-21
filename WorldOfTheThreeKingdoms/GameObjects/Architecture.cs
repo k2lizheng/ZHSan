@@ -5675,10 +5675,10 @@ namespace GameObjects
         public void checkEvent()
         {
             GameObjectList list = Session.Current.Scenario.AllEvents.GetList();
-            list.PropertyName = "ID";
-            list.SmallToBig = true;
-            list.IsNumber = true;
-            list.ReSort();
+            //list.PropertyName = "ID";
+            //list.SmallToBig = true;
+            //list.IsNumber = true;
+            //list.ReSort();
 
             foreach (Event e in list)
             {
