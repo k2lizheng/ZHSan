@@ -11287,7 +11287,7 @@ namespace GameObjects
                         return path;
                     }
                     int firstTierPathIndex = this.FirstIndex;
-                    int movabilityLeft = this.MovabilityLeft;
+                    int currentMovePoints = this.MovabilityLeft;
 
 
                     Architecture a = Session.Current.Scenario.GetArchitectureByPosition(position);
@@ -11306,15 +11306,15 @@ namespace GameObjects
                     {
                         Point currentPosition = this.FirstTierPath[firstTierPathIndex];
                         Point nextPosition = this.FirstTierPath[firstTierPathIndex + 1];
-                        int num3 = this.NextPositionCost(currentPosition, nextPosition, kind);
-                        if (num3 <= movabilityLeft)
+                        int movecost = this.NextPositionCost(currentPosition, nextPosition, kind);
+                        if (movecost <= currentMovePoints)
                         {
                             Troop troop2 = Session.Current.Scenario.GetTroopByPosition(nextPosition);
                             if (troop2 == null)          //穿越友军
                             {
                                 // 直接移动到空位
-                                this.MovabilityLeft = movabilityLeft;
-                                this.FirstIndex = firstTierPathIndex;
+                                this.MovabilityLeft -= (this.MovabilityLeft - currentMovePoints + movecost);
+                                this.FirstIndex = firstTierPathIndex + 1;
                                 this.StepNotFinished = false;
                                 this.Position = nextPosition;   // 会触发 setter，更新地图注册等
                                 return path;
@@ -11343,7 +11343,7 @@ namespace GameObjects
                                 }
                             }
 
-                            movabilityLeft -= num3;
+                            currentMovePoints -= movecost;
                             firstTierPathIndex++;
                         }
                         else    //前面友军队伍很长，没有移动力穿越
