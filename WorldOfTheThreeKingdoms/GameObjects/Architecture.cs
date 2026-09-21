@@ -5636,16 +5636,16 @@ namespace GameObjects
             int num2;
             Routeway routeway = new Routeway();
             routeway.ID = Session.Current.Scenario.Routeways.GetFreeGameObjectID();
+            routeway.StartArchitecture = this;
+            Session.Current.Scenario.Routeways.AddRoutewayWithEvent(routeway);
             if (Session.GlobalVariables.LiangdaoXitong)
-            {
-                Session.Current.Scenario.Routeways.AddRoutewayWithEvent(routeway);
+            {                
                 this.BelongedFaction.AddRouteway(routeway);
             }
             else
             {
                 routeway.BelongedFaction = this.BelongedFaction;
-            }
-            routeway.StartArchitecture = this;
+            }           
             this.Routeways.Add(routeway);
             Session.Current.Scenario.Routeways.Add(routeway);
             GameArea routewayStartPoints = this.GetRoutewayStartPoints();

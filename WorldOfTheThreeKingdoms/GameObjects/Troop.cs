@@ -2978,8 +2978,7 @@ namespace GameObjects
                     if (captive.CaptiveFaction == faction)
                     {
                         captive.CaptivePerson.MoveToArchitecture(captive.CaptiveFaction.Capital);
-                        captive.CaptivePerson.SetBelongedCaptive(null, PersonStatus.Normal);
-                        Session.Current.Scenario.Captives.Remove(captive);
+                        captive.CaptivePerson.SetBelongedCaptive(null, PersonStatus.Normal);                        
                     }
                 }
                 faction.AddMilitary(this.Army);
@@ -4320,7 +4319,7 @@ namespace GameObjects
                 {
                     this.BelongedFaction.RemoveTroop(this);
                 }
-                Session.Current.Scenario.Troops.RemoveTroop(this);
+                Session.Current.Scenario.Troops.RemoveTroop(this);//创建预览的部队不应该在此处移除，暂放着，需调整
             }
         }
 

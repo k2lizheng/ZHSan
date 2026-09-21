@@ -1184,7 +1184,7 @@ namespace WorldOfTheThreeKingdoms.GameScreens
                                 if (!((targetArchitecture == null) || troop.BelongedFaction.IsFriendly(targetArchitecture.BelongedFaction)))
                                 {
                                     troop.BelongedLegion.Kind = LegionKind.Offensive;
-                                    if (troop.CanAttack(troop.TargetArchitecture)) troop.Destination = troop.Position;
+                                    if (troop.CanAttack(targetArchitecture)) troop.Destination = troop.Position;
                                 }
                                 else
                                 {
