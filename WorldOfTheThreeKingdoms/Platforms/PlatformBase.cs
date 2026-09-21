@@ -34,9 +34,9 @@ namespace Platforms
         public static Platform Current = new Platform();
         //System.IO.File.Exists(GameApplicationUrl))
         //System.Reflection.AssemblyName.GetAssemblyName(GameApplicationUrl).Version.ToString();
-        public static string GameVersion = "1.4.6.0";
+        public static string GameVersion = "1.4.6.1";
 
-        public static int PackVersion = 1460;
+        public static int PackVersion = 1461;
 
         public static string GameVersionType = "dev";
 

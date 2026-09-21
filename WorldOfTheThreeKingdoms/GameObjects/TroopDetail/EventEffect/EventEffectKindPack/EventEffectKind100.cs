@@ -17,7 +17,7 @@ using System.Runtime.Serialization;namespace GameObjects.TroopDetail.EventEffect
             if (person.LocationTroop != null)
             {
                 Influence t = Session.Current.Scenario.GameCommonData.AllInfluences.GetInfluence(this.number);
-                if (t != null)
+                if (t != null && !person.LocationTroop.EventInfluences.HasGameObject(t))
                 {
                     person.LocationTroop.EventInfluences.Add(t);
                     t.ApplyInfluence(person.LocationTroop, Applier.Event, 0);

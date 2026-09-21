@@ -584,7 +584,7 @@ namespace GameObjects.Influences
             bool specialInfluence = (this.ID >= 390 && this.ID <= 399) || this.ID == 720 || this.ID == 721;
 
             // 如果添加成功或是特殊影响
-            if (added) //|| specialInfluence
+            if (added || specialInfluence)
             {
                 troop.InfluencesApplying.Add(i);
                 ApplyInfluenceKind(troop);

@@ -432,8 +432,10 @@ namespace GameGlobal
                 AINafeiMaxAgeThresholdMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AINafeiMaxAgeThresholdMultiply").Value);
                 AINafeiSkipChanceAdd = float.Parse(nextSibling.Attributes.GetNamedItem("AINafeiSkipChanceAdd").Value);
                 AINafeiSkipChanceMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AINafeiSkipChanceMultiply").Value);
-                AIChongxingChanceAdd = float.Parse(nextSibling.Attributes.GetNamedItem("AIChongxingChanceAdd").Value);
-                AIChongxingChanceMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIChongxingChanceMultiply").Value);
+                //AIChongxingChanceAdd = float.Parse(nextSibling.Attributes.GetNamedItem("AIChongxingChanceAdd").Value);
+                float AIChongxingChanceAdd = nextSibling.Attributes?.GetNamedItem("AIChongxingChanceAdd")?.Value?.ParseFloatOrDefault() ?? 0f;
+                //AIChongxingChanceMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIChongxingChanceMultiply").Value);
+                float AIChongxingChanceMultiply = nextSibling.Attributes?.GetNamedItem("AIChongxingChanceMultiply")?.Value?.ParseFloatOrDefault() ?? 0f;
                 AIRecruitPopulationCapMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIRecruitPopulationCapMultiply").Value);
                 AIRecruitPopulationCapBackendMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIRecruitPopulationCapBackendMultiply").Value);
                 AIRecruitPopulationCapHostilelineMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIRecruitPopulationCapHostilelineMultiply").Value);
@@ -444,8 +446,10 @@ namespace GameGlobal
                 AIExecuteMaxUncreulty = int.Parse(nextSibling.Attributes.GetNamedItem("AIExecuteMaxUncreulty").Value);
                 AIExecutePersonIdealToleranceMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("AIExecutePersonIdealToleranceMultiply").Value);
 
-                AIHougongArchitectureCountProbMultiply = int.Parse(nextSibling.Attributes.GetNamedItem("AIHougongArchitectureCountProbMultiply").Value);
-                AIHougongArchitectureCountProbPower = float.Parse(nextSibling.Attributes.GetNamedItem("AIHougongArchitectureCountProbPower").Value);
+                //AIHougongArchitectureCountProbMultiply = int.Parse(nextSibling.Attributes.GetNamedItem("AIHougongArchitectureCountProbMultiply").Value);
+                //AIHougongArchitectureCountProbPower = float.Parse(nextSibling.Attributes.GetNamedItem("AIHougongArchitectureCountProbPower").Value);
+                float AIHougongArchitectureCountProbMultiply = nextSibling.Attributes?.GetNamedItem("AIHougongArchitectureCountProbMultiply")?.Value?.ParseFloatOrDefault() ?? 0f;
+                float AIHougongArchitectureCountProbPower = nextSibling.Attributes?.GetNamedItem("AIHougongArchitectureCountProbPower")?.Value?.ParseFloatOrDefault() ?? 0f;
 
                 FireStayProb = int.Parse(nextSibling.Attributes.GetNamedItem("FireStayProb").Value);
                 FireSpreadProbMultiply = float.Parse(nextSibling.Attributes.GetNamedItem("FireSpreadProbMultiply").Value);
@@ -790,6 +794,17 @@ namespace GameGlobal
             {
                 Session.Parameters.AIOffensiveCampaignRequiredScaleFactor = 1.0f;
             }
+        }
+    }
+    public static class StringExtensions
+    {
+        public static float? ParseFloatOrDefault(this string value)
+        {
+            if (float.TryParse(value, out float result))
+            {
+                return result;
+            }
+            return null;
         }
     }
 }

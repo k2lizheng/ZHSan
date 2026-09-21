@@ -114,7 +114,11 @@ namespace ContextMenuPlugin
 
         public void SetGraphicsDevice()
         {
-            this.LoadDataFromXMLDocument(@"Content\Data\Plugins\ContextMenuData.xml");
+            if (Platform.Current.FileExists(@"Content\Data\Plugins\NoNvGuanContextMenuData.xml"))
+            {
+                this.LoadDataFromXMLDocument(@"Content\Data\Plugins\NoNvGuanContextMenuData.xml");
+            }
+            else this.LoadDataFromXMLDocument(@"Content\Data\Plugins\ContextMenuData.xml");
         }
 
         public void SetScenario()

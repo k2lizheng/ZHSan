@@ -209,7 +209,7 @@ namespace GameObjects
         public bool CombatMethodApplied;
 
         public CombatMethodTable CombatMethods = new CombatMethodTable();
-
+        [DataMember]
         public string CombatMethodsString { get; set; }
 
         private GameArea contactArea = null;
@@ -4866,7 +4866,7 @@ namespace GameObjects
                     {
                         continue;
                     }
-                    if (this.IfAttackArchitecture(architectureByPosition, last))
+                    if (this.IfAttackArchitecture(architectureByPosition, last) && !list.HasGameObject(architectureByPosition.ID))
                     {
                         list.Add(architectureByPosition);
                     }
@@ -10624,12 +10624,13 @@ namespace GameObjects
             this.ViewingDesertFriendlyTroopCount = 0;
             this.ViewingCliffFriendlyTroopCount = 0;
             this.ViewingFriendlyTroopCount = 0;
+            friendlyTroopsInView.Clear();
             foreach (Point point in this.ViewArea.Area)
             {
                 Troop troopByPosition = Session.Current.Scenario.GetTroopByPosition(point);
                 if ((troopByPosition != null) && this.IsFriendly(troopByPosition.BelongedFaction))
                 {
-                    if (!friendlyTroopsInView.HasGameObject(troopByPosition)) friendlyTroopsInView.Add(troopByPosition);
+                    friendlyTroopsInView.Add(troopByPosition);
                     switch (Session.Current.Scenario.GetTerrainKindByPositionNoCheck(point))
                     {
                         case TerrainKind.平原:
@@ -10690,12 +10691,13 @@ namespace GameObjects
             this.ViewingDesertHostileTroopCount = 0;
             this.ViewingCliffHostileTroopCount = 0;
             this.ViewingHostileTroopCount = 0;
+            hostileTroopsInView.Clear();
             foreach (Point point in this.ViewArea.Area)
             {
                 Troop troopByPosition = Session.Current.Scenario.GetTroopByPosition(point);
                 if ((troopByPosition != null) && !this.IsFriendly(troopByPosition.BelongedFaction))
                 {
-                    if (!hostileTroopsInView.HasGameObject(troopByPosition)) hostileTroopsInView.Add(troopByPosition);
+                    hostileTroopsInView.Add(troopByPosition);
                     switch (Session.Current.Scenario.GetTerrainKindByPositionNoCheck(point))
                     {
                         case TerrainKind.平原:
@@ -11628,7 +11630,13 @@ namespace GameObjects
                 }
                 else if (this.AIResetDestination())
                 {
-                    this.WillTroop = this.TargetTroop;
+                    try
+                    {
+                        this.WillTroop = this.TargetTroop;
+                    }
+                    catch (Exception)
+                    {                      
+                    }                   
                 }
                 else
                 {
@@ -13814,7 +13822,7 @@ namespace GameObjects
                             found = true;
                             break;
                         }
-                        else if (a != null && this.Army.Kind.ArchitectureCounterDamageRate <= 0 && !this.BelongedFaction.IsFriendly(a.BelongedFaction))
+                        else if (a != null && this.Army.Kind.ArchitectureCounterDamageRate <= 0 && !this.Leader.BelongedFaction.IsFriendly(a.BelongedFaction))
                         {
                             this.TargetArchitecture = a;
                             found = true;

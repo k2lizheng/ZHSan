@@ -49,7 +49,7 @@ namespace Platforms
                 if (System.String.IsNullOrEmpty(Channel))
                 {
                     if (Setting.Current != null && 
-                        (System.String.IsNullOrEmpty(Setting.Current.MODRuntime) || Setting.Current.MODRuntime == "Qinghuai"))
+                        (System.String.IsNullOrEmpty(Setting.Current.MODRuntime) ))
                     {
                         return false;
                     }
@@ -103,7 +103,7 @@ namespace Platforms
 
         public static bool IsPhone;
 
-        public static new string PreferResolution = "1000*670";
+        public static new string PreferResolution = "1000*660";
 
         public new bool KeyBoardAvailable = false;
 

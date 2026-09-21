@@ -97,7 +97,13 @@ namespace WorldOfTheThreeKingdoms
             Session.globalVariablesBasic.InitialGlobalVariables(str);
 
             Session.parametersBasic = new Parameters();
-            Session.parametersBasic.InitializeGameParameters(str);
+            try
+            {
+                Session.parametersBasic.InitializeGameParameters(str);
+            }
+            catch (Exception)
+            {               
+            }
 
             //獲取設置數據
             Setting.Init(true);
@@ -121,7 +127,7 @@ namespace WorldOfTheThreeKingdoms
             if (Platform.PlatFormType == PlatFormType.Win)  //Platform.PlatFormType == PlatFormType.UWP
             {
                 DateTime buildDate = new FileInfo(Platform.Current.Location).LastWriteTime;
-                base.Window.Title = "中华三国志(v1.4.5) - build-" + buildDate.Year + "-" + buildDate.Month + "-" + buildDate.Day;
+                base.Window.Title = "中华三国志(v1.4.6) - build-" + buildDate.Year + "-" + buildDate.Month + "-" + buildDate.Day;
                 IsFixedTimeStep = true;
                 TargetElapsedTime = System.TimeSpan.FromMilliseconds(System.Math.Round(1000.0f / (60.0f * (int)Setting.Current.SpeedUp)));
             }
