@@ -3863,6 +3863,7 @@ namespace GameObjects
         private int stuckedFor = 0;
         public void DayEvent()
         {
+            this.StepNotFinished = true; //卡水临时解决方案
             if (this.mingling != "Enter" && this.mingling != "Attack")
             {
                 this.mingling = "";
