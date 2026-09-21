@@ -256,9 +256,29 @@ namespace GameObjects.PersonDetail
             }
             return true;
         }
-
+        // 不可学习的
+        private bool? _has900;
+        private bool HasCondition900
+        {
+            get
+            {
+                if (_has900 == null)
+                {
+                    bool r = false;
+                    if (!string.IsNullOrEmpty(ConditionTableString))
+                    {
+                        r = Array.IndexOf(
+                            ConditionTableString.Split(new char[] { ' ' },
+                                StringSplitOptions.RemoveEmptyEntries), "900") >= 0;
+                    }
+                    _has900 = r;
+                }
+                return _has900.Value;
+            }
+        }
         public bool CanLearn(Person person, bool ignoreAutoLearn)
         {
+            if (HasCondition900) return false;
             if (AutoLearn > 0 && !ignoreAutoLearn) return false;
             if (this.ManualAward && !ignoreAutoLearn) return false;
             if (!Condition.CheckConditionList(this.Conditions.Conditions.Values, person)) return false;

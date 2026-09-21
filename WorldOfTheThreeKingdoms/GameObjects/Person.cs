@@ -4996,8 +4996,8 @@ namespace GameObjects
 
         public GameObjectList GetAppointableTitleList()
         {
-            this.AppointableTitleList.Clear();
-            foreach (Title title in Session.Current.Scenario.GameCommonData.AllTitles.Titles.Values)
+            this.AppointableTitleList.Clear();           
+            foreach (Title title in Session.Current.Scenario.GetLearnableTitles()) //foreach (Title title in Session.Current.Scenario.GameCommonData.AllTitles.Titles.Values)
             {
                 if (!this.RealTitles.Contains(title) && !this.HasHigherLevelTitle(title) && title.ManualAward && title.CanLearn(this,true))        
                 {
@@ -7571,7 +7571,20 @@ namespace GameObjects
             }
             return false;
             */
-            return this.Titles != null;
+            //return this.Titles != null;
+            if (RealTitles == null || RealTitles.Count == 0) return false;
+
+            // 若全局开关关着，RealTitles 非空即代表有 title
+            if (!Session.GlobalVariables.EnableAgeAbilityFactor)
+                return true;
+
+            // 否则逐个判断年龄，找到任一有效即可，提前返回
+            foreach (Title t in RealTitles)
+            {
+                if (this.CanOwnTitleByAge(t))
+                    return true;
+            }
+            return false;
         }
 
         public bool HasSkill(int id)

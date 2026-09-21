@@ -77,7 +77,7 @@ namespace GameObjects.Conditions
             return flag;
         }
 
-        public static bool CheckConditionList(ICollection<Condition> list, Person p, Event e = null)
+        public static bool CheckConditionListOld(ICollection<Condition> list, Person p, Event e = null)
         {
             if (p == null) return false;
             bool flag = true;
@@ -140,7 +140,55 @@ namespace GameObjects.Conditions
             }
             return flag;
         }
+        public static bool CheckConditionList(ICollection<Condition> list, Person p, Event e = null)
+        {
+            if (p == null) return false;
 
+            bool flag = true;
+            bool negate = false;
+
+            foreach (Condition condition in list)
+            {
+                if (condition.Kind == null)
+                {
+                    flag = false;
+                    continue;
+                }
+
+                int kindId = condition.Kind.ID;
+
+                // 996：下一个条件取反
+                if (kindId == 996)
+                {
+                    negate = true;
+                    continue;
+                }
+
+                // 997：OR 分隔符 —— 当前组已通过就返回 true，否则开启新组
+                if (kindId == 997)
+                {
+                    if (flag) return true;
+                    flag = true;
+                    continue;
+                }
+
+                // 普通条件：e 只判断一次
+                bool result = (e == null)
+                    ? condition.CheckCondition(p)
+                    : condition.CheckCondition(p, e);
+
+                // 不取反时期望 true；取反时期望 false
+                bool expected = !negate;
+                if (result != expected)
+                {
+                    flag = false;
+                }
+
+                negate = false;
+            }
+
+            return flag;
+        }
         public static bool CheckConditionList(ICollection<Condition> list, Faction f, Event e = null)
         {
             if (f == null) return false;

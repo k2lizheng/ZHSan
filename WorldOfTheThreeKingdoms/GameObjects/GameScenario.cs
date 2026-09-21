@@ -1509,7 +1509,28 @@ namespace GameObjects
             }
         }
 
+        private List<Title> _learnableTitlesCache;
 
+        public List<Title> GetLearnableTitles()
+        {
+            if (_learnableTitlesCache != null)
+            {
+                return _learnableTitlesCache;
+            }
+
+            _learnableTitlesCache = new List<Title>();
+            foreach (Title t in this.GameCommonData.AllTitles.Titles.Values)
+            {
+                if (!string.IsNullOrEmpty(t.ConditionTableString)
+                    && Array.IndexOf(t.ConditionTableString.Split(
+                           new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), "900") >= 0)
+                {
+                    continue;
+                }
+                _learnableTitlesCache.Add(t);
+            }
+            return _learnableTitlesCache;
+        }
         private static Person courier = null;
         private void titleDayEvent()
         {
@@ -1517,7 +1538,7 @@ namespace GameObjects
             {
                 courier = (Person)this.Persons.GetGameObject(7200);
             }
-            foreach (Title t in this.GameCommonData.AllTitles.Titles.Values)
+            foreach (Title t in GetLearnableTitles()) //foreach (Title t in this.GameCommonData.AllTitles.Titles.Values)
             {
                 if (t.AutoLearn > 0 && GameObject.Random(t.AutoLearn) == 0)
                 {
