@@ -1797,6 +1797,7 @@ namespace GameObjects
                 this.IsGeneratedChildren = false;
                 ExtensionInterface.call("PersonBecomeAvailable", new Object[] { Session.Current.Scenario, this });
                 Session.Current.Scenario.PreparedAvailablePersons.Add(this);
+                Session.Current.Scenario.AvailablePersons.Add(this);
                 return true;
             }
             return false;
@@ -3064,7 +3065,7 @@ namespace GameObjects
             this.OutsideTask = OutsideTaskKind.无;
             if (this.ConvincingPerson != null && this.ConvincingPerson.BelongedArchitecture != null)
             {
-                if (this.ConvincingPerson.BelongedFaction == this.BelongedFaction) return;
+                if (this.ConvincingPerson.BelongedFaction == null || this.ConvincingPerson.BelongedFaction == this.BelongedFaction) return;
 
                 Architecture architectureByPosition = Session.Current.Scenario.GetArchitectureByPosition(this.OutsideDestination.Value);
                 if (architectureByPosition != null && (this.ConvincingPerson.Status == PersonStatus.Normal || this.ConvincingPerson.Status == PersonStatus.NoFaction))
@@ -3247,7 +3248,7 @@ namespace GameObjects
 
             int idealOffset = Person.GetIdealOffset(target, this.BelongedFaction.Leader) - this.ConvinceIdealSkip;
 
-            
+            if (target.BelongedFaction != null && target.BelongedFaction.Leader == this) return false;
             ConvinceSuccess =
                     (
              ((target.IsCaptive && architectureByPosition.IsCaptiveInArchitecture(target.BelongedCaptive))
@@ -4317,13 +4318,31 @@ namespace GameObjects
             {
                 foreach (Person person in Session.Current.Scenario.Persons)
                 {
-                    if (((((!person.Available && person.Alive) && (person.YearAvailable <= Session.Current.Scenario.Date.Year)) && GameObject.Chance(20)) && (person.AvailableLocation == this.TargetArchitecture.ID)) && ((((((Session.GlobalVariables.CommonPersonAvailable && (person.ID >= 0)) && (person.ID <= 0x1b57)) || ((Session.GlobalVariables.AdditionalPersonAvailable && (person.ID >= 0x1f40)) && (person.ID <= 0x2327))) || ((Session.GlobalVariables.PlayerPersonAvailable && (person.ID >= 0x2328)) && (person.ID <= 0x270f))) && !Session.Current.Scenario.PreparedAvailablePersons.HasGameObject(person)) && person.BeAvailable()))
-                    {
-                        pack.FoundPerson = person;
-                        return true;
-                    }
-                }
+                    // 基础条件判断
+                    if (!person.Alive || person.Available) continue;
+                    if (person.YearAvailable > Session.Current.Scenario.Date.Year) continue;
+                    if (person.AvailableLocation != this.TargetArchitecture.ID) continue;
 
+                    // ID范围验证
+                    int id = person.ID;
+                    bool isIdValid =
+                        (Session.GlobalVariables.CommonPersonAvailable && id >= 0 && id <= 0x1b57) ||
+                        (Session.GlobalVariables.AdditionalPersonAvailable && id >= 0x1f40 && id <= 0x2327) ||
+                        (Session.GlobalVariables.PlayerPersonAvailable && id >= 0x2328 && id <= 0x270f);
+
+                    if (!isIdValid) continue;
+                   
+                    if (Session.Current.Scenario.PreparedAvailablePersons.HasGameObject(person)) continue;
+                    
+                    if (!GameObject.Chance(20)) continue;
+                   
+                    if (!person.BeAvailable()) continue;
+                  
+                    // 找到符合条件的person
+                    person.locationArchitecture = this.TargetArchitecture;
+                    pack.FoundPerson = person;
+                    return true;
+                }           
                 if (GameObject.Random((this.BelongedFaction.PersonCount - 50) / 50) == 0)
                 {
                     if (GameObject.Random((int)(10000 * Math.Pow(this.BelongedFaction.PersonCount, Session.Parameters.SearchPersonArchitectureCountPower))) <
@@ -8128,12 +8147,14 @@ namespace GameObjects
                 return (int)(((2 * (this.NormalPolitics + this.NormalGlamour)) + this.IncrementOfAgricultureAbility) * (1f + this.RateIncrementOfAgricultureAbility));
             }
         }
-
+        private int _cachedNormalCommand;
         public int NormalCommand
         {
             get
             {
-                return (int)(Math.Min((int)((this.CommandIncludingExperience + this.InfluenceIncrementOfCommand) * this.InfluenceRateOfCommand), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                if(_cachedNormalCommand > 0) return _cachedNormalCommand;
+                _cachedNormalCommand = (int)(Math.Min((int)((this.CommandIncludingExperience + this.InfluenceIncrementOfCommand) * this.InfluenceRateOfCommand), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                return _cachedNormalCommand;
             }
         }
 
@@ -8168,12 +8189,14 @@ namespace GameObjects
                 return (int)(((((this.NormalStrength + this.NormalCommand) + this.NormalIntelligence) + this.NormalPolitics) + this.IncrementOfEnduranceAbility) * (1f + this.RateIncrementOfEnduranceAbility));
             }
         }
-
+        private int _cachedNormalGlamour;
         public int NormalGlamour
         {
             get
             {
-                return (int)(Math.Min((int)((this.GlamourIncludingExperience + this.InfluenceIncrementOfGlamour) * this.InfluenceRateOfGlamour), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                if(_cachedNormalGlamour > 0) return _cachedNormalGlamour;
+                _cachedNormalGlamour = (int)(Math.Min((int)((this.GlamourIncludingExperience + this.InfluenceIncrementOfGlamour) * this.InfluenceRateOfGlamour), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                return _cachedNormalGlamour;
             }
         }
 
@@ -8184,12 +8207,14 @@ namespace GameObjects
                 return (int)(Math.Min((int)((this.GlamourIncludingExperience + this.InfluenceIncrementOfGlamour) * this.InfluenceRateOfGlamour), Session.GlobalVariables.MaxAbility) * this.AbilityAgeFactor);
             }
         }
-
+        private int _cachedNormalIntelligence;
         public int NormalIntelligence
         {
             get
             {
-                return (int)(Math.Min((int)((this.IntelligenceIncludingExperience + this.InfluenceIncrementOfIntelligence) * this.InfluenceRateOfIntelligence), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                if (_cachedNormalIntelligence > 0) return _cachedNormalIntelligence;
+                _cachedNormalIntelligence = (int)(Math.Min((int)((this.IntelligenceIncludingExperience + this.InfluenceIncrementOfIntelligence) * this.InfluenceRateOfIntelligence), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                return _cachedNormalIntelligence;
             }
         }
 
@@ -8216,12 +8241,14 @@ namespace GameObjects
                 return (this.surName + this.givenName);
             }
         }
-
+        private int _cachedNormalPolitics;
         public int NormalPolitics
         {
             get
             {
-                return (int)(Math.Min((int)((this.PoliticsIncludingExperience + this.InfluenceIncrementOfPolitics) * this.InfluenceRateOfPolitics), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                if(_cachedNormalPolitics > 0) return _cachedNormalPolitics;
+                _cachedNormalPolitics = (int)(Math.Min((int)((this.PoliticsIncludingExperience + this.InfluenceIncrementOfPolitics) * this.InfluenceRateOfPolitics), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunAbilityFactor * this.InjureRate);
+                return _cachedNormalPolitics;
             }
         }
 
@@ -8240,12 +8267,14 @@ namespace GameObjects
                 return (int)((((2 * this.NormalCommand) + (2 * this.NormalGlamour)) + this.IncrementOfRecruitmentAbility) * (1f + this.RateIncrementOfRecruitmentAbility));
             }
         }
-
+        private int _cachedNormalStrength;
         public int NormalStrength
         {
             get
             {
-                return (int)(Math.Min((int)((this.StrengthIncludingExperience + this.InfluenceIncrementOfStrength) * this.InfluenceRateOfStrength), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunStrengthFactor * this.InjureRate);
+                if (_cachedNormalStrength > 0) return _cachedNormalStrength;
+                _cachedNormalStrength = (int)(Math.Min((int)((this.StrengthIncludingExperience + this.InfluenceIncrementOfStrength) * this.InfluenceRateOfStrength), Session.GlobalVariables.MaxAbility) * this.TirednessFactor * this.AbilityAgeFactor * this.RelationAbilityFactor * this.huaiyunStrengthFactor * this.InjureRate);
+                return _cachedNormalStrength;
             }
         }
 
@@ -8866,26 +8895,68 @@ namespace GameObjects
 
         private int ExpAddMthd(int ExperienceNow, int BaseAttribute)
         {
-            int num = 0;
-            while (ExperienceNow >= (int)(Math.Pow((BaseAttribute + num), 5) / 1000000 + 100))
+            int exp = ExperienceNow;
+            int attr = BaseAttribute;
+            int levelUps = 0;
+
+            // 公式：expNeeded = baseExp + diff * scale
+            // 其中 diff = Math.Abs(attr - 50)
+            const int baseExp = 1000;  // 50级时的基础经验
+            const int scale = 100;     // 缩放系数
+
+            while (exp > 0)
             {
-                ExperienceNow -= (int)(Math.Pow((BaseAttribute + num), 5) / 1000000 + 100);
-                BaseAttribute++;
-                num++;
+                int diff = Math.Abs(attr - 50);
+                int expNeeded = baseExp + diff * scale;
+
+                if (exp >= expNeeded)
+                {
+                    exp -= expNeeded;
+                    attr++;
+                    levelUps++;
+                }
+                else
+                {
+                    break;
+                }
             }
-            return num;
+
+            return levelUps;
         }
 
         private int AttrLevelUpNeedExp(int ExperienceNow, int BaseAttribute)
         {
-            int num = 0;
-            int num2 = ExperienceNow;
-            while (num2 >= (int)(Math.Pow((BaseAttribute + num), 5) / 1000000 + 100))
+            const int baseExp = 1000;
+            const int scale = 100;
+
+            int remainingExp = ExperienceNow;
+            int currentAttr = BaseAttribute;
+            int usedExp = 0;
+
+            // 计算可以升多少级
+            while (remainingExp >= 0)
             {
-                num2 -= (int)(Math.Pow((BaseAttribute + num), 5) / 1000000 + 100);
-                num++;
+                int diff = Math.Abs(currentAttr - 50);
+                int expNeeded = baseExp + diff * scale;
+
+                if (remainingExp >= expNeeded)
+                {
+                    remainingExp -= expNeeded;
+                    usedExp += expNeeded;
+                    currentAttr++;
+                }
+                else
+                {
+                    break;
+                }
             }
-            return ((int)(Math.Pow((BaseAttribute + num), 5) / 1000000 + 100) - num2 + ExperienceNow);
+
+            // 计算下一级升级所需经验
+            int nextDiff = Math.Abs(currentAttr - 50);
+            int nextLevelExp = baseExp + nextDiff * scale;
+
+            // 按照原始函数逻辑：下一级所需经验 + 剩余经验 + 已使用的总经验
+            return nextLevelExp + remainingExp + usedExp;
         }
 
         public int Strength
@@ -9833,6 +9904,7 @@ namespace GameObjects
             r.YearJoin = Session.Current.Scenario.Date.Year;
 
             Session.Current.Scenario.Persons.Add(r);
+            Session.Current.Scenario.AvailablePersons.Add(r);
 
             ExtensionInterface.call("CreatePerson", new Object[] { Session.Current.Scenario, r });
         }
@@ -10076,7 +10148,7 @@ namespace GameObjects
             }
 
             Session.Current.Scenario.Persons.Add(r);
-            
+            Session.Current.Scenario.AvailablePersons.Add(r);
         }
 
         private static void HandleChildrenBiography(Person father, Person mother, Person r, Architecture bornArch, bool generateAbilityBiography = true)
@@ -11694,6 +11766,15 @@ namespace GameObjects
             {
                 return !this.Trainable || this.TrainPolicy == null ? "----" : this.TrainPolicy.Name;
             }
+        }
+
+        public void UpdateDailyFactors()
+        {
+            _cachedNormalCommand = 0;
+            _cachedNormalGlamour = 0;
+            _cachedNormalIntelligence = 0;
+            _cachedNormalPolitics = 0;
+            _cachedNormalStrength = 0;
         }
 
     }
